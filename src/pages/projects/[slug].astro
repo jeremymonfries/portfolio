@@ -45,6 +45,13 @@ const { Content } = await render(entry);
     <div class="case-body">
       <Content />
     </div>
+    {entry.data.gallery.length > 0 && (
+      <div class="gallery" aria-label="Project gallery">
+        {entry.data.gallery.map((img) => (
+          <Image src={img.src} alt={img.alt} width={900} height={600} class="gallery-image" />
+        ))}
+      </div>
+    )}
   </article>
 </BaseLayout>
 
@@ -53,5 +60,48 @@ const { Content } = await render(entry);
     font-size: 16px;
     line-height: var(--body-leading);
     max-width: 780px;
+  }
+
+  .case-body :global(h2) {
+    font: 700 var(--heading-h3) / var(--heading-leading) var(--font-display);
+    margin: var(--space-6) 0 var(--space-3);
+  }
+
+  .case-body :global(h3) {
+    font: 700 var(--heading-h4) / var(--heading-leading) var(--font-display);
+    margin: var(--space-5) 0 var(--space-2);
+  }
+
+  .case-body :global(h4) {
+    font: 700 16px / var(--heading-leading) var(--font-display);
+    margin: var(--space-4) 0 var(--space-1);
+    color: var(--text-muted);
+  }
+
+  .case-body :global(p) {
+    margin: 0 0 var(--space-3);
+  }
+
+  .case-body :global(ul),
+  .case-body :global(ol) {
+    margin: 0 0 var(--space-3);
+    padding-left: 1.3em;
+  }
+
+  .case-body :global(li) {
+    margin-bottom: var(--space-1);
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
   }
 </style>

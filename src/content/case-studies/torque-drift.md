@@ -4,22 +4,60 @@ summary: 'Cutting-edge car drifting game featuring online racing'
 heroImage:
   src: '../../assets/case-studies/torque-drift.jpeg'
   alt: 'Mobile Game - Torque Drift project thumbnail'
+gallery:
+  - src: '../../assets/case-studies/torque-drift/01.png'
+    alt: 'Torque Drift information architecture diagram'
+  - src: '../../assets/case-studies/torque-drift/02.jpg'
+    alt: 'Torque Drift wireframes'
+  - src: '../../assets/case-studies/torque-drift/03.jpg'
+    alt: 'Torque Drift UI/UX design (1 of 10)'
+  - src: '../../assets/case-studies/torque-drift/04.jpg'
+    alt: 'Torque Drift UI/UX design (2 of 10)'
+  - src: '../../assets/case-studies/torque-drift/05.jpg'
+    alt: 'Torque Drift UI/UX design (3 of 10)'
+  - src: '../../assets/case-studies/torque-drift/06.jpg'
+    alt: 'Torque Drift UI/UX design (4 of 10)'
+  - src: '../../assets/case-studies/torque-drift/07.jpg'
+    alt: 'Torque Drift UI/UX design (5 of 10)'
+  - src: '../../assets/case-studies/torque-drift/08.jpg'
+    alt: 'Torque Drift UI/UX design (6 of 10)'
+  - src: '../../assets/case-studies/torque-drift/09.jpg'
+    alt: 'Torque Drift UI/UX design (7 of 10)'
+  - src: '../../assets/case-studies/torque-drift/10.jpg'
+    alt: 'Torque Drift UI/UX design (8 of 10)'
+  - src: '../../assets/case-studies/torque-drift/11.jpg'
+    alt: 'Torque Drift UI/UX design (9 of 10)'
+  - src: '../../assets/case-studies/torque-drift/12.jpg'
+    alt: 'Torque Drift UI/UX design (10 of 10)'
 order: 4
 ---
 
-A new mobile game featuring high-octane car drifting experience that would
-feature fierce online head-to-head drift racing.
+### The project
 
-As a business partner and the Head of UX, my main responsibility was to
-design the overall user experience of the game, including the interface,
-navigation, and flow, with the goal of making it visually dynamic, easy to
-use and understand, and providing a positive and enjoyable experience for the
-player. In addition to this, I also served as a business partner, helping
-with game conceptualization, design, mechanics, and user experience. My role
-also included securing funding, forming partnerships and collaborations, and
-generating revenue for the project. Furthermore, I assisted with the
-marketing and promotion strategy, product development, and business
-strategy.
+An exciting opportunity presented itself when a business acquaintance reached out with a proposition — to join a new game project he'd been working on. He'd successfully launched a previous game, Torque Burnout, and wanted to make a new game with a new business partner. The new project was a high-octane car drifting game that would feature fierce online head-to-head drift racing, and he needed a business partner and specialist who could help with game conceptualisation, game design, game mechanics and user experience. The game would include a virtual store where players could purchase car upgrades and modifications from real-world companies, requiring relationships and contracts to be built, and some tracks would be replicas of real-world tracks, needing agreements with the respective parties. This was a chance to create something truly revolutionary, and I was excited to be part of it.
 
-_Full case study write-up (game UX, mechanics, visuals) is being migrated
-from the original site - see rebuild-scope.md section 9._
+We planned a variety of monetisation methods, including in-game purchases, subscriptions and advertising, to generate revenue we could invest back into development and promotion. We also sought out partnerships and acquisitions that brought new audiences and revenue streams — fortunately we had existing contacts in F1 motorsport and drag racing which we were able to leverage successfully, along with a good existing relationship with the App Store that helped the game get featured and gave us access to useful insights on analytics, user feedback, marketing and the review and approval process.
+
+My time on the project gave me valuable experience in leadership and strategy, relationship building, contract negotiation, product development, monetisation and continuous improvement.
+
+### The Torque Drift vision
+
+Our vision was to create a car drifting mobile game that immerses players in a high-octane, adrenaline-pumping racing experience, featuring realistic car physics, compelling smoke effects, authentic tracks and customisable vehicles. Through a combination of cutting-edge game design, immersive user experience and unparalleled realism, we aimed to revolutionise the mobile gaming industry and establish ourselves as the premier destination for car drifting enthusiasts.
+
+### My role
+
+As the business partner, my expertise in leadership and business strategy was critical in shaping the direction of the company, and my ability to build relationships and draft contracts with industry partners and clients helped secure new business and expand our reach. My understanding of game design, mechanics and user experience allowed me to contribute to the conceptualisation and development of Torque Drift, and I brought a valuable perspective by identifying new opportunities, partnerships and revenue streams to help the company stay competitive in the mobile gaming industry.
+
+As Head of UX, I played a central role in ensuring Torque Drift was not only fun and engaging but also easy to use and intuitive for players. I owned the design process end to end, from user research through wireframes, prototypes and final designs, and worked closely with the development team to ensure designs were implemented correctly and tested for usability — work that was key in establishing Torque Drift as a leader in the drift-racing mobile gaming niche.
+
+## Information architecture
+
+## Wireframes
+
+## UI/UX design
+
+### Learnings
+
+Working as a business partner at League of Monkeys taught me several valuable lessons. One of the most important was the value of clear communication and alignment on goals and priorities — having open and honest conversations about expectations, plans and challenges at regular intervals, and making sure everyone is on the same page. I also learned the importance of a shared understanding of company structure and operations, including financial management and resource allocation, to avoid conflicts and misunderstandings, along with the value of flexibility and adaptability in a constantly evolving industry, a diverse team with different skills and perspectives, and a strong company culture.
+
+Unfortunately the partnership didn't work out, because we couldn't agree on how the company should be structured and operated. These disagreements became more pronounced as we began to put our plans into action, and despite our best efforts to find a compromise, the partnership eventually ended. It was a difficult and frustrating experience, but one that taught me the importance of having a clear and aligned understanding of a company's structure and operations from the very beginning of any business partnership.

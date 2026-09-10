@@ -4,20 +4,59 @@ summary: 'Create a design system for the team to use to rapidly build out checko
 heroImage:
   src: '../../assets/case-studies/design-system.jpg'
   alt: 'NortonLifeLock checkout design system components'
+gallery:
+  - src: '../../assets/case-studies/design-system/01.png'
+    alt: 'Overview of the NortonLifeLock checkout design system in Figma'
+  - src: '../../assets/case-studies/design-system/02.png'
+    alt: 'Checkout "Card" templates combining UI elements into reusable checkout states'
+  - src: '../../assets/case-studies/design-system/03.png'
+    alt: 'Form field components and states in the checkout design system'
+  - src: '../../assets/case-studies/design-system/04.png'
+    alt: 'Typography scale and specimens in the checkout design system'
+  - src: '../../assets/case-studies/design-system/05.png'
+    alt: 'Primary and secondary button states in the checkout design system'
 order: 2
 ---
 
-The checkout had a significant number of possible variations, servicing a
-number of different brands under the NortonLifeLock company. There were
-flows in acquisition, retention, up-sells, cross-sells, in-client and white
-labelling. To accommodate all these possibilities, we needed a flexible
-design system that would allow the design team to build out flows rapidly.
+As my team migrated existing experience flows to use the new checkout experience, we needed a way to quickly conceptualise, design and build flows. The broader Product team was also migrating from Sketch to Figma, so it made sense to create the NortonLifeLock checkout design system in Figma. Since we create many different flows, we needed design assets we could use to quickly flesh out ideas and build out experiences the dev team could use as a source of truth.
 
-I was the Lead Designer, translating the existing brand into the checkout
-components, creating all asset variations and testing basic implementations
-to ensure it worked for all flows as well as being ADA and WCAG
-Accessibility compliant. Later on I helped integrate this design system
-with a new universal design system for the whole company.
+As the original designer of our checkout, it made sense for me to do the work. I worked from our original Sketch files, then extended the new Figma-based library to provide all the assets a designer might need to deliver new flows for desktop, tablet and mobile. I used the Atomic Design methodology (Brad Frost), building out all the atoms, molecules, organisms and templates, and worked with the rest of the team to ensure the design system was robust enough to be useful without being too complex to be confusing.
 
-_Full case study write-up (component library, governance, rollout) is being
-migrated from the original site - see rebuild-scope.md section 9._
+### Templates ("Cards")
+
+The "Cards" combined different UI elements into cohesive "organisms" that covered all the different states of the checkout. I wanted designers to have access to these organisms, as they form the foundation of the checkout and cover most states that would appear — making the task of creating any flow much quicker.
+
+### Form elements
+
+I built out the form fields and various states including:
+
+- Input fields
+- Inline labels
+- Floating labels
+- Form status feedback
+- Error states
+- Form validation feedback
+- Toggles and custom toggles
+- Drop-down menus
+- Input field specifications
+
+### Typography
+
+The fonts were mapped out to work with:
+
+- Norton brand guidelines
+- Optimum legibility
+- Accessibility compliance
+- Multiple viewports (desktop, tablet and mobile)
+
+### Buttons
+
+All primary and secondary buttons, as well as hover, press, disabled and focus states, were specified for desktop and mobile usage. As well as reflecting the Norton brand style, the buttons were optimised to clearly communicate user call-to-actions.
+
+### Colours
+
+The colour palette mirrored the Norton brand palette and was only included in the design system so any designer using it could find all the assets they needed in one place.
+
+## Some learnings
+
+Design systems are integral to any company wanting to rapidly integrate, design and implement large quantities of user flows. As Norton has many flow variations, it proved useful to create the design system. It was really important to me that I create something that was actually useful and not just a box-ticking exercise. Feedback from designers was positive, and it was a practical tool that helped with rapid iteration of flows.

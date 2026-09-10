@@ -4,8 +4,65 @@ summary: 'A fresh microsite for a new hardware product - Norton Core'
 heroImage:
   src: '../../assets/case-studies/microsite.jpg'
   alt: 'Microsite project thumbnail'
+gallery:
+  - src: '../../assets/case-studies/microsite/01.jpg'
+    alt: 'Initial wireframes for the Norton Core microsite'
+  - src: '../../assets/case-studies/microsite/02.jpg'
+    alt: 'Norton Core microsite wireframe exploration (1 of 7)'
+  - src: '../../assets/case-studies/microsite/03.jpg'
+    alt: 'Norton Core microsite wireframe exploration (2 of 7)'
+  - src: '../../assets/case-studies/microsite/04.jpg'
+    alt: 'Norton Core microsite wireframe exploration (3 of 7)'
+  - src: '../../assets/case-studies/microsite/05.jpg'
+    alt: 'Norton Core microsite wireframe exploration (4 of 7)'
+  - src: '../../assets/case-studies/microsite/06.jpg'
+    alt: 'Norton Core microsite wireframe exploration (5 of 7)'
+  - src: '../../assets/case-studies/microsite/07.jpg'
+    alt: 'Norton Core microsite wireframe exploration (6 of 7)'
+  - src: '../../assets/case-studies/microsite/08.jpg'
+    alt: 'Norton Core microsite wireframe exploration (7 of 7)'
+  - src: '../../assets/case-studies/microsite/09.jpg'
+    alt: 'Norton Core microsite UI design (1 of 7)'
+  - src: '../../assets/case-studies/microsite/10.jpg'
+    alt: 'Norton Core microsite UI design (2 of 7)'
+  - src: '../../assets/case-studies/microsite/11.jpg'
+    alt: 'Norton Core microsite UI design (3 of 7)'
+  - src: '../../assets/case-studies/microsite/12.jpg'
+    alt: 'Norton Core microsite UI design (4 of 7)'
+  - src: '../../assets/case-studies/microsite/13.jpg'
+    alt: 'Norton Core microsite UI design (5 of 7)'
+  - src: '../../assets/case-studies/microsite/14.jpg'
+    alt: 'Norton Core microsite UI design (6 of 7)'
+  - src: '../../assets/case-studies/microsite/15.jpg'
+    alt: 'Norton Core microsite UI design (7 of 7)'
+stats:
+  - value: '4'
+    label: 'Iterations'
+  - value: '32'
+    label: 'Screens'
+  - value: '6%'
+    label: 'Increased traffic'
+  - value: '2%'
+    label: 'Additional revenue'
 order: 5
 ---
 
-_Full case study write-up is being migrated from the original site - see
-rebuild-scope.md section 9._
+Norton launched a new secure router product called Norton Core, targeted at consumers interested in a router with security features built in. To promote the device, Norton needed a microsite: the business needed to promote the product's unique features, effectively communicate why customers might be interested, highlight its compelling industrial design, and make it easy to complete a purchase. The site also needed to promote other Norton products and how they might work alongside Norton Core.
+
+Working with the creative director primarily on ideation, UX and visual design, we created a number of iterations and approaches until we had a cogent experience that resonated with our customers.
+
+### Wireframes
+
+It was useful to do wireframes to get initial feedback and buy-in from a number of senior stakeholders in the business. Norton Core was a significant project with high visibility across the business, so we created a number of low- and high-fidelity wireframes to make sure our approach was right with both stakeholders and customers. We used the low-fidelity wireframes for initial stakeholder feedback and the higher-fidelity wireframes for user testing, which let us capture initial issues quickly since we could test rapidly and regularly. After three rounds of wireframes we had a solid set to use for visual design.
+
+### UI design
+
+This was the first hardware product Norton had created, so it was important that the microsite felt on-brand yet also new and unique. We wanted the site to complement and emphasise the hardware design, which had an angular form with muted colour options. The design needed to be bold, modern and fit within the broader brand context and site design while still feeling distinct — I wanted a muted colour palette that let the imagery allow the product to take centre stage while still communicating key feature information.
+
+The site needed to work on multiple devices, so we used a responsive/adaptive hybrid layout, with specific breakpoints for mobile, tablet and desktop that remained adaptive within each width.
+
+The design successfully addressed the business and user goals: promoting and clearly communicating the product's features and unique offerings.
+
+### Some final thoughts
+
+It was good to work on such a high-profile hardware product launch. The project was a unique opportunity, as hardware products weren't something Norton usually undertook, so it was good to be involved. It also presented some new challenges, such as product photography in real-life environments, and we needed to add shipping requirements to our checkout, which had been removed in previous years. It was also beneficial to work cross-functionally with marketing and web development without the silos that had hindered projects in years past.
