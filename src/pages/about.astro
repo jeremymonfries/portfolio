@@ -32,6 +32,36 @@ const skills = [
   'Agile Methodologies',
   'Team Leadership',
 ];
+
+// Verbatim from https://jeremymonfries.com/p/about (the live site - the
+// original static HTML snapshot this rebuild was otherwise built from
+// only had the bio + skills list, missing all of this).
+const expertise = [
+  {
+    title: 'UI Design',
+    body: 'I have honed my skills over the years in creating intuitive and visually appealing interfaces for a variety of digital products. I have a strong understanding of user-centered design principles and use this knowledge to create interfaces that meet the needs and goals of both the users and the business. I have experience working with a range of design tools, such as Figma, Adobe CS, Sketch and Invision, and I stay up to date with industry trends and new technologies to constantly improve my design process.',
+  },
+  {
+    title: 'Research',
+    body: "I've personally been doing qualitative research since 2015, integrating insights into my design process. I've worked with specialist researchers and analysts on quant research projects and been involved in lab testing in the UAE, UK, Australia and Japan. I have a passion for understanding user needs, behaviors, and motivations in order to design better digital experiences. I have worked on a variety of projects, from mobile applications to websites and software, and have experience using a range of research methods, including qualitative and quantitative studies, surveys, and user testing. I am skilled in analyzing data, synthesizing insights, and communicating findings in a clear and compelling way to stakeholders. I understand the importance of iterative design and regularly incorporate feedback from users into my designs to ensure that they are effective, efficient, and easy to use.",
+  },
+  {
+    title: 'Prototyping',
+    body: "I have a strong understanding of how to quickly and effectively communicate design concepts and ideas to stakeholders. I have a deep knowledge of various prototyping tools, such as Figma, Sketch and InVision, and I'm skilled in creating high-fidelity prototypes that accurately reflect the intended user experience. I understand the importance of prototyping in the design process and use it to test and validate design concepts before they are built and released to users. I also have experience conducting user testing with prototypes and using the feedback to iterate and improve designs.",
+  },
+  {
+    title: 'Branding',
+    body: "I have worked with a range of businesses across multiple industries, from startups to established corporations, and I take pride in helping each one to bring their brand to life through effective visual communication. My experience includes developing logos, brand guidelines and digital content, and I'm comfortable working with both traditional and digital media. I believe in the importance of collaboration and always work closely with my clients to ensure that their brand vision is accurately reflected in the final design.",
+  },
+  {
+    title: 'UX Strategy',
+    body: "I have a proven track record of using user-centered design methods to help improve digital experiences and achieve business goals. I have extensive experience conducting research, synthesizing insights, and developing and communicating strategy recommendations to stakeholders. I am comfortable working with a variety of stakeholders, including executives, product managers, designers, and developers, to ensure that UX strategies are aligned with business goals and integrated into product development processes. I'm also experienced in design methodologies and frameworks, such as Lean UX and Design Sprints. I believe in the importance of data-driven decision making and regularly use metrics and analytics to measure the success of UX strategies and make informed decisions about future improvements.",
+  },
+  {
+    title: 'Management',
+    body: 'I have a strong track record of leading and mentoring design teams to deliver high-quality, user-centered digital experiences. I have a deep understanding of the design process and a passion for creating effective and efficient design systems. I have experience managing multiple design projects, from concept to launch, and I am skilled in communicating design decisions and trade-offs to stakeholders. I believe in fostering a collaborative and inclusive design culture and regularly work with cross-functional teams, including product managers, developers, and research, to ensure that designs meet the needs of users and business goals. I also have experience managing schedules, and resources, and I am comfortable presenting to executives and stakeholders to communicate design progress and advocate for the design team.',
+  },
+];
 ---
 
 <BaseLayout
@@ -43,7 +73,7 @@ const skills = [
     <div class="about-copy">
       <h1>About</h1>
       <p class="role">Lead Product/UX/UI</p>
-      <p class="bio">
+      <p class="copy">
         I'm a designer with over 25 years experience working internationally in a variety of
         multinational businesses. I'm passionate about creating human-centred, highly-usable digital
         experiences.
@@ -56,11 +86,48 @@ const skills = [
       </ul>
     </div>
   </section>
+
+  <section class="about-more">
+    <p class="copy">
+      Hi I'm Jeremy, I'm an Australian/Indonesian designer based in Melbourne, Australia. I love
+      advocating for users and creating compelling customer experiences through better design.
+    </p>
+    <p class="copy">
+      I've been working for over 20 years in a variety of businesses. I've worked in design firms,
+      ad agencies, brand identity agencies, media organisations, airlines and technology firms. I've
+      done a broad range of design work ranging from UX, UI, branding, graphics, print, motion,
+      video editing and industrial design. I've lead teams of designers, managed stakeholders of all
+      levels from CEO's, senior management, internal clients to external suppliers and navigated
+      cross cultural challenges across international timezones.
+    </p>
+    <p class="copy">
+      So far I've lived in Australia, Indonesia, Philippines, Netherlands, Brunei, UAE, and Bahrain.
+    </p>
+  </section>
+
+  <section class="expertise" aria-label="Areas of expertise">
+    {expertise.map((item) => (
+      <div class="expertise-card">
+        <h2>{item.title}</h2>
+        <p>{item.body}</p>
+      </div>
+    ))}
+  </section>
+
+  <section class="hobbies">
+    <h2>What I do when I'm not working</h2>
+    <p class="copy">
+      If you can't find me at my computer, I'm usually spending time with my family playing soccer,
+      skateboarding, going to the gym or cycling. Before the pandemic my family travelled
+      extensively and we enjoyed exploring the world. I'm currently learning the piano and consider
+      myself a Grade 'A' novice.
+    </p>
+  </section>
 </BaseLayout>
 
 <style>
   .about {
-    padding: var(--space-7) var(--gutter);
+    padding: var(--space-7) var(--gutter) 0;
     max-width: var(--page-max);
     margin: 0 auto;
     display: grid;
@@ -88,7 +155,7 @@ const skills = [
     margin: 0 0 var(--space-4);
   }
 
-  .bio {
+  .copy {
     font-size: 18px;
     max-width: 640px;
     margin: 0 0 var(--space-5);
@@ -114,6 +181,48 @@ const skills = [
     margin-left: var(--space-2);
   }
 
+  .about-more {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: var(--space-5) var(--gutter) 0;
+  }
+
+  .about-more .copy {
+    max-width: 780px;
+  }
+
+  .expertise {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: var(--space-6) var(--gutter) 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+
+  .expertise-card p {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .hobbies {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: var(--space-6) var(--gutter) var(--space-7);
+  }
+
+  .hobbies .copy {
+    max-width: 780px;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .expertise {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   @media (max-width: 700px) {
     .about {
       grid-template-columns: 1fr;
@@ -122,6 +231,10 @@ const skills = [
     .about-photo {
       max-width: 200px;
       margin-inline: auto;
+    }
+
+    .expertise {
+      grid-template-columns: 1fr;
     }
   }
 </style>
