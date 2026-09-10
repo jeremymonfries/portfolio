@@ -1,0 +1,54 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatBlock from '../../components/StatBlock.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('case-studies');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'case-studies'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={`${entry.data.title} — Jeremy Monfries`} description={entry.data.summary}>
+  <article style="padding: var(--space-7) var(--gutter); max-width: var(--page-max); margin: 0 auto;">
+    <h1 style="font: 700 var(--heading-h1)/var(--heading-leading) var(--font-display); margin: 0 0 var(--space-3);">
+      {entry.data.title}
+    </h1>
+    <p style="color: var(--text-muted); font-size: 18px; max-width: 700px; margin: 0 0 var(--space-5);">
+      {entry.data.summary}
+    </p>
+    <img
+      src={entry.data.heroImage.src}
+      alt={entry.data.heroImage.alt}
+      style="width: 100%; height: auto; margin-bottom: var(--space-5);"
+    />
+    {entry.data.stats.length > 0 && (
+      <div style="display:flex; gap: var(--space-5); flex-wrap: wrap; margin-bottom: var(--space-6);">
+        {entry.data.stats.map((stat) => (
+          <StatBlock value={stat.value} label={stat.label} />
+        ))}
+      </div>
+    )}
+    <div class="case-body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .case-body {
+    font-size: 16px;
+    line-height: var(--body-leading);
+    max-width: 780px;
+  }
+</style>

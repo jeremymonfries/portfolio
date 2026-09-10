@@ -1,0 +1,75 @@
+/*
+  Token architecture: primitive -> semantic -> component.
+  Ported from the original site's single flat :root (styles.css, 6 redeclared
+  blocks) and case-study.css's separate --case-* set. One file, one tier
+  structure, per rebuild-scope.md section 4.
+*/
+
+:root {
+  /* ---------- Primitive tier: raw values, no meaning attached ---------- */
+
+  /* Colour primitives (carried over from the original site's final values) */
+  --color-ink-900: #282a2b;
+  --color-slate-600: #586165;
+  --color-slate-800: #262f34;
+  --color-neutral-100: #f3f5f5;
+  --color-neutral-200: #dfe5e8;
+  --color-white: #fff;
+  --color-blue-500: #08aceb; /* original brand blue - kept for accents on light backgrounds */
+  --color-blue-700: #0369a1; /* darkened variant - see --action-primary-bg below */
+
+  /* Spacing primitives (unchanged from the original scale) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+  --space-7: 96px;
+
+  /* Type primitive - Mona Sans replaces Playfair Display (see fonts.css) */
+  --font-mona: 'Mona Sans Variable', system-ui, -apple-system, sans-serif;
+
+  /* Layout primitives */
+  --page-max: 1180px;
+  --gutter: clamp(24px, 5vw, 72px);
+
+  /* ---------- Semantic tier: meaning-based names referencing primitives ---------- */
+  --text-body: var(--color-ink-900);
+  --text-muted: var(--color-slate-600);
+
+  --surface-page: var(--color-white);
+  --surface-subtle: var(--color-neutral-100);
+  --surface-sidebar: var(--color-slate-800);
+
+  --border-default: var(--color-neutral-200);
+
+  /*
+    UX-10: the original --blue (#08aceb) under white text measured 2.58:1,
+    failing the 4.5:1 requirement. --color-blue-700 (#0369a1) measures
+    5.94:1 with white text - same blue family, passes AA with margin.
+  */
+  --action-primary-bg: var(--color-blue-700);
+  --action-primary-text: var(--color-white);
+  --accent: var(--color-blue-500);
+
+  --font-body: var(--font-mona);
+  --font-display: var(--font-mona);
+
+  --heading-h1: clamp(42px, 5vw, 64px);
+  --heading-h2: clamp(32px, 3.5vw, 46px);
+  --heading-h3: clamp(24px, 2.4vw, 32px);
+  --heading-h4: 20px;
+  --heading-leading: 1.12;
+  --body-leading: 1.85;
+
+  /* ---------- Component tier: only where a component diverges from semantic default ---------- */
+  --cta-bg: var(--action-primary-bg);
+  --cta-text: var(--action-primary-text);
+
+  /* Nav / hamburger - see rebuild-scope.md section 6.1 */
+  --nav-icon-size: 28px;
+  --nav-hit-area: 44px; /* WCAG 2.5.8 target size */
+  --nav-panel-bg: var(--color-white);
+  --nav-z: 3000;
+}

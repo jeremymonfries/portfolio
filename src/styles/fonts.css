@@ -1,0 +1,8 @@
+/*
+  Self-hosted Mona Sans (weight axis only - no italic, no width axis needed).
+  Imported here (not a runtime @import like the old site's Google Fonts line)
+  so Vite bundles and hashes the font files at build time: no cross-origin
+  request, no render-blocking @import, font-display: swap already set per
+  @font-face in the package. Fixes UX-09 as a byproduct of the type swap.
+*/
+@import '@fontsource-variable/mona-sans/wght.css';

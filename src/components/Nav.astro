@@ -1,0 +1,187 @@
+---
+// Shared Nav - replaces the menu-toggle script duplicated inline on all 11
+// original pages (UX-05 / EN-07). Behavior spec: rebuild-scope.md section 6.1.
+export interface NavItem {
+  label: string;
+  href: string;
+}
+
+export interface Props {
+  items?: NavItem[];
+}
+
+const {
+  items = [
+    { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
+  ],
+} = Astro.props;
+---
+
+<button
+  type="button"
+  class="nav-toggle"
+  aria-expanded="false"
+  aria-controls="nav-panel"
+  aria-label="Open menu"
+  data-nav-toggle
+>
+  <svg
+    class="nav-toggle-icon"
+    viewBox="0 0 24 24"
+    width="28"
+    height="28"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <line x1="3" y1="7" x2="21" y2="7"></line>
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="17" x2="21" y2="17"></line>
+  </svg>
+</button>
+
+<div id="nav-panel" class="nav-panel" hidden data-nav-panel>
+  <nav aria-label="Primary">
+    {items.map((item) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
+  </nav>
+</div>
+
+<style>
+  /*
+    Persistent, no background chip: the button itself is transparent - only
+    the SVG stroke is visible, and mix-blend-mode: difference on the stroke
+    makes it auto-invert against whatever is behind it, keeping contrast high
+    without a manual light/dark theme calculation. Decision + tradeoff noted
+    in rebuild-scope.md section 6.1 (spot-check contrast once real page
+    backgrounds exist).
+  */
+  .nav-toggle {
+    position: fixed;
+    top: 24px;
+    right: var(--gutter);
+    z-index: var(--nav-z);
+    width: var(--nav-hit-area);
+    height: var(--nav-hit-area);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-toggle-icon line {
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    mix-blend-mode: difference;
+  }
+
+  .nav-toggle:focus-visible {
+    outline: 2px solid var(--action-primary-bg);
+    outline-offset: 4px;
+  }
+
+  /* Desktop/tablet: white box directly below the toggle */
+  .nav-panel {
+    position: fixed;
+    top: calc(24px + var(--nav-hit-area) + var(--space-2));
+    right: var(--gutter);
+    z-index: calc(var(--nav-z) - 1);
+    background: var(--nav-panel-bg);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: var(--space-3) var(--space-4);
+    min-width: 200px;
+  }
+
+  .nav-panel[hidden] {
+    display: none;
+  }
+
+  .nav-panel nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .nav-panel a {
+    color: var(--text-body);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 18px;
+  }
+
+  .nav-panel a:hover,
+  .nav-panel a:focus-visible {
+    color: var(--accent);
+  }
+
+  /* Mobile: white box takes over the full screen, items centred */
+  @media (max-width: 900px) {
+    .nav-toggle {
+      top: 18px;
+      right: var(--space-3);
+    }
+
+    .nav-panel {
+      inset: 0;
+      top: 0;
+      right: 0;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+    }
+
+    .nav-panel nav {
+      align-items: center;
+      text-align: center;
+      gap: var(--space-3);
+    }
+
+    .nav-panel a {
+      font-size: 24px;
+    }
+  }
+</style>
+
+<script>
+  function initNav() {
+    const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+    const panel = document.querySelector<HTMLElement>('[data-nav-panel]');
+    if (!toggle || !panel) return;
+
+    const setOpen = (open: boolean) => {
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(panel.hidden);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !panel.hidden) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      const target = event.target as Node;
+      if (!panel.hidden && !panel.contains(target) && !toggle.contains(target)) {
+        setOpen(false);
+      }
+    });
+  }
+
+  initNav();
+</script>

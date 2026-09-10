@@ -1,0 +1,45 @@
+name: CI
+
+# Enforcement gate for the rebuild — rebuild-scope.md section 3 & 9.6:
+# "Cut over hosting once all 11 pages are migrated and CI (lint + axe +
+# budget) is green." Nothing here should be able to regress silently.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CI: true
+  ASTRO_TELEMETRY_DISABLED: '1'
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (eslint + stylelint + prettier)
+        run: npm run check
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Accessibility check (axe-core, zero serious/critical)
+        run: npm run check:a11y
+
+      - name: Page-weight budget check
+        run: npm run check:budget

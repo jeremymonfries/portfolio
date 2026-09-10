@@ -9,12 +9,32 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint": "eslint .",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:a11y": "node scripts/check-a11y.mjs",
+    "check:budget": "node scripts/check-budget.mjs",
+    "check": "npm run lint && npm run lint:css && npm run format:check"
   },
   "dependencies": {
+    "@fontsource-variable/mona-sans": "^5.3.0",
     "astro": "^7.3.2"
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "astro-eslint-parser": "^3.1.0",
+    "eslint": "^10.10.0",
+    "eslint-plugin-astro": "^3.1.0",
+    "playwright": "^1.63.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^1.0.0",
+    "stylelint": "^17.15.0",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript-eslint": "^8.70.0"
   }
 }

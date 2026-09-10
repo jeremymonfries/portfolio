@@ -1,0 +1,11 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "custom-property-pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+    "selector-class-pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+    "no-descending-specificity": null,
+    "custom-property-empty-line-before": null,
+    "import-notation": "string"
+  },
+  "ignoreFiles": ["dist/**", ".astro/**", "node_modules/**"]
+}
