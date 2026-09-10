@@ -105,7 +105,9 @@ async function main() {
   }
 
   if (failed) {
-    console.error('\nOne or more pages exceed their weight budget. See rebuild-scope.md section 7.');
+    console.error(
+      '\nOne or more pages exceed their weight budget. See rebuild-scope.md section 7.',
+    );
     process.exit(1);
   }
   console.log('\nAll pages within budget.');

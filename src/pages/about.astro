@@ -1,11 +1,120 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import profilePhoto from '../assets/profile/jeremy-monfries.jpeg';
+
+const skills = [
+  'Product Design',
+  'UX Strategy',
+  'User Experience Design',
+  'User-centred Design',
+  'Design Management',
+  'Design Strategy',
+  'User Interface Design',
+  'eCommerce',
+  'Interaction Design',
+  'Mobile Applications',
+  'Design Systems',
+  'Product Strategy',
+  'Visual Design',
+  'Wireframes',
+  'Prototyping',
+  'Customer Insights',
+  'Information Architecture',
+  'Requirements Gathering',
+  'Storytelling',
+  'User Research',
+  'User Testing',
+  'Product Management',
+  'Human Centred Design',
+  'Design Thinking',
+  'Data Analysis',
+  'Agile Methodologies',
+  'Team Leadership',
+];
 ---
 
-<BaseLayout title="About — Jeremy Monfries">
-  <section style="padding: var(--space-7) var(--gutter); max-width: var(--page-max); margin: 0 auto;">
-    <h1 style="font: 700 var(--heading-h1)/var(--heading-leading) var(--font-display); margin: 0;">
-      About
-    </h1>
+<BaseLayout
+  title="About — Jeremy Monfries"
+  description="Jeremy Monfries — Lead Product/UX/UI designer with over 25 years experience."
+>
+  <section class="about">
+    <Image src={profilePhoto} alt="Jeremy Monfries" class="about-photo" width={320} height={320} />
+    <div class="about-copy">
+      <h1>About</h1>
+      <p class="role">Lead Product/UX/UI</p>
+      <p class="bio">
+        I'm a designer with over 25 years experience working internationally in a variety of
+        multinational businesses. I'm passionate about creating human-centred, highly-usable digital
+        experiences.
+      </p>
+      <ul class="skills">
+        {skills.map((skill) => (
+          <li>{skill}</li>
+        ))}
+      </ul>
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  .about {
+    padding: var(--space-7) var(--gutter);
+    max-width: var(--page-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .about-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  h1 {
+    font: 700 var(--heading-h1) / var(--heading-leading) var(--font-display);
+    margin: 0 0 var(--space-2);
+  }
+
+  .role {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin: 0 0 var(--space-4);
+  }
+
+  .bio {
+    font-size: 18px;
+    max-width: 640px;
+    margin: 0 0 var(--space-5);
+  }
+
+  .skills {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-2);
+    color: var(--text-muted);
+  }
+
+  .skills li:not(:last-child)::after {
+    content: '\00b7';
+    margin-left: var(--space-2);
+  }
+
+  @media (max-width: 700px) {
+    .about {
+      grid-template-columns: 1fr;
+    }
+
+    .about-photo {
+      max-width: 200px;
+    }
+  }
+</style>

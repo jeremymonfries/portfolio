@@ -1,22 +1,225 @@
 ---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import profilePhoto from '../assets/profile/jeremy-monfries.jpeg';
+
+const skills = [
+  'Product Design',
+  'UX Strategy',
+  'User Experience Design',
+  'User-centred Design',
+  'Design Management',
+  'Design Strategy',
+  'User Interface Design',
+  'eCommerce',
+  'Interaction Design',
+  'Mobile Applications',
+  'Design Systems',
+  'Product Strategy',
+  'Visual Design',
+  'Wireframes',
+  'Prototyping',
+  'Customer Insights',
+  'Information Architecture',
+  'Requirements Gathering',
+  'Storytelling',
+  'User Research',
+  'User Testing',
+  'Product Management',
+  'Human Centred Design',
+  'Design Thinking',
+  'Data Analysis',
+  'Agile Methodologies',
+  'Team Leadership',
+];
+
+// UX-05/DS-07: the original home page duplicated every project as both a
+// "featured" teaser and a "grid" entry (2 image files + 2 markup blocks
+// per case study). This rebuild has exactly one content source
+// (getCollection) and one rendered list - the duplication can't recur.
+const caseStudies = (await getCollection('case-studies')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
-<BaseLayout title="Jeremy Monfries — UX & Product Designer">
-  <section style="padding: var(--space-7) var(--gutter); max-width: var(--page-max); margin: 0 auto;">
-    <h1 style="font: 700 var(--heading-h1)/var(--heading-leading) var(--font-display); margin: 0 0 var(--space-3);">
-      Jeremy Monfries
-    </h1>
-    <p style="color: var(--text-muted); font-size: 18px; max-width: 640px;">
-      Rebuild skeleton — layout, tokens, and nav are wired up. Case-study content migration is the
-      next phase (see rebuild-scope.md section 9).
-    </p>
-    <a
-      class="cta"
-      href="/about"
-      style="display: inline-block; background: var(--cta-bg); color: var(--cta-text); text-decoration: none; border-radius: 999px; padding: 9px 18px; font-weight: 700; margin-top: var(--space-3);"
-    >
-      About
-    </a>
-  </section>
+<BaseLayout
+  title="Jeremy Monfries — Lead Product/UX/UI Designer"
+  description="I'm a designer with over 25 years experience working internationally in a variety of multinational businesses."
+>
+  <div class="home">
+    <aside class="profile">
+      <Image
+        src={profilePhoto}
+        alt="Jeremy Monfries"
+        class="profile-photo"
+        width={240}
+        height={240}
+      />
+      <h1>Jeremy Monfries</h1>
+      <p class="role">Lead Product/UX/UI</p>
+      <p class="bio">
+        I'm a designer with over 25 years experience working internationally in a variety of
+        multinational businesses. I'm passionate about creating human-centred, highly-usable digital
+        experiences.
+      </p>
+      <ul class="skills">
+        {skills.map((skill) => (
+          <li>{skill}</li>
+        ))}
+      </ul>
+      <ul class="social">
+        <li>
+          <a href="https://www.linkedin.com/in/jeremymonfries/">LinkedIn</a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/instamonph/">Instagram</a>
+        </li>
+      </ul>
+    </aside>
+
+    <section class="grid" aria-label="Case studies">
+      {caseStudies.map((entry) => (
+        <a class="card" href={`/projects/${entry.id}/`}>
+          <Image
+            src={entry.data.heroImage.src}
+            alt={entry.data.heroImage.alt}
+            class="card-image"
+            width={640}
+            height={420}
+          />
+          <h2>{entry.data.title}</h2>
+          <p>{entry.data.summary}</p>
+        </a>
+      ))}
+    </section>
+  </div>
 </BaseLayout>
+
+<style>
+  .home {
+    padding: var(--space-7) var(--gutter);
+    max-width: var(--page-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .profile {
+    position: sticky;
+    top: var(--space-4);
+  }
+
+  .profile-photo {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: var(--space-3);
+  }
+
+  .profile h1 {
+    font: 700 var(--heading-h3) / var(--heading-leading) var(--font-display);
+    margin: 0 0 var(--space-1);
+  }
+
+  .role {
+    color: var(--text-muted);
+    margin: 0 0 var(--space-3);
+  }
+
+  .bio {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin: 0 0 var(--space-3);
+  }
+
+  .skills {
+    list-style: none;
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .skills li {
+    display: inline;
+  }
+
+  .skills li:not(:last-child)::after {
+    content: '|';
+    margin: 0 6px;
+  }
+
+  .social {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .social a {
+    font-weight: 700;
+    text-decoration: none;
+    /* UX-10: --accent (#08aceb) fails 4.5:1 as text on white; --action-primary-bg
+       is the same blue family re-tuned to pass AA (5.94:1) - see tokens.css. */
+    color: var(--action-primary-bg);
+  }
+
+  .social a:hover,
+  .social a:focus-visible {
+    text-decoration: underline;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: var(--space-2);
+  }
+
+  .card h2 {
+    font: 700 20px / var(--heading-leading) var(--font-display);
+    margin: 0 0 var(--space-1);
+  }
+
+  .card p {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .card:hover h2,
+  .card:focus-visible h2 {
+    color: var(--action-primary-bg);
+  }
+
+  @media (max-width: 800px) {
+    .home {
+      grid-template-columns: 1fr;
+    }
+
+    .profile {
+      position: static;
+    }
+  }
+</style>
