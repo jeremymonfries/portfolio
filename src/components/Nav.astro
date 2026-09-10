@@ -51,11 +51,14 @@ const {
 <style>
   /*
     Persistent, no background chip: the button itself is transparent - only
-    the SVG stroke is visible, and mix-blend-mode: difference on the stroke
-    makes it auto-invert against whatever is behind it, keeping contrast high
-    without a manual light/dark theme calculation. Decision + tradeoff noted
-    in rebuild-scope.md section 6.1 (spot-check contrast once real page
-    backgrounds exist).
+    the SVG stroke is visible. Originally mix-blend-mode: difference on the
+    stroke to auto-invert against whatever was behind it, but that doesn't
+    reliably composite across a position:fixed element's own layer in real
+    browsers (Chromium/WebKit limitation) - the icon rendered as literal
+    white and was invisible against this site's white backgrounds. Every
+    page here uses a plain white surface, so a solid dark stroke is the
+    correct fix now; revisit adaptive contrast if a dark hero section is
+    ever added. See rebuild-scope.md section 6.1.
   */
   .nav-toggle {
     position: fixed;
@@ -76,10 +79,9 @@ const {
   }
 
   .nav-toggle-icon line {
-    stroke: #fff;
+    stroke: var(--text-body);
     stroke-width: 2;
     stroke-linecap: round;
-    mix-blend-mode: difference;
   }
 
   .nav-toggle:focus-visible {
