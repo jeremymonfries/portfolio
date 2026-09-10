@@ -1,6 +1,7 @@
 ---
 title: 'Design System - NortonLifeLock'
 summary: 'Create a design system for the team to use to rapidly build out checkout flows.'
+tldr: 'The checkout team needed a flexible design system that could support many brands, products and flow variations while designers moved from Sketch to Figma. I led the creation of the NortonLifeLock checkout system, defining reusable components, states and assets, and checking implementations for accessibility and the needs of different checkout journeys.'
 heroImage:
   src: '../../assets/case-studies/design-system.jpg'
   alt: 'NortonLifeLock checkout design system components'

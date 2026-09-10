@@ -1,0 +1,58 @@
+---
+// Reproduces the original site's `.case-tldr` component: a full-bleed,
+// visually distinct band directly under the hero summarising the case
+// study, before the reader commits to the full write-up.
+export interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<section class="tldr" aria-label="Summary">
+  <div class="tldr-inner">
+    <p class="tldr-label">TL;DR</p>
+    <p class="tldr-text">{text}</p>
+  </div>
+</section>
+
+<style>
+  .tldr {
+    background: var(--surface-subtle);
+    border-top: 1px solid var(--border-default);
+    border-bottom: 1px solid var(--border-default);
+    padding: var(--space-5) 0;
+  }
+
+  .tldr-inner {
+    width: min(var(--page-max), calc(100% - 2 * var(--gutter)));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .tldr-label {
+    margin: 0;
+    font: 700 14px / 1.3 var(--font-display);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--action-primary-bg);
+    padding-top: 3px;
+  }
+
+  .tldr-text {
+    margin: 0;
+    font-size: 18px;
+    line-height: var(--body-leading);
+    max-width: 700px;
+  }
+
+  @media (max-width: 700px) {
+    .tldr-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+  }
+</style>

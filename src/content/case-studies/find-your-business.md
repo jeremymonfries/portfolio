@@ -1,6 +1,7 @@
 ---
 title: 'Find Your Business | Customer and banker redesign'
 summary: 'A redesign of a major Australian bank''s "Find your business" identification step across both customer self-serve and banker-assisted onboarding.'
+tldr: 'The bank needed to modernise its "Find your business" step across both customer self-serve and banker-assisted onboarding. I led the experience end to end, from discovery and journey mapping through prototyping, usability testing and the final recommendation, working across product, engineering, research and compliance to bring both experiences into a more consistent design-system direction.'
 heroImage:
   src: '../../assets/case-studies/find-your-business.png'
   alt: 'Find Your Business project cover'

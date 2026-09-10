@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StatBlock from '../../components/StatBlock.astro';
+import Tldr from '../../components/Tldr.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('case-studies');
@@ -21,27 +22,31 @@ const { Content } = await render(entry);
 ---
 
 <BaseLayout title={`${entry.data.title} — Jeremy Monfries`} description={entry.data.summary}>
-  <article style="padding: var(--space-7) var(--gutter); max-width: var(--page-max); margin: 0 auto;">
-    <h1 style="font: 700 var(--heading-h1)/var(--heading-leading) var(--font-display); margin: 0 0 var(--space-3);">
-      {entry.data.title}
-    </h1>
-    <p style="color: var(--text-muted); font-size: 18px; max-width: 700px; margin: 0 0 var(--space-5);">
-      {entry.data.summary}
-    </p>
+  <article class="hero-section">
+    <h1 class="title">{entry.data.title}</h1>
+    <p class="summary">{entry.data.summary}</p>
     <Image
       src={entry.data.heroImage.src}
       alt={entry.data.heroImage.alt}
       width={1180}
       height={700}
-      style="width: 100%; height: auto; margin-bottom: var(--space-5);"
+      class="hero-image"
     />
-    {entry.data.stats.length > 0 && (
-      <div style="display:flex; gap: var(--space-5); flex-wrap: wrap; margin-bottom: var(--space-6);">
+  </article>
+
+  <Tldr text={entry.data.tldr} />
+
+  {entry.data.stats.length > 0 && (
+    <section class="stats-band" aria-label="Key results">
+      <div class="stats-grid">
         {entry.data.stats.map((stat) => (
           <StatBlock value={stat.value} label={stat.label} />
         ))}
       </div>
-    )}
+    </section>
+  )}
+
+  <article class="case-body-section">
     <div class="case-body">
       <Content />
     </div>
@@ -49,6 +54,67 @@ const { Content } = await render(entry);
 </BaseLayout>
 
 <style>
+  .hero-section {
+    padding: var(--space-7) var(--gutter) 0;
+    max-width: var(--page-max);
+    margin: 0 auto;
+  }
+
+  .title {
+    font: 700 var(--heading-h1) / var(--heading-leading) var(--font-display);
+    margin: 0 0 var(--space-3);
+  }
+
+  .summary {
+    color: var(--text-muted);
+    font-size: 18px;
+    max-width: 700px;
+    margin: 0 0 var(--space-5);
+  }
+
+  .hero-image {
+    width: 100%;
+    height: auto;
+  }
+
+  /* DS-07/UX-04/UX-12: the original site's stat numbers lived in a plain
+     white section with no visual separation from the rest of the page.
+     A full-bleed dark band gives the results their own moment and breaks
+     up an otherwise all-white page - see rebuild-scope.md section 9. */
+  .stats-band {
+    background: var(--surface-sidebar);
+    padding: var(--space-6) 0;
+  }
+
+  .stats-grid {
+    width: min(var(--page-max), calc(100% - 2 * var(--gutter)));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+  }
+
+  .stats-band :global(.stat-value) {
+    color: var(--color-white);
+  }
+
+  .stats-band :global(.stat-label) {
+    color: var(--color-neutral-200);
+  }
+
+  @media (max-width: 700px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+    }
+  }
+
+  .case-body-section {
+    padding: var(--space-6) var(--gutter) var(--space-7);
+    max-width: var(--page-max);
+    margin: 0 auto;
+  }
+
   .case-body {
     font-size: 16px;
     line-height: var(--body-leading);

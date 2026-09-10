@@ -33,7 +33,10 @@ const caseStudies = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(), // rendered as the page's single <h1> - see [slug].astro
-      summary: z.string(),
+      summary: z.string(), // short teaser shown on the homepage grid card
+      // Fuller 2-3 sentence overview shown in the TL;DR band under the hero
+      // (Tldr.astro) - reproduces the original site's .case-tldr component.
+      tldr: z.string(),
       heroImage: imageWithAlt(image),
       // DS-07/UX-04/UX-12: the original site misused <h1> for decorative stat
       // numbers. Stats are structured data here, rendered via StatBlock.astro

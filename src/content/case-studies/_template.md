@@ -1,6 +1,9 @@
 ---
 title: 'Case study title'
 summary: 'One or two sentence summary shown on the homepage / project grid.'
+# 2-3 sentence overview shown in the full-bleed TL;DR band under the hero
+# (see src/components/Tldr.astro) - fuller than `summary` above.
+tldr: 'A short overview of the problem, your role, and the outcome.'
 # Path is relative to this file and resolved through Astro's image() schema
 # helper (see src/content.config.ts) - this is what gives the hero image
 # automatic resize + modern-format optimisation at build time (fixes
