@@ -4,9 +4,6 @@ summary: 'A redesign of a major Australian bank''s "Find your business" identifi
 heroImage:
   src: '../../assets/case-studies/find-your-business.png'
   alt: 'Find Your Business project cover'
-gallery:
-  - src: '../../assets/case-studies/find-your-business/01.png'
-    alt: 'Customer and banker journey map for the Find Your Business redesign'
 order: 6
 ---
 
@@ -29,6 +26,8 @@ I redesigned FYB across both surfaces on the new design system, treating identif
 ### User journey
 
 The journey starts when a customer begins business onboarding and reaches "Find your business," where they try to identify their entity using ABN or ACN, or by choosing a no-ABN path. Many customers first leave the flow to look up their ABN using ABR search, then return to verify they selected the correct business from results. If the system finds no match or flags an issue (inactive or deregistered), the customer needs a clear explanation of what that status means and what to do next, otherwise they hesitate or abandon. In the banker-assisted journey, the banker performs the same identification job but needs additional context and controls for edge cases and on-behalf-of completion, so alignment matters for consistency — but the differences must stay intentional. The redesign focused on making each decision point feel like a confidence check with visible evidence (matched details, definitions, next steps) rather than a guessing game.
+
+![Customer and banker journey map for the Find Your Business redesign](../../assets/case-studies/find-your-business/01.png)
 
 ### Interviews
 

@@ -4,33 +4,10 @@ summary: 'UX analysis of the Blackwoods site and suggest improvements'
 heroImage:
   src: '../../assets/case-studies/blackwoods.jpg'
   alt: 'B2B - Blackwoods project thumbnail'
-gallery:
-  - src: '../../assets/case-studies/blackwoods/01.png'
-    alt: 'Competitor website example reviewed during the Blackwoods analysis (1 of 3)'
-  - src: '../../assets/case-studies/blackwoods/02.png'
-    alt: 'Competitor website example reviewed during the Blackwoods analysis (2 of 3)'
-  - src: '../../assets/case-studies/blackwoods/03.png'
-    alt: 'Competitor website example reviewed during the Blackwoods analysis (3 of 3)'
-  - src: '../../assets/case-studies/blackwoods/04.png'
-    alt: 'Heatmap analysis of the existing Blackwoods site (1 of 3)'
-  - src: '../../assets/case-studies/blackwoods/05.png'
-    alt: 'Heatmap analysis of the existing Blackwoods site (2 of 3)'
-  - src: '../../assets/case-studies/blackwoods/06.png'
-    alt: 'Heatmap analysis of the existing Blackwoods site (3 of 3)'
-  - src: '../../assets/case-studies/blackwoods/07.jpg'
-    alt: 'Responsive layout issue on the existing Blackwoods site at narrow browser widths'
-  - src: '../../assets/case-studies/blackwoods/08.jpg'
-    alt: 'Fixed-width layout solution applied to fix the Blackwoods responsive issue'
-  - src: '../../assets/case-studies/blackwoods/09.jpg'
-    alt: 'Blackwoods existing search results page'
-  - src: '../../assets/case-studies/blackwoods/10.jpg'
-    alt: 'Improved UX for the search results page'
-  - src: '../../assets/case-studies/blackwoods/11.jpg'
-    alt: 'Original mega-menu with no sub-category'
-  - src: '../../assets/case-studies/blackwoods/12.jpg'
-    alt: 'Updated mega-menu with secondary categorisation'
 order: 3
 ---
+
+import ImageGrid from '../../components/ImageGrid.astro';
 
 **Role:** Project Lead, UX Research, UX Design, Workshop Facilitator
 
@@ -70,7 +47,25 @@ Blackwoods needed a UX review of their website to identify any areas where they 
 
 When starting with a new client I always like to do a competitor analysis to understand the business landscape in which they operate. Competitors usually have similar challenges and have attempted to solve these in different ways. There are always potential nuggets of gold in a competitor's experience that can be useful.
 
+<ImageGrid cols={3}>
+![Competitor website example reviewed during the Blackwoods analysis (1 of 3)](../../assets/case-studies/blackwoods/01.png)
+
+![Competitor website example reviewed during the Blackwoods analysis (2 of 3)](../../assets/case-studies/blackwoods/02.png)
+
+![Competitor website example reviewed during the Blackwoods analysis (3 of 3)](../../assets/case-studies/blackwoods/03.png)
+
+</ImageGrid>
+
 ## Heatmaps
+
+<ImageGrid cols={3}>
+![Heatmap analysis of the existing Blackwoods site (1 of 3)](../../assets/case-studies/blackwoods/04.png)
+
+![Heatmap analysis of the existing Blackwoods site (2 of 3)](../../assets/case-studies/blackwoods/05.png)
+
+![Heatmap analysis of the existing Blackwoods site (3 of 3)](../../assets/case-studies/blackwoods/06.png)
+
+</ImageGrid>
 
 ## Responsive design
 
@@ -78,15 +73,23 @@ When starting with a new client I always like to do a competitor analysis to und
 
 The existing website employed a responsive design to accommodate various viewports. While responsive design is a suitable approach in certain cases, the implementation on this website was flawed. The page was set to always scale to the full width of the browser window, regardless of its dimensions. This caused issues when the browser window width was changed, as the content did not scale properly and the proportions of the page elements became uneven. This disruption in the visual hierarchy resulted in secondary content being given too much emphasis and important content being pushed down the page — banner advertising dominating the viewport while featured products disappeared below the fold.
 
+![Responsive layout issue on the existing Blackwoods site at narrow browser widths](../../assets/case-studies/blackwoods/07.jpg)
+
 ### Simple solution
 
 I suggested a straightforward and easy solution: instead of changing the website design, set the maximum width of the website to 1260px while centering it within the browser window. If the browser window is wider than this, only the header colour spans the full width, which helps visually frame the page content. This approach preserves the website's design while addressing the scaling issues, returning visual balance, content hierarchy and image integrity (no overscaling or pixellation). Users could now easily scan through the content without excessive scrolling.
 
+![Fixed-width layout solution applied to fix the Blackwoods responsive issue](../../assets/case-studies/blackwoods/08.jpg)
+
 ## Search results page
+
+![Blackwoods existing search results page](../../assets/case-studies/blackwoods/09.jpg)
 
 Blackwoods' existing search results page had several issues. The grid approach allowed for the display of many items, but confusing categorisation and a lack of screen space for related information per category or product caused problems. Users were also required to click on each product to view information that should have been readily available, and there was no call-to-action for adding items to their cart immediately.
 
 ### Updated search results
+
+![Improved UX for the search results page](../../assets/case-studies/blackwoods/10.jpg)
 
 I added a horizontal accordion UI pattern to show higher-level categories that could easily be drilled into. Product-level content was surfaced so the customer didn't have to click through to a PDP page to see the critical info required to make a purchase decision. The buy CTA is displayed directly on the page so the item can be added to the cart, also allowing the user to continue browsing without leaving the page.
 
@@ -96,9 +99,13 @@ I added a horizontal accordion UI pattern to show higher-level categories that c
 
 The mega-menu had a number of issues, but the most glaring was the lack of categories and alphabetical sections. Heat maps also showed quite clearly that no users were interacting with the advertising banner, which dominated the menu.
 
+![Original mega-menu with no sub-category](../../assets/case-studies/blackwoods/11.jpg)
+
 ### Mega-menu update
 
 Instead of a huge unordered list, I created a secondary categorisation to group products under higher-level categories. I removed repeated words to reduce visual clutter and grouped related items where relevant. The overall result was a menu that was easier to scan, which helped customers find the items they were looking for more easily.
+
+![Updated mega-menu with secondary categorisation](../../assets/case-studies/blackwoods/12.jpg)
 
 ## Learnings
 

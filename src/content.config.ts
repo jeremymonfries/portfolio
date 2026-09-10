@@ -3,15 +3,22 @@ import { glob } from 'astro/loaders';
 
 // UX-11: axe-core found images with the `alt` attribute missing entirely on
 // the live site. Making `alt` a required, non-empty field here makes that
-// defect unrepresentable in the rebuild - a missing alt fails the build,
-// not the accessibility scan.
+// defect unrepresentable for the hero image - a missing alt fails the
+// build, not the accessibility scan. Body-content images (embedded via
+// markdown ![]() syntax, directly beside the paragraph they illustrate -
+// or grouped via <ImageGrid> for what were originally multi-column photo
+// grids, both in .mdx) aren't covered by this schema, but every alt is
+// hand-written and `npm run check:a11y` (axe-core) still catches a
+// missing/empty one at build-verification time.
 //
 // UX-07: the original site shipped a 6.97MB case-study page from raw source
 // images. Using the `image()` helper (rather than a plain string path)
-// routes every hero/gallery image through Astro's build-time optimizer -
-// resize + modern-format conversion happens automatically, and it's the
-// mechanism the page-weight budget check (scripts/check-budget.mjs) relies
-// on to stay enforceable.
+// routes the hero image through Astro's build-time optimizer - resize and
+// modern-format conversion happen automatically. Body-content images get
+// the same automatic optimization via Astro's built-in markdown image
+// pipeline (no schema involvement needed for that). This is what the
+// page-weight budget check (scripts/check-budget.mjs) relies on to stay
+// enforceable.
 const imageWithAlt = (image: (...args: never[]) => z.ZodType) =>
   z.object({
     src: image(),
@@ -20,7 +27,7 @@ const imageWithAlt = (image: (...args: never[]) => z.ZodType) =>
 
 const caseStudies = defineCollection({
   loader: glob({
-    pattern: ['**/*.md', '!**/_template.md'],
+    pattern: ['**/*.{md,mdx}', '!**/_template.md'],
     base: './src/content/case-studies',
   }),
   schema: ({ image }) =>
@@ -28,7 +35,6 @@ const caseStudies = defineCollection({
       title: z.string(), // rendered as the page's single <h1> - see [slug].astro
       summary: z.string(),
       heroImage: imageWithAlt(image),
-      gallery: z.array(imageWithAlt(image)).default([]),
       // DS-07/UX-04/UX-12: the original site misused <h1> for decorative stat
       // numbers. Stats are structured data here, rendered via StatBlock.astro
       // as <p>, not a heading - the defect can't recur through this schema.

@@ -1,0 +1,38 @@
+---
+// Reproduces the original site's `.gallery-layout-module--grid` page-builder
+// component (N-column photo grid) so multi-image groups stay grouped in the
+// rebuild instead of stacking one-per-row. Used from .mdx case-study body
+// content - see rebuild-scope.md section 9.
+export interface Props {
+  cols?: number;
+}
+
+const { cols = 3 } = Astro.props;
+---
+
+<div class="image-grid" style={`--cols: ${cols}`}>
+  <slot />
+</div>
+
+<style>
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: var(--space-3);
+    margin: var(--space-2) 0 var(--space-4);
+  }
+
+  .image-grid :global(img) {
+    margin: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  @media (max-width: 700px) {
+    .image-grid {
+      grid-template-columns: repeat(min(2, var(--cols)), 1fr);
+    }
+  }
+</style>

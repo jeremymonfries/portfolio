@@ -45,13 +45,6 @@ const { Content } = await render(entry);
     <div class="case-body">
       <Content />
     </div>
-    {entry.data.gallery.length > 0 && (
-      <div class="gallery" aria-label="Project gallery">
-        {entry.data.gallery.map((img) => (
-          <Image src={img.src} alt={img.alt} width={900} height={600} class="gallery-image" />
-        ))}
-      </div>
-    )}
   </article>
 </BaseLayout>
 
@@ -92,16 +85,8 @@ const { Content } = await render(entry);
     margin-bottom: var(--space-1);
   }
 
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: var(--space-3);
-    margin-top: var(--space-6);
-  }
-
-  .gallery-image {
-    width: 100%;
-    height: auto;
+  .case-body :global(img) {
     border-radius: 8px;
+    margin: var(--space-2) 0 var(--space-4);
   }
 </style>

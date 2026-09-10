@@ -4,17 +4,6 @@ summary: 'Create a design system for the team to use to rapidly build out checko
 heroImage:
   src: '../../assets/case-studies/design-system.jpg'
   alt: 'NortonLifeLock checkout design system components'
-gallery:
-  - src: '../../assets/case-studies/design-system/01.png'
-    alt: 'Overview of the NortonLifeLock checkout design system in Figma'
-  - src: '../../assets/case-studies/design-system/02.png'
-    alt: 'Checkout "Card" templates combining UI elements into reusable checkout states'
-  - src: '../../assets/case-studies/design-system/03.png'
-    alt: 'Form field components and states in the checkout design system'
-  - src: '../../assets/case-studies/design-system/04.png'
-    alt: 'Typography scale and specimens in the checkout design system'
-  - src: '../../assets/case-studies/design-system/05.png'
-    alt: 'Primary and secondary button states in the checkout design system'
 order: 2
 ---
 
@@ -22,9 +11,13 @@ As my team migrated existing experience flows to use the new checkout experience
 
 As the original designer of our checkout, it made sense for me to do the work. I worked from our original Sketch files, then extended the new Figma-based library to provide all the assets a designer might need to deliver new flows for desktop, tablet and mobile. I used the Atomic Design methodology (Brad Frost), building out all the atoms, molecules, organisms and templates, and worked with the rest of the team to ensure the design system was robust enough to be useful without being too complex to be confusing.
 
+![Overview of the NortonLifeLock checkout design system in Figma](../../assets/case-studies/design-system/01.png)
+
 ### Templates ("Cards")
 
 The "Cards" combined different UI elements into cohesive "organisms" that covered all the different states of the checkout. I wanted designers to have access to these organisms, as they form the foundation of the checkout and cover most states that would appear — making the task of creating any flow much quicker.
+
+![Checkout "Card" templates combining UI elements into reusable checkout states](../../assets/case-studies/design-system/02.png)
 
 ### Form elements
 
@@ -40,6 +33,8 @@ I built out the form fields and various states including:
 - Drop-down menus
 - Input field specifications
 
+![Form field components and states in the checkout design system](../../assets/case-studies/design-system/03.png)
+
 ### Typography
 
 The fonts were mapped out to work with:
@@ -49,9 +44,13 @@ The fonts were mapped out to work with:
 - Accessibility compliance
 - Multiple viewports (desktop, tablet and mobile)
 
+![Typography scale and specimens in the checkout design system](../../assets/case-studies/design-system/04.png)
+
 ### Buttons
 
 All primary and secondary buttons, as well as hover, press, disabled and focus states, were specified for desktop and mobile usage. As well as reflecting the Norton brand style, the buttons were optimised to clearly communicate user call-to-actions.
+
+![Primary and secondary button states in the checkout design system](../../assets/case-studies/design-system/05.png)
 
 ### Colours
 
