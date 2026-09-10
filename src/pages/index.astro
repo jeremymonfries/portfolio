@@ -38,7 +38,7 @@ const skills = [
 // "featured" teaser and a "grid" entry (2 image files + 2 markup blocks
 // per case study). This rebuild has exactly one content source
 // (getCollection) and one rendered list - the duplication can't recur.
-const caseStudies = (await getCollection('case-studies')).sort(
+const caseStudies = (await getCollection('case-studies', ({ data }) => !data.draft)).sort(
   (a, b) => a.data.order - b.data.order,
 );
 ---

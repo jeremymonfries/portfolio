@@ -50,6 +50,11 @@ const caseStudies = defineCollection({
         )
         .default([]),
       order: z.number().default(0),
+      // Set `draft: true` to keep working on a case study without showing
+      // it - excluded from both the homepage grid (src/pages/index.astro)
+      // and route generation itself (src/pages/projects/[slug].astro), so
+      // a draft has no live URL at all, not just an unlisted one.
+      draft: z.boolean().default(false),
     }),
 });
 

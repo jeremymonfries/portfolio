@@ -16,6 +16,10 @@ stats:
   - value: '40%'
     label: 'Increase in conversion'
 order: 99
+# Set to true while still working on this one - it won't appear on the
+# homepage grid, and its /projects/<slug>/ URL won't build at all (not
+# just unlisted). Remove this line or set to false to publish.
+draft: true
 ---
 
 Case study body content goes here, written in Markdown. This becomes the
