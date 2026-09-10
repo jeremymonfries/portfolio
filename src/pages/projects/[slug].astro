@@ -116,9 +116,15 @@ const { Content } = await render(entry);
   }
 
   .case-body {
+    /* Centered (not flush-left) on wide viewports where the 780px cap is
+       narrower than .case-body-section's content width. This also matters
+       for ListBand's full-bleed breakout (margin-inline: calc(50% - 50vw)
+       in ListBand.astro) - that trick only spans the true viewport width
+       when its reference box is itself centered on the page. */
+    max-width: 780px;
+    margin-inline: auto;
     font-size: 16px;
     line-height: var(--body-leading);
-    max-width: 780px;
   }
 
   .case-body :global(h2) {
