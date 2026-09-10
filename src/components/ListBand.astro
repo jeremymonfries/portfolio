@@ -1,0 +1,115 @@
+---
+// Reusable full-bleed band for a short list of facts/tags (tools, skills,
+// goals, learnings, ...) - same label+content grid language as Tldr.astro,
+// but for list content instead of a paragraph. Used to break long case
+// studies up visually instead of leaving list content as plain prose
+// bullets - see rebuild-scope.md section 9.
+export interface Props {
+  label: string;
+  items: string[];
+  tone?: 'subtle' | 'tint' | 'dark';
+  columns?: number;
+}
+
+const { label, items, tone = 'subtle', columns = 2 } = Astro.props;
+---
+
+<section class={`list-band list-band--${tone}`} aria-label={label}>
+  <div class="list-band-inner">
+    <p class="list-band-label">{label}</p>
+    <ul class="list-band-items" style={`--cols: ${columns}`}>
+      {items.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .list-band {
+    margin-inline: calc(50% - 50vw);
+    padding: var(--space-5) calc(50vw - 50%);
+  }
+
+  .list-band--subtle {
+    background: var(--surface-subtle);
+    border-top: 1px solid var(--border-default);
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .list-band--tint {
+    background: var(--surface-tint);
+  }
+
+  .list-band--dark {
+    background: var(--surface-sidebar);
+  }
+
+  .list-band-inner {
+    width: min(var(--page-max), calc(100% - 2 * var(--gutter)));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .list-band-label {
+    margin: 0;
+    font: 700 14px / 1.3 var(--font-display);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--action-primary-bg);
+    padding-top: 3px;
+  }
+
+  .list-band--dark .list-band-label {
+    color: var(--color-white);
+  }
+
+  .list-band-items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .list-band-items li {
+    position: relative;
+    padding-left: 1.1em;
+    font-size: 16px;
+    color: var(--text-body);
+  }
+
+  .list-band-items li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--action-primary-bg);
+  }
+
+  .list-band--dark .list-band-items li {
+    color: var(--color-white);
+  }
+
+  .list-band--dark .list-band-items li::before {
+    background: var(--color-white);
+  }
+
+  @media (max-width: 700px) {
+    .list-band-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+
+    .list-band-items {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

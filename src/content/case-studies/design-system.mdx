@@ -8,6 +8,8 @@ heroImage:
 order: 2
 ---
 
+import ListBand from '../../components/ListBand.astro';
+
 As my team migrated existing experience flows to use the new checkout experience, we needed a way to quickly conceptualise, design and build flows. The broader Product team was also migrating from Sketch to Figma, so it made sense to create the NortonLifeLock checkout design system in Figma. Since we create many different flows, we needed design assets we could use to quickly flesh out ideas and build out experiences the dev team could use as a source of truth.
 
 As the original designer of our checkout, it made sense for me to do the work. I worked from our original Sketch files, then extended the new Figma-based library to provide all the assets a designer might need to deliver new flows for desktop, tablet and mobile. I used the Atomic Design methodology (Brad Frost), building out all the atoms, molecules, organisms and templates, and worked with the rest of the team to ensure the design system was robust enough to be useful without being too complex to be confusing.
@@ -24,15 +26,21 @@ The "Cards" combined different UI elements into cohesive "organisms" that covere
 
 I built out the form fields and various states including:
 
-- Input fields
-- Inline labels
-- Floating labels
-- Form status feedback
-- Error states
-- Form validation feedback
-- Toggles and custom toggles
-- Drop-down menus
-- Input field specifications
+<ListBand
+  label="Form elements"
+  tone="tint"
+  items={[
+    'Input fields',
+    'Inline labels',
+    'Floating labels',
+    'Form status feedback',
+    'Error states',
+    'Form validation feedback',
+    'Toggles and custom toggles',
+    'Drop-down menus',
+    'Input field specifications',
+  ]}
+/>
 
 ![Form field components and states in the checkout design system](../../assets/case-studies/design-system/03.png)
 
@@ -40,10 +48,16 @@ I built out the form fields and various states including:
 
 The fonts were mapped out to work with:
 
-- Norton brand guidelines
-- Optimum legibility
-- Accessibility compliance
-- Multiple viewports (desktop, tablet and mobile)
+<ListBand
+  label="Typography"
+  tone="subtle"
+  items={[
+    'Norton brand guidelines',
+    'Optimum legibility',
+    'Accessibility compliance',
+    'Multiple viewports (desktop, tablet and mobile)',
+  ]}
+/>
 
 ![Typography scale and specimens in the checkout design system](../../assets/case-studies/design-system/04.png)
 

@@ -15,6 +15,7 @@
   --color-neutral-100: #f3f5f5;
   --color-neutral-200: #dfe5e8;
   --color-white: #fff;
+  --color-blue-100: #e6f6fc; /* pale tint of --color-blue-500, for full-bleed section backgrounds */
   --color-blue-500: #08aceb; /* original brand blue - kept for accents on light backgrounds */
   --color-blue-700: #0369a1; /* darkened variant - see --action-primary-bg below */
 
@@ -40,6 +41,7 @@
 
   --surface-page: var(--color-white);
   --surface-subtle: var(--color-neutral-100);
+  --surface-tint: var(--color-blue-100);
   --surface-sidebar: var(--color-slate-800);
 
   --border-default: var(--color-neutral-200);

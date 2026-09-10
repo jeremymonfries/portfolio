@@ -8,6 +8,8 @@ heroImage:
 order: 6
 ---
 
+import ListBand from '../../components/ListBand.astro';
+
 **Role:** Lead Product Designer
 
 **Team:** Product owner, business analyst, 3 engineers
@@ -52,14 +54,24 @@ Most participants treated ABR lookup as the first step, not a fallback, so typed
 
 This path showed the highest time on task and click counts, revealing a navigation problem, not a motivation problem.
 
-### Learnings
+<ListBand
+  label="Learnings"
+  tone="subtle"
+  columns={1}
+  items={[
+    'A single annotated experience map across customer and banker surfaces can become a source of truth that prevents accidental drift and speeds cross-functional decision making.',
+    'High quantitative scores can hide edge-case failures, so I now treat error states as first-class scenarios to test, not secondary screens.',
+    'Compliance works best as a co-designer early in the process, because it turns regulatory constraints into design inputs instead of late-stage rework.',
+  ]}
+/>
 
-- A single annotated experience map across customer and banker surfaces can become a source of truth that prevents accidental drift and speeds cross-functional decision making.
-- High quantitative scores can hide edge-case failures, so I now treat error states as first-class scenarios to test, not secondary screens.
-- Compliance works best as a co-designer early in the process, because it turns regulatory constraints into design inputs instead of late-stage rework.
-
-### Next steps
-
-- Run follow-up research on mobile breakpoints for FYB to confirm readability, focus order, and decision clarity under smaller screen constraints.
-- Extend the same error-state patterns and definitions into downstream onboarding steps (contact, KYC, document upload) to keep language consistent.
-- Track longer-term data quality signals (duplicate merges, manual remediation types) to isolate which unhappy paths still drive avoidable tickets.
+<ListBand
+  label="Next steps"
+  tone="tint"
+  columns={1}
+  items={[
+    'Run follow-up research on mobile breakpoints for FYB to confirm readability, focus order, and decision clarity under smaller screen constraints.',
+    'Extend the same error-state patterns and definitions into downstream onboarding steps (contact, KYC, document upload) to keep language consistent.',
+    'Track longer-term data quality signals (duplicate merges, manual remediation types) to isolate which unhappy paths still drive avoidable tickets.',
+  ]}
+/>

@@ -9,6 +9,7 @@ order: 3
 ---
 
 import ImageGrid from '../../components/ImageGrid.astro';
+import ListBand from '../../components/ListBand.astro';
 
 **Role:** Project Lead, UX Research, UX Design, Workshop Facilitator
 
@@ -26,23 +27,24 @@ Blackwoods needed a UX review of their website to identify any areas where they 
 2. Optimise the current site to eCommerce best practice
 3. Generate updated UI visual designs where necessary
 
-### Tools
+<ListBand
+  label="Tools"
+  tone="tint"
+  items={['Excel', 'Sketch', 'Hotjar', 'Google Analytics', 'Usertesting.com', 'Interviews']}
+/>
 
-- Excel
-- Sketch
-- Hotjar
-- Google Analytics
-- Usertesting.com
-- Interviews
-
-### Skills
-
-- Business strategy
-- UX analysis and recommendations
-- User research
-- Information architecture
-- Visual design
-- Content review
+<ListBand
+  label="Skills"
+  tone="subtle"
+  items={[
+    'Business strategy',
+    'UX analysis and recommendations',
+    'User research',
+    'Information architecture',
+    'Visual design',
+    'Content review',
+  ]}
+/>
 
 ## Competitor analysis
 
