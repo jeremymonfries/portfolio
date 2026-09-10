@@ -48,6 +48,7 @@ const skills = [
         multinational businesses. I'm passionate about creating human-centred, highly-usable digital
         experiences.
       </p>
+      <h2>Skilled and experienced in</h2>
       <ul class="skills">
         {skills.map((skill) => (
           <li>{skill}</li>
@@ -91,6 +92,11 @@ const skills = [
     font-size: 18px;
     max-width: 640px;
     margin: 0 0 var(--space-5);
+  }
+
+  h2 {
+    font: 700 var(--heading-h4) / var(--heading-leading) var(--font-display);
+    margin: 0 0 var(--space-2);
   }
 
   .skills {
