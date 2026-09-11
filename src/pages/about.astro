@@ -108,7 +108,7 @@ const expertise = [
   <section class="expertise" aria-label="Areas of expertise">
     {expertise.map((item) => (
       <div class="expertise-card">
-        <h2>{item.title}</h2>
+        <h3>{item.title}</h3>
         <p>{item.body}</p>
       </div>
     ))}
@@ -197,7 +197,18 @@ const expertise = [
     padding: var(--space-6) var(--gutter) 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5);
+    gap: var(--space-4);
+  }
+
+  .expertise-card {
+    background: var(--surface-subtle);
+    border-radius: 8px;
+    padding: var(--space-4);
+  }
+
+  .expertise-card h3 {
+    font: 700 20px / var(--heading-leading) var(--font-display);
+    margin: 0 0 var(--space-2);
   }
 
   .expertise-card p {
