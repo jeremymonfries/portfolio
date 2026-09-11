@@ -1,7 +1,7 @@
 # Handoff log — Jeremy Monfries portfolio rebuild
 
 Written for whichever AI tool or human picks this up next. Read this before
-touching anything — it explains *why* things are built the way they are, not
+touching anything — it explains _why_ things are built the way they are, not
 just what's there. `rebuild-scope.md` and `audit-report.md` (one level up, in
 `../`) are the original planning documents; this file is the running log of
 what's actually been done since, and should be kept up to date as work
@@ -36,7 +36,7 @@ system (no Tailwind/framework). No JS framework — the one interactive piece
   point, not ground truth.
 - **Live site** (more authoritative for content, but a different visual
   design — dark sidebar, magenta `#e139ff` accent, circular photo — that
-  we deliberately did *not* adopt): https://jeremymonfries.com
+  we deliberately did _not_ adopt): https://jeremymonfries.com
 - **Planning docs:** `../rebuild-scope.md`, `../audit-report.md`,
   `../audit-findings.json` (one level up from this repo).
 
@@ -76,7 +76,7 @@ optional — it's the whole point of the CI gate in
   (automatic resize/format optimization). Body-content images use plain
   Markdown `![]()` syntax — Astro's built-in markdown image pipeline
   optimizes these too, no extra setup. **Gotcha:** plain markdown images
-  default to the *source* resolution with no width constraint — several
+  default to the _source_ resolution with no width constraint — several
   original source photos were 8,000–14,000px-tall full-page mobile
   screenshots, which blew multiple pages' budgets until the source files
   were pre-resized (`sips --resampleWidth 900`) and, for images used
@@ -128,7 +128,7 @@ user explicitly pointed at the live URL. **The Home page and the 9
 case-study detail pages have not been checked against the live site the
 same way** — it's plausible they have similar undocumented content drift.
 If asked to "check the original site" for anything, always check the
-*live* site (jeremymonfries.com), not just the local static snapshot.
+_live_ site (jeremymonfries.com), not just the local static snapshot.
 
 ## Gotchas actually hit during this build (read before repeating them)
 
@@ -149,7 +149,7 @@ If asked to "check the original site" for anything, always check the
    once.
 3. **CSS stacking: `position: absolute` paints after normal-flow content,
    regardless of DOM order.** The nav toggle's frosted-glass `::before`
-   disc (see below) is `position: absolute` and was rendering *on top of*
+   disc (see below) is `position: absolute` and was rendering _on top of_
    the normal-flow SVG icon, hiding it completely, even though the
    `::before` is "before" the icon in the DOM. Fixed by giving the icon
    `position: relative; z-index: 1`.
@@ -162,7 +162,7 @@ If asked to "check the original site" for anything, always check the
    next point) — don't reach for blend-mode tricks on fixed-position UI.
 5. **Dev-mode image optimization is generated on request and lags behind
    fast scrolling** — screenshots taken right after a scroll in `astro
-   dev` often come back blank/white because the image hasn't finished
+dev` often come back blank/white because the image hasn't finished
    decoding. Use `npm run build && npm run preview` for visual QA, not
    `npm run dev`, and add a short `wait` after navigation/scrolling
    before screenshotting either way.
@@ -175,13 +175,14 @@ If asked to "check the original site" for anything, always check the
 
 Went through three iterations, each fixing a real bug the previous one
 had:
+
 1. **Original:** `mix-blend-mode: difference` for adaptive contrast.
    Broken (see gotcha #4) — invisible on white backgrounds.
 2. **Fix 1:** solid dark stroke color. Worked, but only because every
    page happened to be white; not adaptive to future dark sections.
 3. **Fix 2 (current):** frosted-glass circle — translucent white
    (`rgba(255,255,255,0.65)`) + `backdrop-filter: blur(10px)`, so it's
-   legible over *any* background without needing to know that
+   legible over _any_ background without needing to know that
    background's color. The circle's edge is feathered via a
    `radial-gradient` CSS mask on a `::before` sized larger than the
    actual 44px hit area (`inset: -10px`), rather than a hard circular
@@ -189,12 +190,12 @@ had:
 
 ## Content status (as of this log)
 
-| Page | Status |
-|---|---|
-| Home (`/`) | Sidebar (photo/name/bio/skills/social) + case-study grid (8 published, 1 draft). Sidebar background panel was tried and reverted per user feedback — currently plain, no background. |
-| About (`/about`) | Full content migrated from the live site: intro, bio, skills, career history, countries lived in (includes PNG + Korea, added after initial migration), 6 expertise cards (styled as cards, not the live site's plain columns — deliberate enhancement), hobbies section. |
-| 9 case studies | All have: hero image, TL;DR band, stats band (where the original had stat callouts), full narrative body content with images placed inline at their original position (not batched into one end-of-page gallery — this was corrected after an initial pass got it wrong), `ImageGrid` for original multi-column photo groups, `ListBand` for fact-lists (Tools/Skills/goals/learnings) where those existed in the source. |
-| `find-your-business` | Complete but `draft: true` — not live. |
+| Page                 | Status                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Home (`/`)           | Sidebar (photo/name/bio/skills/social) + case-study grid (8 published, 1 draft). Sidebar background panel was tried and reverted per user feedback — currently plain, no background.                                                                                                                                                                                                                                      |
+| About (`/about`)     | Full content migrated from the live site: intro, bio, skills, career history, countries lived in (includes PNG + Korea, added after initial migration), 6 expertise cards (styled as cards, not the live site's plain columns — deliberate enhancement), hobbies section.                                                                                                                                                 |
+| 9 case studies       | All have: hero image, TL;DR band, stats band (where the original had stat callouts), full narrative body content with images placed inline at their original position (not batched into one end-of-page gallery — this was corrected after an initial pass got it wrong), `ImageGrid` for original multi-column photo groups, `ListBand` for fact-lists (Tools/Skills/goals/learnings) where those existed in the source. |
+| `find-your-business` | Complete but `draft: true` — not live.                                                                                                                                                                                                                                                                                                                                                                                    |
 
 ## Explicitly not done yet
 
@@ -203,7 +204,7 @@ had:
 - No "pull quote" style component for the 3 case studies that are mostly
   prose with only one or two images (`microsite`, `norton-gamer`,
   `torque-drift`) — discussed with the user as an option, not requested.
-- Deleting the ~89 duplicate image files from the *original* site's
+- Deleting the ~89 duplicate image files from the _original_ site's
   asset folder (not this repo) — was blocked on content migration
   completing; migration is now done, this hasn't been revisited.
 - Cloudflare Pages cutover — not started. CI (`.github/workflows/ci.yml`)

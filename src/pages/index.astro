@@ -68,14 +68,6 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
           <li>{skill}</li>
         ))}
       </ul>
-      <ul class="social">
-        <li>
-          <a href="https://www.linkedin.com/in/jeremymonfries/">LinkedIn</a>
-        </li>
-        <li>
-          <a href="https://www.instagram.com/instamonph/">Instagram</a>
-        </li>
-      </ul>
     </aside>
 
     <section class="grid" aria-label="Case studies">
@@ -154,27 +146,6 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
   .skills li:not(:last-child)::after {
     content: '|';
     margin: 0 6px;
-  }
-
-  .social {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: var(--space-3);
-  }
-
-  .social a {
-    font-weight: 700;
-    text-decoration: none;
-    /* UX-10: --accent (#08aceb) fails 4.5:1 as text on white; --action-primary-bg
-       is the same blue family re-tuned to pass AA (5.94:1) - see tokens.css. */
-    color: var(--action-primary-bg);
-  }
-
-  .social a:hover,
-  .social a:focus-visible {
-    text-decoration: underline;
   }
 
   .grid {
