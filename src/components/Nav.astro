@@ -51,15 +51,12 @@ const {
 
 <style>
   /*
-    Persistent, no background chip: the button itself is transparent - only
-    the SVG stroke is visible. Originally mix-blend-mode: difference on the
-    stroke to auto-invert against whatever was behind it, but that doesn't
-    reliably composite across a position:fixed element's own layer in real
-    browsers (Chromium/WebKit limitation) - the icon rendered as literal
-    white and was invisible against this site's white backgrounds. Every
-    page here uses a plain white surface, so a solid dark stroke is the
-    correct fix now; revisit adaptive contrast if a dark hero section is
-    ever added. See rebuild-scope.md section 6.1.
+    Frosted-glass circle: translucent white + backdrop-filter blur, so the
+    button stays legible over any page content behind it without needing
+    to know that content's color (the earlier mix-blend-mode approach
+    didn't reliably composite across a position:fixed element's own layer
+    in real browsers - see rebuild-scope.md section 6.1). The icon itself
+    stays a solid dark stroke since it now always sits on a light circle.
   */
   .nav-toggle {
     position: fixed;
@@ -71,8 +68,12 @@ const {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 0;
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
     padding: 0;
     margin: 0;
     cursor: pointer;
