@@ -1,0 +1,95 @@
+---
+// Wraps a single screenshot in a laptop/tablet/mobile bezel so UI-design
+// screenshots read as "a design on a device" rather than a bare image -
+// matches the original site's device-mockup treatment (see HANDOFF.md).
+// The slotted content (typically a markdown image, Astro-optimized) is
+// shown at its natural size inside the bezel - no forced aspect-ratio, so
+// screenshots aren't cropped.
+export interface Props {
+  variant?: 'laptop' | 'tablet' | 'mobile';
+}
+
+const { variant = 'laptop' } = Astro.props;
+---
+
+<div class={`device-frame device-frame--${variant}`}>
+  <div class="device-frame__bezel">
+    <div class="device-frame__screen">
+      <slot />
+    </div>
+  </div>
+  {variant === 'laptop' && <div class="device-frame__base" aria-hidden="true"></div>}
+  {variant !== 'laptop' && <div class="device-frame__button" aria-hidden="true"></div>}
+</div>
+
+<style>
+  .device-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .device-frame__bezel {
+    width: 100%;
+    background: linear-gradient(180deg, #3a3c40, #1c1d20);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.16);
+  }
+
+  .device-frame__screen {
+    background: #000;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .device-frame__screen :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Laptop: wide bezel + a thin trapezoid "base" below to read as a hinge */
+  .device-frame--laptop .device-frame__bezel {
+    border-radius: 10px 10px 3px 3px;
+    padding: 10px 10px 5px;
+  }
+
+  .device-frame--laptop .device-frame__screen {
+    border-radius: 2px;
+  }
+
+  .device-frame--laptop .device-frame__base {
+    width: 88%;
+    height: 8px;
+    background: linear-gradient(180deg, #3a3c40, #202124);
+    clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%);
+  }
+
+  /* Tablet/mobile: uniform bezel with a home-button dot */
+  .device-frame--tablet .device-frame__bezel,
+  .device-frame--mobile .device-frame__bezel {
+    border-radius: 20px;
+    padding: 16px 10px;
+  }
+
+  .device-frame--tablet .device-frame__screen,
+  .device-frame--mobile .device-frame__screen {
+    border-radius: 4px;
+  }
+
+  .device-frame--tablet {
+    max-width: 320px;
+  }
+
+  .device-frame--mobile {
+    max-width: 220px;
+  }
+
+  .device-frame--tablet .device-frame__button,
+  .device-frame--mobile .device-frame__button {
+    width: 8px;
+    height: 8px;
+    margin-top: 10px;
+    border-radius: 50%;
+    background: #3a3c40;
+  }
+</style>

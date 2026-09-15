@@ -1,0 +1,162 @@
+---
+// Horizontally-scrolling gallery with prev/next arrows, for image groups
+// the original site presented as a carousel (currently only microsite's
+// Wireframes/UI Design galleries - see HANDOFF.md). Native scroll-snap +
+// button-driven scrollBy, no carousel library, consistent with the rest of
+// the site's no-JS-framework approach (same pattern as Nav.astro's toggle).
+export interface Props {
+  label?: string;
+}
+
+const { label } = Astro.props;
+---
+
+<div class="carousel" data-carousel>
+  {label && <p class="carousel__label">{label}</p>}
+  <div class="carousel__frame">
+    <button
+      type="button"
+      class="carousel__arrow carousel__arrow--prev"
+      data-carousel-prev
+      aria-label={`Previous ${label ?? 'image'}`}
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+        <path
+          d="M15 5l-7 7 7 7"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </button>
+    <div
+      class="carousel__viewport"
+      data-carousel-viewport
+      tabindex="0"
+      role="group"
+      aria-label={label ?? 'Image gallery'}
+    >
+      <slot />
+    </div>
+    <button
+      type="button"
+      class="carousel__arrow carousel__arrow--next"
+      data-carousel-next
+      aria-label={`Next ${label ?? 'image'}`}
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+        <path
+          d="M9 5l7 7-7 7"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .carousel {
+    margin: var(--space-2) 0 var(--space-4);
+  }
+
+  .carousel__label {
+    font: 700 14px / 1 var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin: 0 0 var(--space-2);
+  }
+
+  .carousel__frame {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .carousel__viewport {
+    display: flex;
+    gap: var(--space-3);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 2px;
+  }
+
+  .carousel__viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel__viewport:focus-visible {
+    outline: 2px solid var(--action-primary-bg);
+    outline-offset: 2px;
+  }
+
+  .carousel__viewport :global(> *) {
+    flex: 0 0 clamp(220px, 34vw, 360px);
+    scroll-snap-align: start;
+  }
+
+  .carousel__arrow {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border-default);
+    background: var(--surface-page);
+    color: var(--text-body);
+    cursor: pointer;
+  }
+
+  .carousel__arrow:hover,
+  .carousel__arrow:focus-visible {
+    background: var(--surface-subtle);
+  }
+
+  .carousel__arrow:focus-visible {
+    outline: 2px solid var(--action-primary-bg);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 600px) {
+    .carousel__arrow {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function initCarousels() {
+    document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((carousel) => {
+      const viewport = carousel.querySelector<HTMLElement>('[data-carousel-viewport]');
+      const prev = carousel.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+      const next = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]');
+      if (!viewport || !prev || !next) return;
+
+      const step = () => {
+        const slide = viewport.querySelector<HTMLElement>(':scope > *');
+        return slide ? slide.getBoundingClientRect().width + 16 : viewport.clientWidth * 0.8;
+      };
+
+      prev.addEventListener('click', () => {
+        viewport.scrollBy({ left: -step(), behavior: 'smooth' });
+      });
+
+      next.addEventListener('click', () => {
+        viewport.scrollBy({ left: step(), behavior: 'smooth' });
+      });
+    });
+  }
+
+  initCarousels();
+</script>
