@@ -39,6 +39,20 @@ system (no Tailwind/framework). No JS framework — the one interactive piece
   we deliberately did _not_ adopt): https://jeremymonfries.com
 - **Planning docs:** `../rebuild-scope.md`, `../audit-report.md`,
   `../audit-findings.json` (one level up from this repo).
+- **GitHub repo:** `git@github.com-jmfolio:jeremymonfries/portfolio.git`
+  (remote name `origin`, branch `main`). Auth uses a dedicated SSH key
+  (`~/.ssh/id_ed25519_jmfolio`) with a scoped `Host github.com-jmfolio`
+  entry in `~/.ssh/config` — not the user's default GitHub identity, if
+  any exists.
+- **Deployed to Cloudflare Workers** (static assets, not classic Pages —
+  the current Cloudflare dashboard's "Connect to Git" flow for a new
+  project deploys as a Worker with `npx wrangler deploy`, reading
+  `wrangler.jsonc`'s `assets.directory` for the build output). Live at
+  `https://portfolio.flotsam-film-3c.workers.dev`; custom domain
+  (`jeremymonfries.com`) not yet attached. Build settings on Cloudflare:
+  build command `npm run build`, deploy command `npx wrangler deploy`,
+  env var `NODE_VERSION=22` (package.json pins `>=22.12.0`, no
+  `.nvmrc`/`.node-version` file exists to auto-detect it otherwise).
 
 ## Commands
 
@@ -102,7 +116,23 @@ optional — it's the whole point of the CI gate in
   - `ImageGrid.astro` — N-column grid for image groups that were
     originally shown side-by-side (not stacked), `cols` prop, images
     forced to `aspect-ratio: 4/3; object-fit: cover` for a uniform grid
-    regardless of source aspect ratio.
+    regardless of source aspect ratio. Also sets `min-width: 0` on its
+    grid children — required once `DeviceFrame` items (below) started
+    appearing inside it, see gotcha #9.
+  - `DeviceFrame.astro` — wraps a screenshot in a laptop/tablet/mobile
+    bezel (`variant` prop), matching the live site's device-mockup
+    treatment for UI-design screenshots (added because the rebuild was
+    initially showing them as bare images — see git history around
+    "Add DeviceFrame and Carousel components"). Screen area is a fixed
+    aspect ratio per variant (16/10, 4/3, 9/16) with the image
+    `object-fit: cover; object-position: top`, not shown at natural
+    height — several source screenshots are full-page captures up to
+    ~12,000px tall. See gotchas #7-9 for real bugs hit building this.
+  - `Carousel.astro` — horizontally-scrolling gallery with prev/next
+    arrows (native scroll-snap + button `scrollBy`, no library),
+    `label` prop. Currently only used by `microsite` (the only live
+    page found using an actual carousel rather than a static grid for
+    its device-mockup groups — see the device-type table below).
   - `StatBlock.astro` — single centered stat (value + label), used
     inside the dark full-bleed stats band in `[slug].astro`.
   - `Nav.astro` — persistent hamburger toggle + dropdown/full-screen
@@ -170,6 +200,44 @@ dev` often come back blank/white because the image hasn't finished
    invocation in a fresh Bash call needs
    `export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"`
    first, or it fails with `npm: command not found`.
+7. **`height: 100%` doesn't reliably resolve against a parent sized by
+   `aspect-ratio`.** Built `DeviceFrame`'s image-crop with
+   `.device-frame__screen { aspect-ratio: 16/10 }` and
+   `img { height: 100% }` expecting the image to fill and crop via
+   `object-fit: cover` — measured instead that the image rendered at its
+   own natural aspect ratio (ignoring the 100%), blowing the frame out to
+   the image's real proportions. Fixed by making the image
+   `position: absolute; inset: 0` (with `position: relative` on the
+   screen) instead of `width/height: 100%` — percentage sizing on an
+   absolutely-positioned element reliably resolves against its
+   positioned ancestor's padding box, sidestepping whatever made the
+   percentage-height case unreliable.
+8. **A transparent-PNG screenshot looked inverted/broken against a black
+   device-screen background.** One source image (`torque-drift/01.png`,
+   an IA diagram export) has a transparent background with only dark
+   line art — with `.device-frame__screen { background: #000 }` it
+   rendered as white-on-black, looking like a bug. Changed the screen
+   background to white; this is correct for every other screenshot too
+   (all of them are light-background UI, so the background color was
+   never actually visible before this one transparent exception).
+9. **`margin-inline: auto` on a CSS Grid item collapses it instead of
+   centering it, if the item also has a competing `max-width`.** Needed
+   a lone `DeviceFrame` (tablet/mobile) to center itself in the prose
+   column, so gave `.device-frame--tablet`/`--mobile` a `max-width` +
+   `margin-inline: auto`. Broke badly the moment a `DeviceFrame` sat
+   inside an `ImageGrid` next to other variants (norton-gamer mixes
+   laptop/tablet/mobile in one 3-column row): measured the tablet/mobile
+   grid columns collapsing to 20px while laptop absorbed the rest — auto
+   margins on a grid item make it size to its content instead of
+   stretching to its track, and the item's "content size" here was
+   near-zero once the image inside became `position: absolute` (gotcha
+   #7) and stopped contributing intrinsic size. Fixed by moving the
+   `max-width` one level deeper onto `.device-frame__bezel` (a normal
+   flex child, centered by the parent's existing
+   `align-items: center` — no `margin: auto` needed) instead of onto the
+   grid item itself, which is now never given a width constraint of its
+   own and stretches/sizes normally in any context (prose column, grid,
+   or carousel).
 
 ## Nav toggle history (why it looks the way it does)
 
@@ -190,24 +258,46 @@ had:
 
 ## Content status (as of this log)
 
-| Page                 | Status                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Home (`/`)           | Sidebar (photo/name/bio/skills/social) + case-study grid (8 published, 1 draft). Sidebar background panel was tried and reverted per user feedback — currently plain, no background.                                                                                                                                                                                                                                      |
-| About (`/about`)     | Full content migrated from the live site: intro, bio, skills, career history, countries lived in (includes PNG + Korea, added after initial migration), 6 expertise cards (styled as cards, not the live site's plain columns — deliberate enhancement), hobbies section.                                                                                                                                                 |
-| 9 case studies       | All have: hero image, TL;DR band, stats band (where the original had stat callouts), full narrative body content with images placed inline at their original position (not batched into one end-of-page gallery — this was corrected after an initial pass got it wrong), `ImageGrid` for original multi-column photo groups, `ListBand` for fact-lists (Tools/Skills/goals/learnings) where those existed in the source. |
-| `find-your-business` | Complete but `draft: true` — not live.                                                                                                                                                                                                                                                                                                                                                                                    |
+| Page                 | Status                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Home (`/`)           | Sidebar (photo/name/bio/skills) + case-study grid (8 published, 1 draft). Sidebar background panel was tried and reverted per user feedback; LinkedIn/Instagram links were removed per user request — currently just photo/name/role/bio/skills, no social links, no background.                                                                                                                                                                                                                                                                                |
+| About (`/about`)     | Full content migrated from the live site: intro, bio, skills, career history, countries lived in (includes PNG + Korea, added after initial migration), 6 expertise cards (styled as cards, not the live site's plain columns — deliberate enhancement), hobbies section.                                                                                                                                                                                                                                                                                       |
+| 8 case studies       | All have: hero image, TL;DR band, stats band (where the original had stat callouts), full narrative body content with images placed inline at their original position, `ImageGrid` for original multi-column photo groups, `ListBand` for fact-lists where those existed in the source, and (where the live site uses one) `DeviceFrame` laptop/tablet/mobile mockups — `Carousel` for microsite specifically, static `ImageGrid` grids for the rest. `blackwoods` and `design-system` intentionally have neither — the live site shows plain images there too. |
+| `find-your-business` | Complete but `draft: true` — not live. Not checked against a live-site device-mockup audit since it isn't a real project.                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+
+**Which case study uses which device types** (inferred from source screenshot
+pixel width — 375px=mobile, ~750/768px=tablet, ~900px=laptop — confirmed
+exactly against the live site's own `gallery-layout-module` classes for
+norton-gamer, homepage-redesign and ecommerce-checkout; comparison-chart and
+torque-drift were single-device-type already so lower-risk):
+
+| Case study         | Device types used                                                                                                                                  | Grouping                        |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| microsite          | laptop only                                                                                                                                        | `Carousel`                      |
+| norton-gamer       | laptop + tablet + mobile                                                                                                                           | static `ImageGrid`              |
+| ecommerce-checkout | laptop + mobile (two galleries)                                                                                                                    | static `ImageGrid`              |
+| homepage-redesign  | laptop + tablet (mixed row)                                                                                                                        | static `ImageGrid`              |
+| comparison-chart   | mobile only                                                                                                                                        | static `ImageGrid`              |
+| torque-drift       | laptop only, standalone inline (not grouped — matches the live site's individual `mockup scrollable` elements, no `gallery-layout-module` wrapper) | none, just inline `DeviceFrame` |
 
 ## Explicitly not done yet
 
-- Home page and case-study content have not been checked against the
-  live site for drift (only About was checked, see above).
-- No "pull quote" style component for the 3 case studies that are mostly
-  prose with only one or two images (`microsite`, `norton-gamer`,
-  `torque-drift`) — discussed with the user as an option, not requested.
+- Home page content has not been checked against the live site for
+  drift (only About and, separately, each case study's device-mockup
+  presentation were checked — see above). The live site's home page
+  wasn't compared paragraph-for-paragraph the way About was.
+- No "pull quote" style component for text-heavy case studies —
+  discussed with the user as an option, not requested.
 - Deleting the ~89 duplicate image files from the _original_ site's
   asset folder (not this repo) — was blocked on content migration
   completing; migration is now done, this hasn't been revisited.
-- Cloudflare Pages cutover — not started. CI (`.github/workflows/ci.yml`)
-  is green; this is the last step per `rebuild-scope.md`.
+- Custom domain (`jeremymonfries.com`) not yet attached to the
+  Cloudflare Worker — deployment itself is live (see "Where it lives"
+  above), this is the one remaining step per `rebuild-scope.md`.
 - Git commit identity resolves to `Jeremy Monfries <accelerate_pro@macbookpro.lan>`
   (auto-detected) — flagged early on as optional to fix, never addressed.
+- The tablet/laptop image-group split within `homepage-redesign`'s
+  "final designs" grid (which two images are tablet vs. which four are
+  laptop) was inferred from pixel width, not confirmed 1:1 against the
+  live site's DOM order the way norton-gamer was — worth a spot-check
+  if it ever looks off.
