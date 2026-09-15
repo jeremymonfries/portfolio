@@ -17,6 +17,7 @@ stats:
 order: 7
 ---
 
+import DeviceFrame from '../../components/DeviceFrame.astro';
 import ImageGrid from '../../components/ImageGrid.astro';
 import ListBand from '../../components/ListBand.astro';
 
@@ -53,7 +54,10 @@ My role on the project was lead designer, and I worked with the creative directo
   ]}
 />
 
-![Business requirements overview for the Norton homepage redesign](../../assets/case-studies/homepage-redesign/01.jpg)
+<DeviceFrame variant="laptop">
+  ![Business requirements overview for the Norton homepage
+  redesign](../../assets/case-studies/homepage-redesign/01.jpg)
+</DeviceFrame>
 
 ### The existing experience
 
@@ -65,7 +69,9 @@ The team created a number of wireframes to map out the structure and get consens
 
 The UX director initially created low-fidelity wireframes. After a number of iterations and discussions with stakeholders, we created high-fidelity wireframes and ran them through user testing.
 
-![Norton homepage wireframes](../../assets/case-studies/homepage-redesign/02.png)
+<DeviceFrame variant="laptop">
+  ![Norton homepage wireframes](../../assets/case-studies/homepage-redesign/02.png)
+</DeviceFrame>
 
 ### UI design
 
@@ -76,18 +82,33 @@ I was happy that the final product fulfilled the requirement for all sections of
 ## The final designs
 
 <ImageGrid cols={3}>
-![Final Norton homepage design (1 of 6)](../../assets/case-studies/homepage-redesign/03.jpg)
+<DeviceFrame variant="tablet">
+![Final Norton homepage design on tablet (1 of 2)](../../assets/case-studies/homepage-redesign/03.jpg)
+</DeviceFrame>
 
-![Final Norton homepage design (2 of 6)](../../assets/case-studies/homepage-redesign/04.jpg)
+<DeviceFrame variant="tablet">
+  ![Final Norton homepage design on tablet (2 of
+  2)](../../assets/case-studies/homepage-redesign/04.jpg)
+</DeviceFrame>
 
-![Final Norton homepage design (3 of 6)](../../assets/case-studies/homepage-redesign/05.jpg)
+<DeviceFrame variant="laptop">
+  ![Final Norton homepage design on desktop (1 of
+  4)](../../assets/case-studies/homepage-redesign/05.jpg)
+</DeviceFrame>
 
-![Final Norton homepage design (4 of 6)](../../assets/case-studies/homepage-redesign/06.jpg)
+<DeviceFrame variant="laptop">
+  ![Final Norton homepage design on desktop (2 of
+  4)](../../assets/case-studies/homepage-redesign/06.jpg)
+</DeviceFrame>
 
-![Final Norton homepage design (5 of 6)](../../assets/case-studies/homepage-redesign/07.jpg)
+<DeviceFrame variant="laptop">
+  ![Final Norton homepage design on desktop (3 of
+  4)](../../assets/case-studies/homepage-redesign/07.jpg)
+</DeviceFrame>
 
-![Final Norton homepage design (6 of 6)](../../assets/case-studies/homepage-redesign/08.jpg)
-
+<DeviceFrame variant="laptop">
+![Final Norton homepage design on desktop (4 of 4)](../../assets/case-studies/homepage-redesign/08.jpg)
+</DeviceFrame>
 </ImageGrid>
 
 ## Some learnings

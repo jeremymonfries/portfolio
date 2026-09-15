@@ -17,6 +17,7 @@ stats:
 order: 8
 ---
 
+import DeviceFrame from '../../components/DeviceFrame.astro';
 import ImageGrid from '../../components/ImageGrid.astro';
 
 ### Customers love comparison charts
@@ -46,7 +47,10 @@ It was important to benchmark what other competitors were doing, so we did an an
 
 Initially it was useful to put together some wireframes to quickly figure out how the page would come together. I created low-fidelity wireframes to map out how the configurable comparison chart could work, using Figma both for the wireframes and to create quick prototypes to test the interactions of the drop-downs and informational expanders. I also wanted to run them through user testing. I went through three iterations before landing on a set I was confident would work.
 
-![Low-fidelity wireframe for the configurable mobile comparison chart](../../assets/case-studies/comparison-chart/07.jpg)
+<DeviceFrame variant="mobile">
+  ![Low-fidelity wireframe for the configurable mobile comparison
+  chart](../../assets/case-studies/comparison-chart/07.jpg)
+</DeviceFrame>
 
 ### User testing
 
@@ -54,7 +58,10 @@ Before going too far with the idea I wanted to validate it with user testing. We
 
 Test users responded favourably: they liked the pinned product name and pricing, the expandable features, and the switchable side-by-side products. It was promising validation of the core ideas and gave me confidence to continue.
 
-![Comparison chart prototype used in qualitative user testing](../../assets/case-studies/comparison-chart/08.jpg)
+<DeviceFrame variant="mobile">
+  ![Comparison chart prototype used in qualitative user
+  testing](../../assets/case-studies/comparison-chart/08.jpg)
+</DeviceFrame>
 
 ### UI design
 
@@ -63,10 +70,13 @@ The visual style had to adhere to the existing brand and style of the website. A
 Customers exploring the site needed a seamless experience which inspired confidence and helped them make an informed purchasing decision. Being able to compare different products side-by-side helped customers quickly understand the differences between our offerings and make the right purchase for their situation — helping users make informed choices helps achieve business goals through less confusion and more traffic to conversion.
 
 <ImageGrid cols={2}>
+<DeviceFrame variant="mobile">
 ![Comparison chart UI design on mobile (1 of 2)](../../assets/case-studies/comparison-chart/09.jpg)
+</DeviceFrame>
 
+<DeviceFrame variant="mobile">
 ![Comparison chart UI design on mobile (2 of 2)](../../assets/case-studies/comparison-chart/10.jpg)
-
+</DeviceFrame>
 </ImageGrid>
 
 ### A/B testing

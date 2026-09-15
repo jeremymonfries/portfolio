@@ -2,9 +2,11 @@
 // Wraps a single screenshot in a laptop/tablet/mobile bezel so UI-design
 // screenshots read as "a design on a device" rather than a bare image -
 // matches the original site's device-mockup treatment (see HANDOFF.md).
-// The slotted content (typically a markdown image, Astro-optimized) is
-// shown at its natural size inside the bezel - no forced aspect-ratio, so
-// screenshots aren't cropped.
+// The screen area is a fixed aspect ratio per variant with the image
+// cropped to the top (object-fit: cover) rather than shown at natural
+// height - several source screenshots are full-page captures up to
+// ~12,000px tall (pre-resized per HANDOFF.md's image gotcha), which would
+// otherwise blow the frame out to an absurd height.
 export interface Props {
   variant?: 'laptop' | 'tablet' | 'mobile';
 }
@@ -36,15 +38,29 @@ const { variant = 'laptop' } = Astro.props;
   }
 
   .device-frame__screen {
-    background: #000;
+    position: relative;
+    /* White, not black: a couple of source screenshots (diagram exports)
+       are transparent PNGs, and a black screen behind a transparent
+       diagram reads as broken/inverted rather than "off". */
+    background: #fff;
     overflow: hidden;
-    line-height: 0;
   }
 
-  .device-frame__screen :global(img) {
+  /* Absolutely positioned + inset: 0 rather than width/height: 100%, since
+     percentage height doesn't reliably resolve against a parent whose own
+     height comes from `aspect-ratio` (measured: img stayed at its natural
+     ratio instead of filling the frame). Two classes deep so this reliably
+     beats ImageGrid's own `.image-grid :global(img)` rule when a
+     DeviceFrame is nested inside an ImageGrid (mixed device-type groups,
+     e.g. homepage-redesign). */
+  .device-frame .device-frame__screen :global(img) {
     display: block;
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
   }
 
   /* Laptop: wide bezel + a thin trapezoid "base" below to read as a hinge */
@@ -54,6 +70,7 @@ const { variant = 'laptop' } = Astro.props;
   }
 
   .device-frame--laptop .device-frame__screen {
+    aspect-ratio: 16 / 10;
     border-radius: 2px;
   }
 
@@ -71,16 +88,29 @@ const { variant = 'laptop' } = Astro.props;
     padding: 16px 10px;
   }
 
-  .device-frame--tablet .device-frame__screen,
-  .device-frame--mobile .device-frame__screen {
+  .device-frame--tablet .device-frame__screen {
+    aspect-ratio: 4 / 3;
     border-radius: 4px;
   }
 
-  .device-frame--tablet {
+  .device-frame--mobile .device-frame__screen {
+    aspect-ratio: 9 / 16;
+    border-radius: 4px;
+  }
+
+  /* The width cap lives on __bezel (a normal flex child, centered by the
+     parent's `align-items: center`), not on .device-frame itself - putting
+     max-width + margin-inline: auto on the grid/flex ITEM triggers CSS
+     Grid's auto-margin sizing behavior, which shrinks the item to its
+     content size instead of stretching to its track (measured: collapsed
+     a mixed laptop/tablet/mobile ImageGrid row's tablet/mobile columns to
+     20px). Capping __bezel instead centers a lone frame in the prose
+     column while leaving the outer grid item free to size normally. */
+  .device-frame--tablet .device-frame__bezel {
     max-width: 320px;
   }
 
-  .device-frame--mobile {
+  .device-frame--mobile .device-frame__bezel {
     max-width: 220px;
   }
 

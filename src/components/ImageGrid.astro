@@ -22,6 +22,16 @@ const { cols = 3 } = Astro.props;
     margin: var(--space-2) 0 var(--space-4);
   }
 
+  /* Grid items default to min-width: auto, sizing 1fr tracks off each
+     item's own content instead of dividing space equally - harmless for
+     plain images, but breaks badly once items are DeviceFrames with
+     different max-widths (laptop/tablet/mobile mixed in one row, e.g.
+     norton-gamer): measured the tablet/mobile columns collapsing to 20px
+     while laptop took the rest. min-width: 0 is the standard fix. */
+  .image-grid > :global(*) {
+    min-width: 0;
+  }
+
   .image-grid :global(img) {
     margin: 0;
     width: 100%;

@@ -8,6 +8,7 @@ heroImage:
 order: 9
 ---
 
+import DeviceFrame from '../../components/DeviceFrame.astro';
 import ImageGrid from '../../components/ImageGrid.astro';
 
 NortonLifeLock was launching a new global product specifically targeted at the gamer demographic. This customer segment had unique requirements around performance that weren't being serviced by our other products. Gamers have a greater need for security due to their exposure to multiple attack vectors and their investment in digital assets and identities — and speed is key, so they needed software optimised to have as little impact on computer performance as possible. With the new product, the business needed a landing page that would resonate with this tricky market segment. I worked on the visual design and UX in conjunction with a copywriter and liaised directly with the lead stakeholder for the project.
@@ -35,12 +36,18 @@ The page needed to work on multiple devices, so I used a responsive/adaptive hyb
 Imagery was chosen to resonate with gamers and potentially appeal to our existing customers too — we used images of real gamers from within the company, and enlisted the help of Twitch streamers with active sponsorships and promos. We surfaced relevant product information directly and displayed more detailed information via accordions.
 
 <ImageGrid cols={3}>
-![Norton Gamer product page visual design (1 of 3)](../../assets/case-studies/norton-gamer/02.jpg)
+<DeviceFrame variant="laptop">
+![Norton Gamer product page visual design on desktop](../../assets/case-studies/norton-gamer/02.jpg)
+</DeviceFrame>
 
-![Norton Gamer product page visual design (2 of 3)](../../assets/case-studies/norton-gamer/03.jpg)
+<DeviceFrame variant="tablet">
+  ![Norton Gamer product page visual design on
+  tablet](../../assets/case-studies/norton-gamer/03.jpg)
+</DeviceFrame>
 
-![Norton Gamer product page visual design (3 of 3)](../../assets/case-studies/norton-gamer/04.jpg)
-
+<DeviceFrame variant="mobile">
+![Norton Gamer product page visual design on mobile](../../assets/case-studies/norton-gamer/04.jpg)
+</DeviceFrame>
 </ImageGrid>
 
 ## Final thoughts
