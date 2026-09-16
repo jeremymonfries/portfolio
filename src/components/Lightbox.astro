@@ -1,0 +1,120 @@
+---
+// Single shared <dialog>, mounted once in BaseLayout so every page gets
+// click-to-enlarge for free. DeviceFrame renders a small expand button on
+// each frame (data-lightbox-trigger); clicking it reads the frame's own
+// screenshot <img> and reopens this dialog with that image at a much
+// larger size. Native <dialog> + showModal() for free focus trapping,
+// Escape-to-close and a backdrop, rather than reimplementing those.
+---
+
+<dialog id="lightbox" class="lightbox" aria-label="Enlarged screenshot">
+  <button type="button" class="lightbox__close" data-lightbox-close aria-label="Close">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+      <path
+        d="M6 6l12 12M18 6L6 18"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      ></path>
+    </svg>
+  </button>
+  <img class="lightbox__image" data-lightbox-image alt="" />
+</dialog>
+
+<style>
+  .lightbox {
+    max-width: min(94vw, 1400px);
+    max-height: 92vh;
+    margin: auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .lightbox::backdrop {
+    background: rgba(0, 0, 0, 0.82);
+  }
+
+  .lightbox__image {
+    display: block;
+    max-width: min(94vw, 1400px);
+    max-height: 92vh;
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .lightbox__close {
+    position: fixed;
+    top: var(--space-3);
+    right: var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-body);
+    cursor: pointer;
+  }
+
+  .lightbox__close:hover,
+  .lightbox__close:focus-visible {
+    background: #fff;
+  }
+
+  .lightbox__close:focus-visible {
+    outline: 2px solid var(--action-primary-bg);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  function initLightbox() {
+    const dialog = document.querySelector<HTMLDialogElement>('#lightbox');
+    const image = dialog?.querySelector<HTMLImageElement>('[data-lightbox-image]');
+    const closeBtn = dialog?.querySelector<HTMLButtonElement>('[data-lightbox-close]');
+    if (!dialog || !image || !closeBtn) return;
+
+    document.addEventListener('click', (event) => {
+      const trigger = (event.target as HTMLElement).closest<HTMLElement>('[data-lightbox-trigger]');
+      if (!trigger) return;
+      const frame = trigger.closest('.device-frame');
+      const sourceImg = frame?.querySelector<HTMLImageElement>('.device-frame__screen img');
+      if (!sourceImg) return;
+      image.src = sourceImg.currentSrc || sourceImg.src;
+      image.alt = sourceImg.alt;
+      dialog.showModal();
+    });
+
+    closeBtn.addEventListener('click', () => dialog.close());
+
+    // Clicking the backdrop (not the dialog's own content) closes it -
+    // a click on the backdrop still targets the <dialog> element itself,
+    // since it's outside the actual rendered content box.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    // Explicit Escape handler as a defensive fallback alongside the
+    // native <dialog> Escape-to-close behavior (which showModal() should
+    // already provide) - belt and braces, since that native behavior is
+    // a UA default action some environments don't reliably trigger for.
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        dialog.close();
+      }
+    });
+
+    dialog.addEventListener('close', () => {
+      image.src = '';
+    });
+  }
+
+  initLightbox();
+</script>
