@@ -53,6 +53,14 @@ const { variant = 'laptop', label } = Astro.props;
     background: #fff;
     overflow-x: hidden;
     overflow-y: auto;
+    /* Defensive: CSS scroll anchoring can silently shift an overflow
+       container's scrollTop to compensate for layout shifts elsewhere on
+       the page (e.g. lazy-loaded images resolving their real height) -
+       exactly the shape of "starts scrolled partway, can't get back to
+       the top" reports. Not reproduced in scripted testing, but there's
+       no reason to leave it enabled on a container whose whole point is
+       showing content from the top. */
+    overflow-anchor: none;
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
   }

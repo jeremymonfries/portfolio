@@ -4,6 +4,13 @@
 // Wireframes/UI Design galleries - see HANDOFF.md). Native scroll-snap +
 // button-driven scrollBy, no carousel library, consistent with the rest of
 // the site's no-JS-framework approach (same pattern as Nav.astro's toggle).
+// Matches the original's actual layout: its carousel wraps into a 2-row
+// grid per "page" (3 columns of 2 stacked mockups, then the next page of
+// columns), not a single long horizontal strip - checked directly via the
+// live site's gallery-carousel DOM. Built with CSS Grid's column
+// auto-flow (2 explicit rows, grid-auto-flow: column) so slides pair up
+// top/bottom automatically in source order, no per-page wrapper markup
+// needed in the .mdx content.
 export interface Props {
   label?: string;
 }
@@ -81,7 +88,10 @@ const { label } = Astro.props;
   }
 
   .carousel__viewport {
-    display: flex;
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+    grid-auto-columns: clamp(220px, 34vw, 360px);
     gap: var(--space-3);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -100,8 +110,18 @@ const { label } = Astro.props;
   }
 
   .carousel__viewport :global(> *) {
-    flex: 0 0 clamp(220px, 34vw, 360px);
+    min-width: 0;
     scroll-snap-align: start;
+  }
+
+  @media (max-width: 700px) {
+    /* Single row on mobile - two stacked device frames per column reads
+       fine at desktop widths but is cramped on a small screen, so this
+       drops back to one full-size frame at a time. */
+    .carousel__viewport {
+      grid-template-rows: none;
+      grid-auto-columns: 80vw;
+    }
   }
 
   .carousel__arrow {
