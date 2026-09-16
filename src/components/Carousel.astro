@@ -92,10 +92,23 @@ const { label } = Astro.props;
   }
 
   .carousel__viewport {
+    /* Without an explicit flex-basis, this had no definite width of its
+       own to grow into (default flex: 0 1 auto sizes from content) - and
+       since grid-auto-columns below is a percentage OF that width, the
+       two were circularly dependent and collapsed to near-nothing
+       (measured directly: frames shrank to ~20px). flex: 1 1 0 forces it
+       to actually claim the space between the two arrows first. */
+    flex: 1 1 0;
+    min-width: 0;
     display: grid;
     grid-template-rows: repeat(2, auto);
     grid-auto-flow: column;
-    grid-auto-columns: clamp(240px, 30vw, 420px);
+    /* Exactly 2 columns visible per page (not "however many happen to
+       fit") - user feedback was explicit that the designs need to be big
+       enough to actually read. Percentage-based so it's 2 real columns
+       of the container's own width, not vw (which ignores how much of
+       the viewport this carousel itself actually occupies). */
+    grid-auto-columns: calc((100% - var(--space-3)) / 2);
     gap: var(--space-3);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
