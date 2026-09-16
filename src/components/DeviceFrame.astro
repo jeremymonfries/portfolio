@@ -121,10 +121,17 @@ const { variant = 'laptop', label } = Astro.props;
     border-radius: 2px;
   }
 
+  /* Fixed-pixel overhang, not a percentage: at 6% each side, a ~320px
+     column overhangs ~19px into a 24px grid gap on both sides at once -
+     adjacent columns' bases collided and clipped each other (measured
+     directly: column 1's base right edge past column 2's base left
+     edge). A small constant overhang reads as the same "wider than the
+     lid" detail without ever exceeding the gap, regardless of column
+     width. */
   .device-frame--laptop .device-frame__base {
     position: relative;
-    width: 112%;
-    margin-inline: -6%;
+    width: calc(100% + 16px);
+    margin-inline: -8px;
     height: 10px;
     background: linear-gradient(180deg, #f7f8f9, #dcdee0);
     border: 1px solid rgba(0, 0, 0, 0.1);
