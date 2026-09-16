@@ -17,9 +17,20 @@
 //   iphone-portrait.png:  screen inset  top/bottom 2.3%, left/right 5.3%
 //   iphone-landscape.png: screen inset  top/bottom 5.3%, left/right 2.3%
 //   (landscape is the portrait art rotated 90°, so the insets transpose.)
-//   laptop.png: screen inset top 6.2%, right 12.3%, bottom 20%, left 12.1%
+//   laptop.png: screen inset top 6%, right 12.1%, bottom 19.8%, left 12.1%
 //   (bottom inset is much bigger than top - that's the keyboard deck/base
 //   below the actual screen, baked into the same image.)
+//
+// Export gotcha: sharp's `png({ palette: true })` (used for file size)
+// quantizes colour, and does it badly on partially-transparent edge
+// pixels - it was writing a garbage mid-grey RGB (measured: 76,105,113)
+// into pixels that should have been black-but-transparent. Composited
+// over a light part of a screenshot, that read as a thin light/white
+// line right at the inside edge of the frame. Confirmed directly against
+// the untouched source files that they don't have this - re-exporting
+// without `palette: true` keeps the transparent-adjacent RGB at the
+// correct (0,0,0) and the line is gone. Don't add palette mode back to
+// these three exports.
 //
 // tablet is still CSS-drawn (no real asset for it yet) - see the
 // aspect-ratio-as-viewport-window comment further down for how that
@@ -215,7 +226,7 @@ const screenAttrs = fit
 
   .device-frame--laptop .device-frame__screen {
     position: absolute;
-    inset: 6.2% 12.3% 20% 12.1%;
+    inset: 6% 12.1% 19.8% 12.1%;
     border-radius: 2px;
   }
 
