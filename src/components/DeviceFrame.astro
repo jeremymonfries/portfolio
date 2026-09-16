@@ -2,21 +2,30 @@
 // Wraps a single screenshot in a laptop/tablet/mobile bezel so UI-design
 // screenshots read as "a design on a device" rather than a bare image -
 // matches the original site's device-mockup treatment (see HANDOFF.md).
-// The screen area is a fixed aspect ratio per variant with the image
-// cropped to the top (object-fit: cover) rather than shown at natural
-// height - several source screenshots are full-page captures up to
-// ~12,000px tall (pre-resized per HANDOFF.md's image gotcha), which would
-// otherwise blow the frame out to an absurd height.
+// The screen area is a fixed aspect ratio per variant acting as a
+// viewport window, not a crop: the image is shown at its full natural
+// height and the window scrolls (overflow-y: auto) to reveal the rest.
+// This matches the live site's own ".mockup.scrollable" behavior
+// (confirmed: scrolling over one of their laptop frames scrolls the
+// screenshot inside the frame, not the page) and is why several source
+// screenshots are full-page captures up to ~12,000px tall - the whole
+// page stays reachable instead of only the top being visible.
 export interface Props {
   variant?: 'laptop' | 'tablet' | 'mobile';
+  label?: string;
 }
 
-const { variant = 'laptop' } = Astro.props;
+const { variant = 'laptop', label } = Astro.props;
 ---
 
 <div class={`device-frame device-frame--${variant}`}>
   <div class="device-frame__bezel">
-    <div class="device-frame__screen">
+    <div
+      class="device-frame__screen"
+      tabindex="0"
+      role="group"
+      aria-label={label ?? 'Screenshot, scroll to see more'}
+    >
       <slot />
     </div>
   </div>
@@ -38,29 +47,40 @@ const { variant = 'laptop' } = Astro.props;
   }
 
   .device-frame__screen {
-    position: relative;
     /* White, not black: a couple of source screenshots (diagram exports)
        are transparent PNGs, and a black screen behind a transparent
        diagram reads as broken/inverted rather than "off". */
     background: #fff;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
   }
 
-  /* Absolutely positioned + inset: 0 rather than width/height: 100%, since
-     percentage height doesn't reliably resolve against a parent whose own
-     height comes from `aspect-ratio` (measured: img stayed at its natural
-     ratio instead of filling the frame). Two classes deep so this reliably
-     beats ImageGrid's own `.image-grid :global(img)` rule when a
-     DeviceFrame is nested inside an ImageGrid (mixed device-type groups,
-     e.g. homepage-redesign). */
+  .device-frame__screen::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .device-frame__screen::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+  }
+
+  .device-frame__screen:focus-visible {
+    outline: 2px solid var(--action-primary-bg);
+    outline-offset: -2px;
+  }
+
+  /* Natural width/height (no object-fit crop) - the screen's fixed
+     aspect-ratio caps what's visible without scrolling, and the rest of
+     a tall screenshot scrolls into view. Two classes deep so this
+     reliably beats ImageGrid's own `.image-grid :global(img)` rule when
+     a DeviceFrame is nested inside an ImageGrid (mixed device-type
+     groups, e.g. homepage-redesign). */
   .device-frame .device-frame__screen :global(img) {
     display: block;
-    position: absolute;
-    inset: 0;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
+    height: auto;
   }
 
   /* Laptop: wide bezel + a thin trapezoid "base" below to read as a hinge */
