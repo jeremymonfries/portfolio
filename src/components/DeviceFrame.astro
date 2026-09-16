@@ -145,13 +145,22 @@ const screenAttrs = fit
      leaves them in effect regardless of specificity (CSS cascades per
      property, not per rule). That silently center-crops the screenshot to
      a 4:3 box before the scroll viewport even comes into play. Reset both
-     explicitly. */
+     explicitly.
+     margin/border-radius reset for the same reason: `.case-body
+     :global(img)` (the page's default prose-image styling) sets
+     `margin: 16px 0 32px; border-radius: 8px` on every img in the body
+     text, screenshots inside a device frame included - measured a
+     consistent 16px gap at the top of every laptop frame's screen from
+     exactly this, even though width/height/aspect-ratio/object-fit were
+     already reset. */
   .device-frame .device-frame__screen :global(img) {
     display: block;
     width: 100%;
     height: auto;
     aspect-ratio: auto;
     object-fit: unset;
+    margin: 0;
+    border-radius: 0;
   }
 
   /* `fit` mode: the screenshot is one complete screen, not a tall page
