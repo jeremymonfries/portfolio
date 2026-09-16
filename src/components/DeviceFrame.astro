@@ -1,37 +1,68 @@
 ---
-// Wraps a single screenshot in a laptop/tablet/mobile bezel so UI-design
-// screenshots read as "a design on a device" rather than a bare image -
-// matches the original site's device-mockup treatment (see HANDOFF.md).
-// The screen area is a fixed aspect ratio per variant acting as a
-// viewport window, not a crop: the image is shown at its full natural
-// height and the window scrolls (overflow-y: auto) to reveal the rest.
-// This matches the live site's own ".mockup.scrollable" behavior
-// (confirmed: scrolling over one of their laptop frames scrolls the
-// screenshot inside the frame, not the page) and is why several source
-// screenshots are full-page captures up to ~12,000px tall - the whole
-// page stays reachable instead of only the top being visible.
+// Wraps a single screenshot in a device frame so UI-design screenshots
+// read as "a design on a device" rather than a bare image - matches the
+// original site's device-mockup treatment (see HANDOFF.md).
+//
+// mobile/mobile-landscape use real photorealistic mockup PNGs (user-
+// supplied "Apple iPhone 16 Black" renders) instead of a CSS-drawn bezel -
+// after repeated rounds of the hand-drawn laptop/tablet/mobile shapes
+// looking like "a weird hybrid" of devices, real mockup art was the right
+// fix, not more CSS tuning. The screenshot sits in an absolutely-
+// positioned box behind the frame PNG, sized to the frame's actual
+// transparent screen cutout - measured directly from each PNG's alpha
+// channel (scanned the center row/column for transparent-region bounds)
+// rather than guessed, since the cutout isn't a round number and the
+// source files have no metadata for it:
+//   iphone-portrait.png:  screen inset  top/bottom 2.3%, left/right 5.3%
+//   iphone-landscape.png: screen inset  top/bottom 5.3%, left/right 2.3%
+// (landscape is the portrait art rotated 90°, so the insets transpose.)
+//
+// laptop/tablet are still CSS-drawn (no real asset for those yet) - see
+// the aspect-ratio-as-viewport-window comment further down for how those
+// two work.
 export interface Props {
-  variant?: 'laptop' | 'tablet' | 'mobile';
+  variant?: 'laptop' | 'tablet' | 'mobile' | 'mobile-landscape';
   label?: string;
 }
 
 const { variant = 'laptop', label } = Astro.props;
+const isPhoto = variant === 'mobile' || variant === 'mobile-landscape';
+const hasBase = variant === 'laptop';
+const hasButton = variant === 'tablet';
+const screenLabel = label ?? 'Screenshot, scroll to see more';
 ---
 
-<div class={`device-frame device-frame--${variant}`}>
-  <div class="device-frame__bezel">
-    <div
-      class="device-frame__screen"
-      tabindex="0"
-      role="group"
-      aria-label={label ?? 'Screenshot, scroll to see more'}
-    >
-      <slot />
+{isPhoto ? (
+  <div class={`device-frame device-frame--${variant}`}>
+    <div class="device-frame__photo">
+      <div class="device-frame__screen" tabindex="0" role="group" aria-label={screenLabel}>
+        <slot />
+      </div>
+      <img
+        class="device-frame__overlay"
+        src={
+          variant === 'mobile'
+            ? '/device-frames/iphone-portrait.png'
+            : '/device-frames/iphone-landscape.png'
+        }
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+      />
     </div>
   </div>
-  {variant === 'laptop' && <div class="device-frame__base" aria-hidden="true"></div>}
-  {variant !== 'laptop' && <div class="device-frame__button" aria-hidden="true"></div>}
-</div>
+) : (
+  <div class={`device-frame device-frame--${variant}`}>
+    <div class="device-frame__bezel">
+      <div class="device-frame__screen" tabindex="0" role="group" aria-label={screenLabel}>
+        <slot />
+      </div>
+    </div>
+    {hasBase && <div class="device-frame__base" aria-hidden="true" />}
+    {hasButton && <div class="device-frame__button" aria-hidden="true" />}
+  </div>
+)}
 
 <style>
   .device-frame {
@@ -40,12 +71,15 @@ const { variant = 'laptop', label } = Astro.props;
     align-items: center;
   }
 
-  .device-frame__bezel {
-    width: 100%;
-    background: linear-gradient(180deg, #3a3c40, #1c1d20);
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.16);
-  }
-
+  /* Shared scroll-viewport behavior for every variant's screen area,
+     photo-framed or CSS-drawn. The screen shows the screenshot at full
+     natural height (not cropped) inside a fixed-aspect-ratio window that
+     scrolls (overflow-y: auto) to reveal the rest - matches the live
+     site's own ".mockup.scrollable" behavior (confirmed directly:
+     scrolling over one of their laptop frames scrolls the screenshot
+     inside the frame, not the page), and is why several source
+     screenshots are full-page captures up to ~12,000px tall - the whole
+     page stays reachable instead of only the top being visible. */
   .device-frame__screen {
     /* White, not black: a couple of source screenshots (diagram exports)
        are transparent PNGs, and a black screen behind a transparent
@@ -57,14 +91,11 @@ const { variant = 'laptop', label } = Astro.props;
        container's scrollTop to compensate for layout shifts elsewhere on
        the page (e.g. lazy-loaded images resolving their real height) -
        exactly the shape of "starts scrolled partway, can't get back to
-       the top" reports. Not reproduced in scripted testing, but there's
-       no reason to leave it enabled on a container whose whole point is
-       showing content from the top. */
+       the top" reports. */
     overflow-anchor: none;
     /* Stop this container's own scroll from chaining to the page (or, in
        a carousel, to the horizontal viewport) once it hits its own top or
-       bottom edge - reduces surprising cross-talk between this vertical
-       scroll and any scrollable ancestor. */
+       bottom edge. */
     overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
@@ -84,19 +115,16 @@ const { variant = 'laptop', label } = Astro.props;
     outline-offset: -2px;
   }
 
-  /* Natural width/height (no object-fit crop) - the screen's fixed
-     aspect-ratio caps what's visible without scrolling, and the rest of
-     a tall screenshot scrolls into view. Two classes deep so this
-     reliably beats ImageGrid's own `.image-grid :global(img)` rule when
-     a DeviceFrame is nested inside an ImageGrid (mixed device-type
-     groups, e.g. homepage-redesign) - but width/height alone isn't
-     enough: ImageGrid also sets `aspect-ratio: 4/3; object-fit: cover`
-     on every img it contains, and since this rule never touched those
-     two properties they kept applying regardless of specificity (CSS
-     cascades per property, not per rule). That silently center-cropped
-     every screenshot to a 4:3 box before the scroll viewport even came
-     into play - the "can't scroll to the real top" bug was this, not
-     the scroll container. Must reset both explicitly. */
+  /* Natural width/height (no object-fit crop) - two classes deep so this
+     reliably beats ImageGrid's own `.image-grid :global(img)` rule when a
+     DeviceFrame is nested inside an ImageGrid (mixed device-type groups,
+     e.g. homepage-redesign) - but width/height alone isn't enough:
+     ImageGrid also sets `aspect-ratio: 4/3; object-fit: cover` on every
+     img it contains, and a rule that never touches those two properties
+     leaves them in effect regardless of specificity (CSS cascades per
+     property, not per rule). That silently center-crops the screenshot to
+     a 4:3 box before the scroll viewport even comes into play. Reset both
+     explicitly. */
   .device-frame .device-frame__screen :global(img) {
     display: block;
     width: 100%;
@@ -105,19 +133,74 @@ const { variant = 'laptop', label } = Astro.props;
     object-fit: unset;
   }
 
+  /* --- Photo-framed variants (mobile, mobile-landscape) --- */
+
+  .device-frame--mobile .device-frame__photo,
+  .device-frame--mobile-landscape .device-frame__photo {
+    position: relative;
+    width: 100%;
+  }
+
+  .device-frame--mobile .device-frame__photo {
+    max-width: 220px;
+    aspect-ratio: 440 / 896;
+  }
+
+  .device-frame--mobile-landscape .device-frame__photo {
+    aspect-ratio: 900 / 442;
+  }
+
+  .device-frame--mobile .device-frame__screen {
+    position: absolute;
+    inset: 2.3% 5.3%;
+    border-radius: 28px;
+  }
+
+  .device-frame--mobile-landscape .device-frame__screen {
+    position: absolute;
+    inset: 5.3% 2.3%;
+    border-radius: 22px;
+  }
+
+  /* Same ImageGrid aspect-ratio/object-fit leak as the screenshot img
+     (see the big comment above) hits this decorative overlay img too,
+     since it's just as much a descendant of .image-grid - reset the
+     same properties here. */
+  .device-frame .device-frame__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    object-fit: fill;
+    margin: 0;
+    /* The frame art sits on top with a transparent screen cutout showing
+       the real screenshot through it - pointer-events: none so clicks
+       and wheel scrolling still reach .device-frame__screen underneath. */
+    pointer-events: none;
+  }
+
+  /* --- CSS-drawn variants (laptop, tablet) - no real mockup asset yet --- */
+
+  .device-frame__bezel {
+    width: 100%;
+    background: linear-gradient(180deg, #3a3c40, #1c1d20);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.16);
+  }
+
   /* Laptop: light/silver body (checked against the live site's actual
      laptop-mockup SVG - it's a white/near-white chassis with a thin
-     screen border, not a dark bezel; dark only reads right on
-     tablet/mobile, which are genuinely dark-chassis devices). A border +
-     shadow gives it an edge against a white page, since white-on-white
-     alone has no visible boundary. The base below is wider than the
-     screen (a real laptop's keyboard deck overhangs the lid) with a
-     small centered notch standing in for the trackpad/hinge detail. */
+     screen border, not a dark bezel). Mostly-square corners (a real
+     laptop lid isn't as rounded as a tablet) plus a clearly separate,
+     distinctly-shaded base bar are what read as "laptop" rather than
+     "tablet" - the base stays the same width as the bezel (no overhang -
+     see two rounds of edge-clipping bugs that caused), so the shape cue
+     has to come from color/weight, not from literally being wider. */
   .device-frame--laptop .device-frame__bezel {
     background: #f4f5f6;
     border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 10px 10px 3px 3px;
-    padding: 10px 10px 6px;
+    border-radius: 4px 4px 0 0;
+    padding: 8px 8px 0;
   }
 
   .device-frame--laptop .device-frame__screen {
@@ -126,20 +209,15 @@ const { variant = 'laptop', label } = Astro.props;
     border-radius: 2px;
   }
 
-  /* Flush with the bezel, no overhang - an overhanging base (tried at
-     both a 6% and a fixed-8px margin) kept colliding with or being
-     clipped by whatever sits next to it (adjacent carousel/grid columns,
-     or the edge of the scroll container for the first/last item, which
-     has no gap to absorb an overhang into). Not worth the visual
-     flourish given two rounds of edge-clipping bugs from it. */
   .device-frame--laptop .device-frame__base {
     position: relative;
     width: 100%;
-    height: 10px;
-    background: linear-gradient(180deg, #f7f8f9, #dcdee0);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-top: none;
-    border-radius: 0 0 6px 6px;
+    height: 16px;
+    background: linear-gradient(180deg, #e2e4e6, #c7cacd);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 5px 5px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
   }
 
   .device-frame--laptop .device-frame__base::after {
@@ -147,27 +225,21 @@ const { variant = 'laptop', label } = Astro.props;
     position: absolute;
     top: -1px;
     left: 50%;
-    width: 15%;
-    height: 3px;
-    background: rgba(0, 0, 0, 0.12);
-    border-radius: 0 0 6px 6px;
+    width: 18%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 0 0 4px 4px;
     transform: translateX(-50%);
   }
 
-  /* Tablet/mobile: uniform bezel with a home-button dot */
-  .device-frame--tablet .device-frame__bezel,
-  .device-frame--mobile .device-frame__bezel {
+  /* Tablet: uniform bezel with a home-button dot */
+  .device-frame--tablet .device-frame__bezel {
     border-radius: 20px;
     padding: 16px 10px;
   }
 
   .device-frame--tablet .device-frame__screen {
     aspect-ratio: 4 / 3;
-    border-radius: 4px;
-  }
-
-  .device-frame--mobile .device-frame__screen {
-    aspect-ratio: 9 / 16;
     border-radius: 4px;
   }
 
@@ -183,12 +255,7 @@ const { variant = 'laptop', label } = Astro.props;
     max-width: 320px;
   }
 
-  .device-frame--mobile .device-frame__bezel {
-    max-width: 220px;
-  }
-
-  .device-frame--tablet .device-frame__button,
-  .device-frame--mobile .device-frame__button {
+  .device-frame--tablet .device-frame__button {
     width: 8px;
     height: 8px;
     margin-top: 10px;
