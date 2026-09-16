@@ -175,6 +175,24 @@ const { label } = Astro.props;
       next.addEventListener('click', () => {
         viewport.scrollBy({ left: step(), behavior: 'smooth' });
       });
+
+      // A trackpad swipe aimed at paging the carousel horizontally isn't
+      // perfectly horizontal - the small leftover vertical component gets
+      // captured by whichever device-frame's scrollable screen is under
+      // the cursor, nudging it a few px away from the top even though the
+      // user never meant to scroll that frame at all. When a wheel event
+      // is clearly mostly-horizontal, forward it to the carousel and
+      // suppress the vertical component so it can't leak into a frame.
+      viewport.addEventListener(
+        'wheel',
+        (event) => {
+          if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+            event.preventDefault();
+            viewport.scrollLeft += event.deltaX;
+          }
+        },
+        { passive: false },
+      );
     });
   }
 

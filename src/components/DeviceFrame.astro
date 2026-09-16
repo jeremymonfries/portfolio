@@ -61,6 +61,11 @@ const { variant = 'laptop', label } = Astro.props;
        no reason to leave it enabled on a container whose whole point is
        showing content from the top. */
     overflow-anchor: none;
+    /* Stop this container's own scroll from chaining to the page (or, in
+       a carousel, to the horizontal viewport) once it hits its own top or
+       bottom edge - reduces surprising cross-talk between this vertical
+       scroll and any scrollable ancestor. */
+    overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
   }
@@ -121,17 +126,15 @@ const { variant = 'laptop', label } = Astro.props;
     border-radius: 2px;
   }
 
-  /* Fixed-pixel overhang, not a percentage: at 6% each side, a ~320px
-     column overhangs ~19px into a 24px grid gap on both sides at once -
-     adjacent columns' bases collided and clipped each other (measured
-     directly: column 1's base right edge past column 2's base left
-     edge). A small constant overhang reads as the same "wider than the
-     lid" detail without ever exceeding the gap, regardless of column
-     width. */
+  /* Flush with the bezel, no overhang - an overhanging base (tried at
+     both a 6% and a fixed-8px margin) kept colliding with or being
+     clipped by whatever sits next to it (adjacent carousel/grid columns,
+     or the edge of the scroll container for the first/last item, which
+     has no gap to absorb an overhang into). Not worth the visual
+     flourish given two rounds of edge-clipping bugs from it. */
   .device-frame--laptop .device-frame__base {
     position: relative;
-    width: calc(100% + 16px);
-    margin-inline: -8px;
+    width: 100%;
     height: 10px;
     background: linear-gradient(180deg, #f7f8f9, #dcdee0);
     border: 1px solid rgba(0, 0, 0, 0.1);
