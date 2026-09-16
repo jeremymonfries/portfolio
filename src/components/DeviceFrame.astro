@@ -23,19 +23,31 @@
 export interface Props {
   variant?: 'laptop' | 'tablet' | 'mobile' | 'mobile-landscape';
   label?: string;
+  /** The screenshot is a single complete screen (e.g. a game UI), not a
+   * tall page capture - show it whole (object-fit: contain, letterboxed
+   * if the aspect doesn't match exactly) instead of at natural height
+   * with a scrollable overflow. Default false keeps the scroll behavior
+   * every other DeviceFrame usage relies on (full-page screenshots up to
+   * ~12,000px tall - see the scroll-viewport comment below). */
+  fit?: boolean;
 }
 
-const { variant = 'laptop', label } = Astro.props;
+const { variant = 'laptop', label, fit = false } = Astro.props;
 const isPhoto = variant === 'mobile' || variant === 'mobile-landscape';
 const hasBase = variant === 'laptop';
 const hasButton = variant === 'tablet';
-const screenLabel = label ?? 'Screenshot, scroll to see more';
+const frameClass = `device-frame device-frame--${variant}${fit ? ' device-frame--fit' : ''}`;
+// Nothing to scroll in `fit` mode, so the screen doesn't need to be a
+// focusable/labeled region - the img's own alt text already describes it.
+const screenAttrs = fit
+  ? {}
+  : { tabindex: 0, role: 'group', 'aria-label': label ?? 'Screenshot, scroll to see more' };
 ---
 
 {isPhoto ? (
-  <div class={`device-frame device-frame--${variant}`}>
+  <div class={frameClass}>
     <div class="device-frame__photo">
-      <div class="device-frame__screen" tabindex="0" role="group" aria-label={screenLabel}>
+      <div class="device-frame__screen" {...screenAttrs}>
         <slot />
       </div>
       <img
@@ -53,9 +65,9 @@ const screenLabel = label ?? 'Screenshot, scroll to see more';
     </div>
   </div>
 ) : (
-  <div class={`device-frame device-frame--${variant}`}>
+  <div class={frameClass}>
     <div class="device-frame__bezel">
-      <div class="device-frame__screen" tabindex="0" role="group" aria-label={screenLabel}>
+      <div class="device-frame__screen" {...screenAttrs}>
         <slot />
       </div>
     </div>
@@ -81,10 +93,15 @@ const screenLabel = label ?? 'Screenshot, scroll to see more';
      screenshots are full-page captures up to ~12,000px tall - the whole
      page stays reachable instead of only the top being visible. */
   .device-frame__screen {
-    /* White, not black: a couple of source screenshots (diagram exports)
-       are transparent PNGs, and a black screen behind a transparent
-       diagram reads as broken/inverted rather than "off". */
-    background: #fff;
+    position: relative;
+    /* Black, matching the phone bezel - any letterboxing in `fit` mode
+       (or the rare natural-height screenshot that falls short of the
+       frame's aspect ratio) then reads as part of the device, not as a
+       broken white patch. (Diagram screenshots with a transparent
+       background used to need white here, but that content no longer
+       goes through DeviceFrame at all - see torque-drift's Information
+       architecture/Wireframes sections.) */
+    background: #000;
     overflow-x: hidden;
     overflow-y: auto;
     /* Defensive: CSS scroll anchoring can silently shift an overflow
@@ -131,6 +148,22 @@ const screenLabel = label ?? 'Screenshot, scroll to see more';
     height: auto;
     aspect-ratio: auto;
     object-fit: unset;
+  }
+
+  /* `fit` mode: the screenshot is one complete screen, not a tall page
+     capture - show the whole thing scaled to fit (letterboxed on
+     whichever axis doesn't match exactly) instead of natural height +
+     scroll. */
+  .device-frame--fit .device-frame__screen {
+    overflow: hidden;
+  }
+
+  .device-frame--fit .device-frame__screen :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   /* --- Photo-framed variants (mobile, mobile-landscape) --- */
