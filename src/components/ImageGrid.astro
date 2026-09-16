@@ -20,6 +20,16 @@ const { cols = 3 } = Astro.props;
     grid-template-columns: repeat(var(--cols), 1fr);
     gap: var(--space-3);
     margin: var(--space-2) 0 var(--space-4);
+    /* Break out of .case-body's 780px prose column to use the full
+       .case-body-section width (page-max, 1180px) instead - device-frame
+       screenshots were unreadably small confined to a 780px-wide row of
+       2-4 columns. Same margin-inline: calc() trick as ListBand's
+       full-bleed breakout, but targeting the wider section width instead
+       of the viewport: solve `100% + 2|M| = min(page-max, 100vw) -
+       2*gutter` for M. Degrades safely to 0 on narrow viewports, where
+       .case-body already equals .case-body-section's width and there's
+       nothing to break out into. */
+    margin-inline: calc((100% - min(var(--page-max), 100vw) + 2 * var(--gutter)) / 2);
   }
 
   /* Grid items default to min-width: auto, sizing 1fr tracks off each
