@@ -144,24 +144,24 @@ const screenAttrs = fit
   .device-frame__screen {
     position: relative;
     /* Black, matching the phone bezel - any letterboxing in `fit` mode
-       (or the rare natural-height screenshot that falls short of the
-       frame's aspect ratio) then reads as part of the device, not as a
-       broken white patch. (Diagram screenshots with a transparent
-       background used to need white here, but that content no longer
-       goes through DeviceFrame at all - see torque-drift's Information
-       architecture/Wireframes sections.) */
+           (or the rare natural-height screenshot that falls short of the
+           frame's aspect ratio) then reads as part of the device, not as a
+           broken white patch. (Diagram screenshots with a transparent
+           background used to need white here, but that content no longer
+           goes through DeviceFrame at all - see torque-drift's Information
+           architecture/Wireframes sections.) */
     background: #000;
     overflow-x: hidden;
     overflow-y: auto;
     /* Defensive: CSS scroll anchoring can silently shift an overflow
-       container's scrollTop to compensate for layout shifts elsewhere on
-       the page (e.g. lazy-loaded images resolving their real height) -
-       exactly the shape of "starts scrolled partway, can't get back to
-       the top" reports. */
+           container's scrollTop to compensate for layout shifts elsewhere on
+           the page (e.g. lazy-loaded images resolving their real height) -
+           exactly the shape of "starts scrolled partway, can't get back to
+           the top" reports. */
     overflow-anchor: none;
     /* Stop this container's own scroll from chaining to the page (or, in
-       a carousel, to the horizontal viewport) once it hits its own top or
-       bottom edge. */
+           a carousel, to the horizontal viewport) once it hits its own top or
+           bottom edge. */
     overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
@@ -245,7 +245,7 @@ const screenAttrs = fit
     color: #fff;
     cursor: pointer;
     /* Always at least partly visible (not hover-only: opacity: 0 with a
-       hover reveal is undiscoverable on touch, which has no hover). */
+           hover reveal is undiscoverable on touch, which has no hover). */
     opacity: 0.7;
     transition: opacity 0.15s ease;
   }
@@ -332,8 +332,8 @@ const screenAttrs = fit
     object-fit: fill;
     margin: 0;
     /* The frame art sits on top with a transparent screen cutout showing
-       the real screenshot through it - pointer-events: none so clicks
-       and wheel scrolling still reach .device-frame__screen underneath. */
+           the real screenshot through it - pointer-events: none so clicks
+           and wheel scrolling still reach .device-frame__screen underneath. */
     pointer-events: none;
   }
 

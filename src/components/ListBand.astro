@@ -28,10 +28,10 @@ const { label, items, tone = 'subtle', columns = 2 } = Astro.props;
 <style>
   .list-band {
     /* Margin (not just the internal padding below) so prose immediately
-       before/after this full-bleed band gets real breathing room instead
-       of sitting flush against the colour edge - margin collapses with
-       the adjacent paragraph/heading's own margin, so this sets the
-       effective gap on both sides rather than just adding to it. */
+               before/after this full-bleed band gets real breathing room instead
+               of sitting flush against the colour edge - margin collapses with
+               the adjacent paragraph/heading's own margin, so this sets the
+               effective gap on both sides rather than just adding to it. */
     margin-block: var(--space-5);
     margin-inline: calc(50% - 50vw);
     padding: var(--space-5) calc(50vw - 50%);
