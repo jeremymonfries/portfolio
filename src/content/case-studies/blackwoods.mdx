@@ -9,8 +9,8 @@ order: 3
 ---
 
 import ImageGrid from '../../components/ImageGrid.astro';
-import ListBand from '../../components/ListBand.astro';
 import MediaRow from '../../components/MediaRow.astro';
+import ColumnGrid from '../../components/ColumnGrid.astro';
 import responsiveIssueImg from '../../assets/case-studies/blackwoods/07.jpg';
 import simpleSolutionImg from '../../assets/case-studies/blackwoods/08.jpg';
 import searchIssuesImg from '../../assets/case-studies/blackwoods/09.jpg';
@@ -18,40 +18,63 @@ import updatedSearchImg from '../../assets/case-studies/blackwoods/10.jpg';
 import megaMenuIssuesImg from '../../assets/case-studies/blackwoods/11.jpg';
 import megaMenuUpdateImg from '../../assets/case-studies/blackwoods/12.jpg';
 
-**Role:** Project Lead, UX Research, UX Design, Workshop Facilitator
-
 Blackwoods approached me to look at their existing web experience (primarily on desktops) and identify areas we could improve the overall customer experience. There were a number of UX issues they had identified through internal analysis and their customer support team, but they also wanted me to do a deeper dive and find other issues they might not be aware of.
 
 After an initial kick-off meeting, I conducted a heuristic evaluation of the entire website to systematically identify usability issues and potential easy wins, as they wanted to take an iterative approach — "evolution not revolution." Although heuristic evaluations can be subjective, they can help highlight areas that need more exploration and research. This process surfaced a number of usability issues that were causing customers to have a negative experience. I then developed rapid mockups to visualise the proposed changes and worked with the development team to implement them. The end result was a much improved customer experience that was more user-friendly and intuitive.
 
-## Problem
+<ColumnGrid cols={2}>
+<div>
+### Problem
 
 Blackwoods needed a UX review of their website to identify any areas where they could make improvements to help customers find products more easily.
 
-## Solution
+</div>
+
+<div>
+### Solution
 
 1. Identify and improve critical flows and pages
 2. Optimise the current site to eCommerce best practice
 3. Generate updated UI visual designs where necessary
 
-<ListBand
-  label="Tools"
-  tone="tint"
-  items={['Excel', 'Sketch', 'Hotjar', 'Google Analytics', 'Usertesting.com', 'Interviews']}
-/>
+</div>
+</ColumnGrid>
 
-<ListBand
-  label="Skills"
-  tone="subtle"
-  items={[
-    'Business strategy',
-    'UX analysis and recommendations',
-    'User research',
-    'Information architecture',
-    'Visual design',
-    'Content review',
-  ]}
-/>
+<ColumnGrid cols={3}>
+<div>
+### Tools
+
+- Excel
+- Sketch
+- Hotjar
+- Google Analytics
+- Usertesting.com
+- Interviews
+
+</div>
+
+<div>
+### My Role
+
+- Project Lead
+- UX research
+- UX design
+- Workshop facilitator
+
+</div>
+
+<div>
+### Skills
+
+- Business strategy
+- UX analysis and recommendations
+- User research
+- Information architecture
+- Visual design
+- Content review
+
+</div>
+</ColumnGrid>
 
 ## Competitor analysis
 

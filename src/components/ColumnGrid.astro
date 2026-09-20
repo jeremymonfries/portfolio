@@ -1,0 +1,37 @@
+---
+// Reproduces the original site's plain multi-column layout for short
+// heading+list/paragraph blocks (e.g. Problem/Solution, Tools/My Role/
+// Skills on the Blackwoods case study) - a simpler alternative to
+// ListBand's full-bleed colour band, used when the source just wants
+// plain columns instead. Each direct child becomes one column; write
+// its own heading (h3) and content (paragraph or list) inside.
+export interface Props {
+  cols?: number;
+}
+
+const { cols = 3 } = Astro.props;
+---
+
+<div class="column-grid" style={`--cols: ${cols}`}>
+  <slot />
+</div>
+
+<style>
+  .column-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: var(--space-5);
+    margin: var(--space-5) 0;
+  }
+
+  .column-grid > :global(*) {
+    min-width: 0;
+  }
+
+  @media (max-width: 700px) {
+    .column-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>
