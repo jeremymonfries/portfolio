@@ -29,12 +29,18 @@
 
 <style>
   .lightbox {
-    max-width: min(94vw, 1400px);
+    width: 100vw;
+    max-width: 100vw;
     max-height: 92vh;
     margin: auto;
     padding: 0;
     border: none;
     background: transparent;
+    /* The image is forced to full viewport width (not just capped) -
+       tall screenshots (some run to ~12,000px at natural aspect) then
+       compute taller than the dialog's own 92vh cap, so this needs to
+       scroll internally rather than clip them. */
+    overflow-y: auto;
   }
 
   .lightbox::backdrop {
@@ -43,11 +49,8 @@
 
   .lightbox__image {
     display: block;
-    max-width: min(94vw, 1400px);
-    max-height: 92vh;
-    width: auto;
+    width: 100vw;
     height: auto;
-    border-radius: 4px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   }
 
