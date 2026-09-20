@@ -1,12 +1,17 @@
 ---
-// A diagram/wireframe image that should read at full viewport width
-// rather than staying capped to .case-body's 780px prose column (e.g.
-// torque-drift's Information architecture/Wireframes images) - plain
-// content, not a device screenshot, so DeviceFrame doesn't apply. Same
-// full-bleed-to-viewport technique as ListBand (margin-inline: calc(50%
-// - 50vw)), plus the same click-to-enlarge expand button as DeviceFrame,
-// wired to the shared Lightbox via [data-lightbox-group] instead of
-// DeviceFrame's own .device-frame lookup.
+// A diagram/wireframe image that should read at the full width of the
+// page's content section rather than staying capped to .case-body's
+// 780px prose column (e.g. torque-drift's Information architecture/
+// Wireframes images) - plain content, not a device screenshot, so
+// DeviceFrame doesn't apply. Checked the original site directly
+// (jeremymonfries.com/p/jeremy.monfries/03119037): these images widen
+// to the page's normal content width (.case-body-section, page-max
+// 1180px) with the usual side gutters, not edge-to-edge to the browser
+// viewport - same breakout formula as ImageGrid/Carousel/MediaRow, not
+// ListBand's full-viewport-bleed one. Also has the same click-to-enlarge
+// expand button as DeviceFrame (the source has an equivalent
+// click-to-zoom), wired to the shared Lightbox via [data-lightbox-group]
+// instead of DeviceFrame's own .device-frame lookup.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
@@ -43,7 +48,12 @@ const { src, alt } = Astro.props;
   .full-bleed-image {
     position: relative;
     margin-block: var(--space-5);
-    margin-inline: calc(50% - 50vw);
+    /* Same full-bleed breakout as ImageGrid/Carousel/MediaRow: solve
+       `100% + 2|M| = min(page-max, 100vw) - 2*gutter` for M, so this
+       spans .case-body-section's full width instead of staying capped
+       at .case-body's 780px prose column. Degrades to 0 on narrow
+       viewports, where there's nothing to break out into. */
+    margin-inline: calc((100% - min(var(--page-max), 100vw) + 2 * var(--gutter)) / 2);
   }
 
   .full-bleed-image__img {
