@@ -8,68 +8,66 @@ heroImage:
 order: 2
 ---
 
-import ListBand from '../../components/ListBand.astro';
+import MediaRow from '../../components/MediaRow.astro';
+import cardsImg from '../../assets/case-studies/design-system/02.png';
+import formsImg from '../../assets/case-studies/design-system/03.png';
+import typographyImg from '../../assets/case-studies/design-system/04.png';
+import buttonsImg from '../../assets/case-studies/design-system/05.png';
+import coloursImg from '../../assets/case-studies/design-system/06.png';
 
 As my team migrated existing experience flows to use the new checkout experience, we needed a way to quickly conceptualise, design and build flows. The broader Product team was also migrating from Sketch to Figma, so it made sense to create the NortonLifeLock checkout design system in Figma. Since we create many different flows, we needed design assets we could use to quickly flesh out ideas and build out experiences the dev team could use as a source of truth.
 
 As the original designer of our checkout, it made sense for me to do the work. I worked from our original Sketch files, then extended the new Figma-based library to provide all the assets a designer might need to deliver new flows for desktop, tablet and mobile. I used the Atomic Design methodology (Brad Frost), building out all the atoms, molecules, organisms and templates, and worked with the rest of the team to ensure the design system was robust enough to be useful without being too complex to be confusing.
 
-![Overview of the NortonLifeLock checkout design system in Figma](../../assets/case-studies/design-system/01.png)
-
+<MediaRow src={cardsImg} alt='Checkout "Card" templates combining UI elements into reusable checkout states'>
 ### Templates ("Cards")
 
 The "Cards" combined different UI elements into cohesive "organisms" that covered all the different states of the checkout. I wanted designers to have access to these organisms, as they form the foundation of the checkout and cover most states that would appear — making the task of creating any flow much quicker.
 
-![Checkout "Card" templates combining UI elements into reusable checkout states](../../assets/case-studies/design-system/02.png)
+</MediaRow>
 
+<MediaRow src={formsImg} alt="Form field components and states in the checkout design system">
 ### Form elements
 
 I built out the form fields and various states including:
 
-<ListBand
-  label="Form elements"
-  tone="tint"
-  items={[
-    'Input fields',
-    'Inline labels',
-    'Floating labels',
-    'Form status feedback',
-    'Error states',
-    'Form validation feedback',
-    'Toggles and custom toggles',
-    'Drop-down menus',
-    'Input field specifications',
-  ]}
-/>
+- Input fields
+- Inline labels
+- Floating labels
+- Form status feedback
+- Error states
+- Form validation feedback
+- Toggles and custom toggles
+- Drop-down menus
+- Input field specifications
 
-![Form field components and states in the checkout design system](../../assets/case-studies/design-system/03.png)
+</MediaRow>
 
+<MediaRow src={typographyImg} alt="Typography scale and specimens in the checkout design system">
 ### Typography
 
 The fonts were mapped out to work with:
 
-<ListBand
-  label="Typography"
-  tone="subtle"
-  items={[
-    'Norton brand guidelines',
-    'Optimum legibility',
-    'Accessibility compliance',
-    'Multiple viewports (desktop, tablet and mobile)',
-  ]}
-/>
+- Norton brand guidelines
+- Optimum legibility
+- Accessibility compliance
+- Multiple viewports (desktop, tablet and mobile)
 
-![Typography scale and specimens in the checkout design system](../../assets/case-studies/design-system/04.png)
+</MediaRow>
 
+<MediaRow src={buttonsImg} alt="Primary and secondary button states in the checkout design system">
 ### Buttons
 
 All primary and secondary buttons, as well as hover, press, disabled and focus states, were specified for desktop and mobile usage. As well as reflecting the Norton brand style, the buttons were optimised to clearly communicate user call-to-actions.
 
-![Primary and secondary button states in the checkout design system](../../assets/case-studies/design-system/05.png)
+</MediaRow>
 
+<MediaRow src={coloursImg} alt="Norton brand colour palette in the checkout design system">
 ### Colours
 
 The colour palette mirrored the Norton brand palette and was only included in the design system so any designer using it could find all the assets they needed in one place.
+
+</MediaRow>
 
 ## Some learnings
 
