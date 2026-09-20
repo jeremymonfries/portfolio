@@ -10,6 +10,11 @@ order: 3
 
 import ImageGrid from '../../components/ImageGrid.astro';
 import ListBand from '../../components/ListBand.astro';
+import MediaRow from '../../components/MediaRow.astro';
+import responsiveIssueImg from '../../assets/case-studies/blackwoods/07.jpg';
+import simpleSolutionImg from '../../assets/case-studies/blackwoods/08.jpg';
+import searchIssuesImg from '../../assets/case-studies/blackwoods/09.jpg';
+import updatedSearchImg from '../../assets/case-studies/blackwoods/10.jpg';
 
 **Role:** Project Lead, UX Research, UX Design, Workshop Facilitator
 
@@ -72,29 +77,35 @@ When starting with a new client I always like to do a competitor analysis to und
 
 ## Responsive design
 
+<MediaRow src={responsiveIssueImg} alt="Responsive layout issue on the existing Blackwoods site at narrow browser widths" reverse>
 ### Responsive issue
 
 The existing website employed a responsive design to accommodate various viewports. While responsive design is a suitable approach in certain cases, the implementation on this website was flawed. The page was set to always scale to the full width of the browser window, regardless of its dimensions. This caused issues when the browser window width was changed, as the content did not scale properly and the proportions of the page elements became uneven. This disruption in the visual hierarchy resulted in secondary content being given too much emphasis and important content being pushed down the page — banner advertising dominating the viewport while featured products disappeared below the fold.
 
-![Responsive layout issue on the existing Blackwoods site at narrow browser widths](../../assets/case-studies/blackwoods/07.jpg)
+</MediaRow>
 
+<MediaRow src={simpleSolutionImg} alt="Fixed-width layout solution applied to fix the Blackwoods responsive issue" reverse>
 ### Simple solution
 
 I suggested a straightforward and easy solution: instead of changing the website design, set the maximum width of the website to 1260px while centering it within the browser window. If the browser window is wider than this, only the header colour spans the full width, which helps visually frame the page content. This approach preserves the website's design while addressing the scaling issues, returning visual balance, content hierarchy and image integrity (no overscaling or pixellation). Users could now easily scan through the content without excessive scrolling.
 
-![Fixed-width layout solution applied to fix the Blackwoods responsive issue](../../assets/case-studies/blackwoods/08.jpg)
+</MediaRow>
 
 ## Search results page
 
-![Blackwoods existing search results page](../../assets/case-studies/blackwoods/09.jpg)
+<MediaRow src={searchIssuesImg} alt="Blackwoods existing search results page">
+### Search results issues
 
 Blackwoods' existing search results page had several issues. The grid approach allowed for the display of many items, but confusing categorisation and a lack of screen space for related information per category or product caused problems. Users were also required to click on each product to view information that should have been readily available, and there was no call-to-action for adding items to their cart immediately.
 
+</MediaRow>
+
+<MediaRow src={updatedSearchImg} alt="Improved UX for the search results page">
 ### Updated search results
 
-![Improved UX for the search results page](../../assets/case-studies/blackwoods/10.jpg)
-
 I added a horizontal accordion UI pattern to show higher-level categories that could easily be drilled into. Product-level content was surfaced so the customer didn't have to click through to a PDP page to see the critical info required to make a purchase decision. The buy CTA is displayed directly on the page so the item can be added to the cart, also allowing the user to continue browsing without leaving the page.
+
+</MediaRow>
 
 ## Mega-menu
 
