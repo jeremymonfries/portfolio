@@ -12,6 +12,10 @@
 // top/bottom automatically in source order, no per-page wrapper markup
 // needed in the .mdx content.
 export interface Props {
+  /** Accessible name only (aria-label on the viewport and prev/next
+   * buttons) - not rendered visibly, since every usage already sits
+   * directly under its own matching heading in the .mdx content and a
+   * second visible label read as redundant. */
   label?: string;
 }
 
@@ -19,7 +23,6 @@ const { label } = Astro.props;
 ---
 
 <div class="carousel" data-carousel>
-  {label && <p class="carousel__label">{label}</p>}
   <div class="carousel__frame">
     <button
       type="button"
@@ -74,14 +77,6 @@ const { label } = Astro.props;
            The carousel was confined to .case-body's 780px prose column,
            which meant device frames were unreadably small. */
     margin-inline: calc((100% - min(var(--page-max), 100vw) + 2 * var(--gutter)) / 2);
-  }
-
-  .carousel__label {
-    font: 700 14px / 1 var(--font-display);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--text-muted);
-    margin: 0 0 var(--space-2);
   }
 
   .carousel__frame {
