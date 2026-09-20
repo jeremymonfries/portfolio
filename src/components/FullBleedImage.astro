@@ -1,0 +1,91 @@
+---
+// A diagram/wireframe image that should read at full viewport width
+// rather than staying capped to .case-body's 780px prose column (e.g.
+// torque-drift's Information architecture/Wireframes images) - plain
+// content, not a device screenshot, so DeviceFrame doesn't apply. Same
+// full-bleed-to-viewport technique as ListBand (margin-inline: calc(50%
+// - 50vw)), plus the same click-to-enlarge expand button as DeviceFrame,
+// wired to the shared Lightbox via [data-lightbox-group] instead of
+// DeviceFrame's own .device-frame lookup.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export interface Props {
+  src: ImageMetadata;
+  alt: string;
+}
+
+const { src, alt } = Astro.props;
+---
+
+<div class="full-bleed-image" data-lightbox-group>
+  <Image src={src} alt={alt} width={src.width} class="full-bleed-image__img" />
+  <button
+    type="button"
+    class="full-bleed-image__expand"
+    data-lightbox-trigger
+    aria-label="View larger"
+  >
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+      <path
+        d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .full-bleed-image {
+    position: relative;
+    margin-block: var(--space-5);
+    margin-inline: calc(50% - 50vw);
+  }
+
+  .full-bleed-image__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  /* Same treatment as DeviceFrame's expand button - always at least
+     partly visible (not hover-only, which is undiscoverable on touch),
+     brightening on hover/focus. */
+  .full-bleed-image__expand {
+    position: absolute;
+    bottom: var(--space-3);
+    right: var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+  }
+
+  .full-bleed-image:hover .full-bleed-image__expand,
+  .full-bleed-image__expand:focus-visible {
+    opacity: 1;
+  }
+
+  .full-bleed-image__expand:hover {
+    background: rgba(0, 0, 0, 0.75);
+  }
+
+  .full-bleed-image__expand:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+</style>

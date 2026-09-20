@@ -1,10 +1,15 @@
 ---
 // Single shared <dialog>, mounted once in BaseLayout so every page gets
-// click-to-enlarge for free. DeviceFrame renders a small expand button on
-// each frame (data-lightbox-trigger); clicking it reads the frame's own
-// screenshot <img> and reopens this dialog with that image at a much
-// larger size. Native <dialog> + showModal() for free focus trapping,
-// Escape-to-close and a backdrop, rather than reimplementing those.
+// click-to-enlarge for free. Any component can opt in by rendering a
+// [data-lightbox-trigger] button; clicking it reads an <img> from the
+// nearest ancestor and reopens this dialog with that image at a much
+// larger size. DeviceFrame is the special case (two <img> live inside
+// one frame - the screenshot and the decorative overlay PNG - so it
+// needs the narrower `.device-frame__screen img` lookup); anything else
+// (e.g. FullBleedImage) just wraps itself in [data-lightbox-group] and
+// gets the first <img> inside it. Native <dialog> + showModal() for free
+// focus trapping, Escape-to-close and a backdrop, rather than
+// reimplementing those.
 ---
 
 <dialog id="lightbox" class="lightbox" aria-label="Enlarged screenshot">
@@ -84,7 +89,10 @@
       const trigger = (event.target as HTMLElement).closest<HTMLElement>('[data-lightbox-trigger]');
       if (!trigger) return;
       const frame = trigger.closest('.device-frame');
-      const sourceImg = frame?.querySelector<HTMLImageElement>('.device-frame__screen img');
+      const group = trigger.closest('[data-lightbox-group]');
+      const sourceImg =
+        frame?.querySelector<HTMLImageElement>('.device-frame__screen img') ??
+        group?.querySelector<HTMLImageElement>('img');
       if (!sourceImg) return;
       image.src = sourceImg.currentSrc || sourceImg.src;
       image.alt = sourceImg.alt;
