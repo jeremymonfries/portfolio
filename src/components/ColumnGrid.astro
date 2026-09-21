@@ -28,6 +28,20 @@ const { cols = 3 } = Astro.props;
     min-width: 0;
   }
 
+  /* A grid item's own margins don't collapse with its children's (unlike
+     plain block flow) - each column's heading rendered its own 48px
+     margin-top as real extra space on top of the grid's own 48px gap
+     from the preceding paragraph, roughly doubling the gap and making
+     the heading read as detached from the text it introduces. Same fix
+     MediaRow already uses for its content slot. */
+  .column-grid > :global(*) > :global(:first-child) {
+    margin-top: 0;
+  }
+
+  .column-grid > :global(*) > :global(:last-child) {
+    margin-bottom: 0;
+  }
+
   @media (max-width: 700px) {
     .column-grid {
       grid-template-columns: 1fr;
