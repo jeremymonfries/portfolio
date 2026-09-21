@@ -19,7 +19,7 @@ order: 7
 
 import DeviceFrame from '../../components/DeviceFrame.astro';
 import ImageGrid from '../../components/ImageGrid.astro';
-import ListBand from '../../components/ListBand.astro';
+import ColumnGrid from '../../components/ColumnGrid.astro';
 
 ### Norton's homepage needed a refresh
 
@@ -33,26 +33,26 @@ My role on the project was lead designer, and I worked with the creative directo
 
 #### Deliver a new homepage that helps customers find the right product quickly
 
-<ListBand
-  label="UX goals"
-  tone="subtle"
-  items={[
-    'Help customers find useful and relevant product offerings quickly',
-    'Help customers get the best prices on products',
-    'Help customers understand the different products on offer',
-  ]}
-/>
+<ColumnGrid cols={2}>
+<div>
+### UX goals
 
-<ListBand
-  label="Business requirements"
-  tone="tint"
-  items={[
-    'Reduce customer drop-offs from the homepage',
-    'Promote upsells and cross-sells',
-    'Increase customer engagement with our products and brands',
-    'Provide areas for different business units to promote their products',
-  ]}
-/>
+- Help customers find useful and relevant product offerings quickly
+- Help customers get the best prices on products
+- Help customers understand the different products on offer
+
+</div>
+
+<div>
+### Business requirements
+
+- Reduce customer drop-offs from the homepage
+- Promote upsells and cross-sells
+- Increase customer engagement with our products and brands
+- Provide areas for different business units to promote their products
+
+</div>
+</ColumnGrid>
 
 <DeviceFrame variant="laptop">
   ![Business requirements overview for the Norton homepage
