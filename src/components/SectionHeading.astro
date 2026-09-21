@@ -1,0 +1,19 @@
+---
+// Named wrapper around the case-body's two built-in heading treatments
+// (`.case-body :global(h2)`/`:global(h3)` in [slug].astro) - same tags,
+// same CSS, no new styling. Exists so a case study picks "chapter" or
+// "section" by name instead of counting #'s, which is what let torque-drift
+// and microsite drift onto the wrong level unnoticed.
+export interface Props {
+  level?: 'chapter' | 'section' | 'tagline';
+  align?: 'left' | 'center';
+}
+
+const { level = 'section', align } = Astro.props;
+const Tag = level === 'chapter' ? 'h2' : level === 'tagline' ? 'h4' : 'h3';
+const style = align ? `text-align: ${align};` : undefined;
+---
+
+<Tag style={style}>
+  <slot />
+</Tag>
