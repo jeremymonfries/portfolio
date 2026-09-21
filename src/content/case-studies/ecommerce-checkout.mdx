@@ -21,6 +21,7 @@ import DeviceFrame from '../../components/DeviceFrame.astro';
 import ImageGrid from '../../components/ImageGrid.astro';
 import ColumnGrid from '../../components/ColumnGrid.astro';
 import NumberedSteps from '../../components/NumberedSteps.astro';
+import MediaRow from '../../components/MediaRow.astro';
 
 **Role:** Team Lead, Lead Product Designer
 
@@ -157,8 +158,10 @@ Our initial tests during the design process were all remote and unmoderated, as 
 
 After we had higher-fidelity prototypes, we moved into live A/B testing to ensure the new experience would not impact conversions.
 
+<MediaRow>
+<DeviceFrame slot="image" variant="mobile">
 ![Checkout usability testing session](../../assets/case-studies/ecommerce-checkout/05.png)
-
+</DeviceFrame>
 ### UI design
 
 The business wanted the new checkout design to follow the new corporate brand guidelines. We followed a lighter, brighter, minimalist style which removed any unnecessary elements, keeping users focused on the most important tasks in the checkout and minimising distractions. We used a reduced colour palette based on the corporate brand, while adhering to Web Accessibility (Level AA of ADA and WCAG standards).
@@ -166,6 +169,8 @@ The business wanted the new checkout design to follow the new corporate brand gu
 We took into account both Material Design and Apple's HCI to inform the design and appeal to common UI elements between both, while being mindful that our customer base skews towards iOS users.
 
 The checkout was designed to be responsive, targeting three breakpoints representing the most common device types — mobile, tablet and desktop — using analytics data to identify the most common screen resolutions our customers use, while ensuring the experience was robust enough to still work for other viewports. The solution we delivered balanced customer needs with business goals, the latest visual style, and technical limitations.
+
+</MediaRow>
 
 ### Visual design iterations
 
