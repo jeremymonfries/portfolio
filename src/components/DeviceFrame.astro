@@ -224,17 +224,6 @@ const screenAttrs = fit
     object-fit: contain;
   }
 
-  /* Same fit-mode sizing for an embedded video (e.g. a YouTube iframe) -
-     an iframe has no intrinsic size of its own to shrink-to-fit like an
-     img, so it needs the same absolute-fill treatment explicitly. */
-  .device-frame--fit .device-frame__screen :global(iframe) {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-
   /* Enlarge button: bottom-right corner of the actual screen area (not
      the whole frame image, which would land it in the bezel/base for
      variants with a big bottom inset like laptop). Positioned per-variant

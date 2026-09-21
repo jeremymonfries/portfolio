@@ -20,6 +20,7 @@ order: 8
 import DeviceFrame from '../../components/DeviceFrame.astro';
 import ImageGrid from '../../components/ImageGrid.astro';
 import MediaRow from '../../components/MediaRow.astro';
+import VideoEmbed from '../../components/VideoEmbed.astro';
 
 ### Customers love comparison charts
 
@@ -97,15 +98,10 @@ Customers exploring the site needed a seamless experience which inspired confide
 </DeviceFrame>
 </ImageGrid>
 
-<DeviceFrame variant="mobile" fit>
-  <iframe
-    src="https://www.youtube.com/embed/-UurBLB3qBA?rel=0"
-    title="Mobile comparison chart final version - Jeremy Monfries"
-    loading="lazy"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    allowfullscreen
-  ></iframe>
-</DeviceFrame>
+<VideoEmbed
+  src="https://www.youtube.com/embed/-UurBLB3qBA?rel=0"
+  title="Mobile comparison chart final version - Jeremy Monfries"
+/>
 
 ### A/B testing
 

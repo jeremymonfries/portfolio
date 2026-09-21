@@ -1,0 +1,47 @@
+---
+// Plain 16:9 responsive video embed (e.g. the YouTube walkthrough on the
+// comparison-chart case study) - no device frame, just a normal
+// full-content-width video block, breaking out of .case-body's 780px
+// prose column the same way ImageGrid/MediaRow do.
+export interface Props {
+  src: string;
+  title: string;
+}
+
+const { src, title } = Astro.props;
+---
+
+<div class="video-embed">
+  <iframe
+    src={src}
+    title={title}
+    loading="lazy"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+  ></iframe>
+</div>
+
+<style>
+  .video-embed {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    margin: var(--space-5) 0;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    /* Same full-bleed breakout as ImageGrid/Carousel/MediaRow: solve
+       `100% + 2|M| = min(page-max, 100vw) - 2*gutter` for M, so this
+       spans .case-body-section's full width instead of staying capped
+       at .case-body's 780px prose column. Degrades to 0 on narrow
+       viewports, where there's nothing to break out into. */
+    margin-inline: calc((100% - min(var(--page-max), 100vw) + 2 * var(--gutter)) / 2);
+  }
+
+  .video-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
