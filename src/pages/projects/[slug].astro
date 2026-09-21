@@ -81,10 +81,14 @@ const { Content } = await render(entry);
   /* DS-07/UX-04/UX-12: the original site's stat numbers lived in a plain
      white section with no visual separation from the rest of the page.
      A full-bleed dark band gives the results their own moment and breaks
-     up an otherwise all-white page - see rebuild-scope.md section 9. */
+     up an otherwise all-white page - see rebuild-scope.md section 9.
+     Padding matches Tldr/ListBand (the site's other two full-bleed
+     bands, both --space-5) rather than the --space-6 this used to have -
+     three bands doing the same "full-bleed band directly under the
+     hero" job should feel like one consistent rhythm, not two. */
   .stats-band {
     background: var(--surface-sidebar);
-    padding: var(--space-6) 0;
+    padding: var(--space-5) 0;
   }
 
   .stats-grid {

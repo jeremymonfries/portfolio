@@ -25,6 +25,8 @@ import FullBleedImage from '../components/FullBleedImage.astro';
 import VideoEmbed from '../components/VideoEmbed.astro';
 import NumberedSteps from '../components/NumberedSteps.astro';
 import ListBand from '../components/ListBand.astro';
+import Tldr from '../components/Tldr.astro';
+import StatBlock from '../components/StatBlock.astro';
 import demoMobile from '../assets/case-studies/ecommerce-checkout/05.png';
 import demoLaptop from '../assets/case-studies/microsite/01.jpg';
 import demoDiagram from '../assets/case-studies/torque-drift/01.png';
@@ -81,6 +83,24 @@ const patterns = [
     use: 'A full-bleed colour band with a label and a list of short items (tools, tags, learnings). Superseded by ColumnGrid for most current case studies - reach for this specifically when you want the coloured full-bleed treatment back.',
   },
 ];
+
+// Page-level components: driven by a case study's frontmatter (tldr:,
+// stats:) and rendered automatically by [slug].astro for every case
+// study - not something placed by hand inside the .mdx body like the
+// patterns above. Kept in a separate list/section so the two families
+// aren't mixed together as if they were used the same way.
+const pageLevelPatterns = [
+  {
+    id: 'tldr',
+    name: 'Tldr',
+    use: "The full-bleed summary band directly under the hero, before the reader commits to the full write-up. Comes from a case study's frontmatter tldr: field - every case study gets exactly one, automatically.",
+  },
+  {
+    id: 'stat-block',
+    name: 'StatBlock',
+    use: "One number+label pair inside the dark stats band under the Tldr. Comes from a case study's frontmatter stats: array (0-4 entries) - the whole band is skipped automatically when a case study has no stats to show.",
+  },
+];
 ---
 
 <BaseLayout
@@ -101,6 +121,50 @@ const patterns = [
         </li>
       ))}
     </ul>
+    <p class="jump-list-heading">Page-level (frontmatter-driven, not placed by hand):</p>
+    <ul class="jump-list">
+      {pageLevelPatterns.map((p) => (
+        <li>
+          <a href={`#${p.id}`}>{p.name}</a>
+        </li>
+      ))}
+    </ul>
+  </article>
+
+  <article class="page-level">
+    <div class="page-level-text">
+      <div class="pattern" id="tldr">
+        <p class="pattern-label">Tldr</p>
+        <p class="pattern-use">{pageLevelPatterns[0].use}</p>
+      </div>
+    </div>
+    <Tldr text="A one-paragraph summary of the case study, pulled straight from frontmatter - this is what a reader sees before committing to the full write-up below." />
+    <div class="page-level-text">
+      <pre class="pattern-code"><code>{`# in a case study's frontmatter:
+tldr: 'A one-paragraph summary...'`}</code></pre>
+
+      <div class="pattern" id="stat-block">
+        <p class="pattern-label">StatBlock</p>
+        <p class="pattern-use">{pageLevelPatterns[1].use}</p>
+      </div>
+    </div>
+    <div class="stats-band-demo">
+      <div class="stats-grid-demo">
+        <StatBlock value="12" label="Iterations" />
+        <StatBlock value="70" label="Screens" />
+        <StatBlock value="4%" label="Increased conversion" />
+        <StatBlock value="$5mil" label="Extra annualised bookings" />
+      </div>
+    </div>
+    <div class="page-level-text">
+      <pre class="pattern-code"><code>{`# in a case study's frontmatter:
+stats:
+  - value: '12'
+    label: 'Iterations'
+  - value: '70'
+    label: 'Screens'
+  # ...up to 4`}</code></pre>
+    </div>
   </article>
 
   <article class="case-body-section">
@@ -348,6 +412,54 @@ Description text.
   .jump-list a:hover,
   .jump-list a:focus-visible {
     text-decoration: underline;
+  }
+
+  .jump-list-heading {
+    margin: var(--space-2) 0 var(--space-1);
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  /* Tldr/StatBlock are full-bleed in real use (no max-width wrapper in
+     [slug].astro - their own inner grid centres content at page-max, but
+     the coloured background spans the true viewport edge to edge), so
+     .page-level itself is intentionally left unconstrained. Only the
+     label/description/code text around them is capped, matching
+     .case-body's reading width. */
+  .page-level-text {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* Mirrors [slug].astro's .stats-band/.stats-grid exactly - same
+     padding (--space-5, matching Tldr/ListBand), same width formula. */
+  .stats-band-demo {
+    background: var(--surface-sidebar);
+    padding: var(--space-5) 0;
+  }
+
+  .stats-grid-demo {
+    width: min(var(--page-max), calc(100% - 2 * var(--gutter)));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+  }
+
+  .stats-band-demo :global(.stat-value) {
+    color: var(--color-white);
+  }
+
+  .stats-band-demo :global(.stat-label) {
+    color: var(--color-neutral-200);
+  }
+
+  @media (max-width: 700px) {
+    .stats-grid-demo {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+    }
   }
 
   /* Mirrors [slug].astro's .case-body-section/.case-body - see the note
