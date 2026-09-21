@@ -146,10 +146,10 @@ const screenAttrs = fit
     /* Black, matching the phone bezel - any letterboxing in `fit` mode
            (or the rare natural-height screenshot that falls short of the
            frame's aspect ratio) then reads as part of the device, not as a
-           broken white patch. (Diagram screenshots with a transparent
-           background used to need white here, but that content no longer
-           goes through DeviceFrame at all - see torque-drift's Information
-           architecture/Wireframes sections.) */
+           broken white patch. A transparent-PNG diagram's own background
+           is handled separately, directly on the img rule below - it needs
+           white regardless of what this container uses, so it doesn't
+           depend on this staying black. */
     background: #000;
     overflow-x: hidden;
     overflow-y: auto;
@@ -206,6 +206,17 @@ const screenAttrs = fit
     object-fit: unset;
     margin: 0;
     border-radius: 0;
+    /* White, not the screen's own black - homepage-redesign's wireframe
+       PNG turned out to have a fully transparent page background (only
+       the drawn shapes are opaque), composited over the screen's black
+       backdrop it read as a wireframe floating in a black void. That's
+       not a one-off: any transparent-PNG diagram dropped into a
+       DeviceFrame will hit the same thing. Backing the img itself with
+       white (rather than the container) fixes transparent pixels
+       *inside* the image without touching the screen's own black, which
+       is still the right letterbox color for `fit` mode's pillar/
+       letterboxing gaps around an image that doesn't fill its box. */
+    background: #fff;
   }
 
   /* `fit` mode: the screenshot is one complete screen, not a tall page
