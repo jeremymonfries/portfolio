@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/jvi-logo.png';
+---
+
+<footer class="footer">
+  <Image src={logo} alt="JVI" class="footer-logo" width={120} />
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: var(--surface-sidebar);
+    padding: var(--space-4) var(--gutter);
+  }
+
+  .footer-logo {
+    display: block;
+    width: 72px;
+    height: auto;
+  }
+</style>
