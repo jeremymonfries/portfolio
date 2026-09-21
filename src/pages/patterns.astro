@@ -1,0 +1,449 @@
+---
+// Internal reference, not part of the public site IA (no Nav link) - a
+// living catalogue of every content-presentation component available to
+// case-study .mdx files, each with a live example and its usage snippet.
+// Exists so a new case study (or an edit to an existing one) can reach
+// for the pattern that already exists instead of re-deriving a layout
+// from scratch - see the "componentise the different approaches to
+// content presentation" request that prompted this page.
+//
+// The .case-body-section/.case-body wrapper and its h2/h3/h4 rules below
+// are intentionally mirrored from [slug].astro (Astro scopes styles per
+// page, so there's no collision) - it's what every one of these
+// components' full-bleed breakout math and heading treatment is
+// written against, so demoing them outside that context would render
+// them wrong.
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ColumnGrid from '../components/ColumnGrid.astro';
+import MediaRow from '../components/MediaRow.astro';
+import ImageGrid from '../components/ImageGrid.astro';
+import Carousel from '../components/Carousel.astro';
+import DeviceFrame from '../components/DeviceFrame.astro';
+import FullBleedImage from '../components/FullBleedImage.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import NumberedSteps from '../components/NumberedSteps.astro';
+import ListBand from '../components/ListBand.astro';
+import demoMobile from '../assets/case-studies/ecommerce-checkout/05.png';
+import demoLaptop from '../assets/case-studies/microsite/01.jpg';
+import demoDiagram from '../assets/case-studies/torque-drift/01.png';
+
+const patterns = [
+  {
+    id: 'section-heading',
+    name: 'SectionHeading',
+    use: 'A section title. "chapter" for a major beat in the story (large, centred) - use for the closing "Final thoughts" and any big topic shift. "section" for everything else (smaller, left-aligned) - the default for most sub-headings. "tagline" for a short bold restatement directly under a chapter heading (e.g. a one-line project-vision statement). Add align="left" or align="center" to override the default alignment for that one heading.',
+  },
+  {
+    id: 'column-grid',
+    name: 'ColumnGrid',
+    use: 'Two or three short heading+list blocks side by side (Problem/Solution, Tools/Role/Skills, UX goals/Business goals). Each direct child <div> is one column - give it its own heading and list/paragraph.',
+  },
+  {
+    id: 'media-row',
+    name: 'MediaRow',
+    use: 'A screenshot beside its own heading and description, alternating sides across a sequence with reverse. Pass src/alt for a plain image, or a <DeviceFrame slot="image"> for a tall/scrollable capture.',
+  },
+  {
+    id: 'image-grid',
+    name: 'ImageGrid',
+    use: 'A fixed N-column gallery of same-size images or device frames - competitor screenshots, final-design variations, anything that reads as one set rather than a sequence.',
+  },
+  {
+    id: 'carousel',
+    name: 'Carousel',
+    use: "A horizontally-scrolling, 2-row gallery for a longer image set the reader pages through (originally used for microsite's wireframe/UI-design sets) - use over ImageGrid when there are too many images for a static grid to stay legible.",
+  },
+  {
+    id: 'device-frame',
+    name: 'DeviceFrame',
+    use: 'Wraps one screenshot in a photorealistic mobile/laptop/tablet frame. Tall page captures scroll inside the frame by default; pass fit for a single complete screen (e.g. a game UI) that should letterbox instead of scroll.',
+  },
+  {
+    id: 'full-bleed-image',
+    name: 'FullBleedImage',
+    use: "One diagram or wireframe that should read at the full content width (not a device screenshot, so DeviceFrame doesn't apply) - information architecture maps, flow diagrams.",
+  },
+  {
+    id: 'video-embed',
+    name: 'VideoEmbed',
+    use: 'A plain 16:9 embedded video (e.g. a YouTube walkthrough), full content width, no device chrome.',
+  },
+  {
+    id: 'numbered-steps',
+    name: 'NumberedSteps',
+    use: 'A short (2-4 item) numbered list that deserves more visual weight than a plain markdown 1/2/3 - a methodology or process list you want to stand out from surrounding prose.',
+  },
+  {
+    id: 'list-band',
+    name: 'ListBand',
+    use: 'A full-bleed colour band with a label and a list of short items (tools, tags, learnings). Superseded by ColumnGrid for most current case studies - reach for this specifically when you want the coloured full-bleed treatment back.',
+  },
+];
+---
+
+<BaseLayout
+  title="Pattern library — Jeremy Monfries"
+  description="Internal reference: every content-presentation component available to case-study pages, with live examples."
+>
+  <article class="intro">
+    <h1>Pattern library</h1>
+    <p>
+      Every reusable content-presentation component available inside a case study's .mdx body, with
+      a live example and its usage snippet. Not linked from the site nav - this is a working
+      reference, not portfolio content. Jump to a pattern:
+    </p>
+    <ul class="jump-list">
+      {patterns.map((p) => (
+        <li>
+          <a href={`#${p.id}`}>{p.name}</a>
+        </li>
+      ))}
+    </ul>
+  </article>
+
+  <article class="case-body-section">
+    <div class="case-body">
+      <div class="pattern" id="section-heading">
+        <p class="pattern-label">SectionHeading</p>
+        <p class="pattern-use">{patterns[0].use}</p>
+        <div class="pattern-demo">
+          <SectionHeading level="chapter">Chapter heading</SectionHeading>
+          <SectionHeading level="section">Section heading</SectionHeading>
+          <SectionHeading level="tagline">
+            A short bold tagline under a chapter heading
+          </SectionHeading>
+        </div>
+        <pre class="pattern-code"><code>{`<SectionHeading level="chapter">Final thoughts</SectionHeading>
+<SectionHeading level="section">Wireframes</SectionHeading>
+<SectionHeading level="chapter" align="left">Project vision</SectionHeading>`}</code></pre>
+      </div>
+
+      <div class="pattern" id="column-grid">
+        <p class="pattern-label">ColumnGrid</p>
+        <p class="pattern-use">{patterns[1].use}</p>
+        <div class="pattern-demo">
+          <ColumnGrid cols={2}>
+            <div>
+              <h3>Tools</h3>
+              <ul>
+                <li>Figma</li>
+                <li>Usertesting.com</li>
+              </ul>
+            </div>
+            <div>
+              <h3>My role</h3>
+              <ul>
+                <li>Lead designer</li>
+                <li>Workshop facilitator</li>
+              </ul>
+            </div>
+          </ColumnGrid>
+        </div>
+        <pre class="pattern-code"><code>{`<ColumnGrid cols={2}>
+<div>
+### Tools
+- Figma
+- Usertesting.com
+</div>
+<div>
+### My role
+- Lead designer
+</div>
+</ColumnGrid>`}</code></pre>
+      </div>
+
+      <div class="pattern" id="media-row">
+        <p class="pattern-label">MediaRow</p>
+        <p class="pattern-use">{patterns[2].use}</p>
+        <div class="pattern-demo">
+          <MediaRow src={demoMobile} alt="Example checkout screen">
+            <h3>Wireframes</h3>
+            <p>
+              A short description sits beside the image, alternating sides across a sequence with
+              the reverse prop.
+            </p>
+          </MediaRow>
+        </div>
+        <pre class="pattern-code"><code>{`<MediaRow src={shotImg} alt="..." reverse>
+### Wireframes
+Description text.
+</MediaRow>
+
+{/* or, for a tall capture that should scroll inside a frame: */}
+<MediaRow>
+<DeviceFrame slot="image" variant="laptop">
+![alt](../../assets/.../shot.jpg)
+</DeviceFrame>
+### UI design
+</MediaRow>`}</code></pre>
+      </div>
+
+      <div class="pattern" id="image-grid">
+        <p class="pattern-label">ImageGrid</p>
+        <p class="pattern-use">{patterns[3].use}</p>
+        <div class="pattern-demo">
+          <ImageGrid cols={3}>
+            <DeviceFrame variant="mobile">
+              <Image src={demoMobile} alt="Example screen 1" width={400} />
+            </DeviceFrame>
+            <DeviceFrame variant="mobile">
+              <Image src={demoMobile} alt="Example screen 2" width={400} />
+            </DeviceFrame>
+            <DeviceFrame variant="mobile">
+              <Image src={demoMobile} alt="Example screen 3" width={400} />
+            </DeviceFrame>
+          </ImageGrid>
+        </div>
+        <pre class="pattern-code"><code>{`<ImageGrid cols={3}>
+<DeviceFrame variant="mobile">
+![alt](../../assets/.../01.jpg)
+</DeviceFrame>
+{/* ...repeat per image... */}
+</ImageGrid>`}</code></pre>
+      </div>
+
+      <div class="pattern" id="carousel">
+        <p class="pattern-label">Carousel</p>
+        <p class="pattern-use">{patterns[4].use}</p>
+        <div class="pattern-demo">
+          <Carousel label="Example gallery">
+            <DeviceFrame variant="laptop">
+              <Image src={demoLaptop} alt="Example screen 1" width={700} />
+            </DeviceFrame>
+            <DeviceFrame variant="laptop">
+              <Image src={demoLaptop} alt="Example screen 2" width={700} />
+            </DeviceFrame>
+            <DeviceFrame variant="laptop">
+              <Image src={demoLaptop} alt="Example screen 3" width={700} />
+            </DeviceFrame>
+            <DeviceFrame variant="laptop">
+              <Image src={demoLaptop} alt="Example screen 4" width={700} />
+            </DeviceFrame>
+          </Carousel>
+        </div>
+        <pre class="pattern-code"><code>{`<Carousel label="Wireframes">
+<DeviceFrame variant="laptop">
+![alt](../../assets/.../01.jpg)
+</DeviceFrame>
+{/* ...repeat per image, 2 rows x N columns... */}
+</Carousel>`}</code></pre>
+      </div>
+
+      <div class="pattern" id="device-frame">
+        <p class="pattern-label">DeviceFrame</p>
+        <p class="pattern-use">{patterns[5].use}</p>
+        <div class="pattern-demo device-frame-demo">
+          <DeviceFrame variant="mobile">
+            <Image src={demoMobile} alt="Example mobile screen" width={400} />
+          </DeviceFrame>
+          <DeviceFrame variant="laptop">
+            <Image src={demoLaptop} alt="Example laptop screen" width={700} />
+          </DeviceFrame>
+        </div>
+        <pre class="pattern-code"><code>{`<DeviceFrame variant="laptop">
+![alt](../../assets/.../shot.jpg)
+</DeviceFrame>
+
+{/* single complete screen, letterboxed instead of scrolling: */}
+<DeviceFrame variant="mobile-landscape" fit>
+![alt](../../assets/.../shot.jpg)
+</DeviceFrame>`}</code></pre>
+      </div>
+
+      <div class="pattern" id="full-bleed-image">
+        <p class="pattern-label">FullBleedImage</p>
+        <p class="pattern-use">{patterns[6].use}</p>
+        <div class="pattern-demo">
+          <FullBleedImage src={demoDiagram} alt="Example information architecture diagram" />
+        </div>
+        <pre class="pattern-code"><code>{`<FullBleedImage src={diagramImg} alt="..." />`}</code></pre>
+      </div>
+
+      <div class="pattern" id="video-embed">
+        <p class="pattern-label">VideoEmbed</p>
+        <p class="pattern-use">{patterns[7].use}</p>
+        <div class="pattern-demo">
+          <VideoEmbed src="https://www.youtube.com/embed/-UurBLB3qBA?rel=0" title="Example video" />
+        </div>
+        <pre class="pattern-code"><code>{`<VideoEmbed src="https://www.youtube.com/embed/VIDEO_ID?rel=0" title="..." />`}</code></pre>
+      </div>
+
+      <div class="pattern" id="numbered-steps">
+        <p class="pattern-label">NumberedSteps</p>
+        <p class="pattern-use">{patterns[8].use}</p>
+        <div class="pattern-demo">
+          <NumberedSteps
+            items={[
+              'Review the existing approach',
+              'Identify what to change',
+              'Validate with testing',
+            ]}
+          />
+        </div>
+        <pre class="pattern-code"><code>{`<NumberedSteps items={[
+  'Review the existing approach',
+  'Identify what to change',
+  'Validate with testing',
+]} />`}</code></pre>
+      </div>
+
+      <div class="pattern" id="list-band">
+        <p class="pattern-label">ListBand</p>
+        <p class="pattern-use">{patterns[9].use}</p>
+        <div class="pattern-demo">
+          <ListBand
+            label="Skills"
+            tone="tint"
+            columns={2}
+            items={['Research', 'Wireframing', 'Visual design', 'Prototyping']}
+          />
+        </div>
+        <pre class="pattern-code"><code>{`<ListBand
+  label="Skills"
+  tone="tint"
+  columns={2}
+  items={['Research', 'Wireframing', 'Visual design', 'Prototyping']}
+/>`}</code></pre>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding: var(--space-7) var(--gutter) var(--space-5);
+    max-width: var(--page-max);
+    margin: 0 auto;
+  }
+
+  .intro h1 {
+    font: 700 var(--heading-h1) / var(--heading-leading) var(--font-display);
+    margin: 0 0 var(--space-3);
+  }
+
+  .intro p {
+    max-width: 700px;
+    color: var(--text-muted);
+    font-size: 18px;
+    margin: 0 0 var(--space-3);
+  }
+
+  .jump-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .jump-list a {
+    text-decoration: none;
+    color: var(--action-primary-bg);
+    font-weight: 700;
+  }
+
+  .jump-list a:hover,
+  .jump-list a:focus-visible {
+    text-decoration: underline;
+  }
+
+  /* Mirrors [slug].astro's .case-body-section/.case-body - see the note
+     at the top of the frontmatter for why this is duplicated rather than
+     shared. */
+  .case-body-section {
+    padding: 0 var(--gutter) var(--space-7);
+    max-width: var(--page-max);
+    margin: 0 auto;
+  }
+
+  .case-body {
+    max-width: 780px;
+    margin-inline: auto;
+    font-size: 16px;
+    line-height: var(--body-leading);
+  }
+
+  .case-body :global(h2) {
+    font: 700 var(--heading-h3) / var(--heading-leading) var(--font-display);
+    margin: var(--space-6) 0 var(--space-3);
+    text-align: center;
+  }
+
+  .case-body :global(h3) {
+    font: 700 var(--heading-h4) / var(--heading-leading) var(--font-display);
+    margin: var(--space-5) 0 var(--space-2);
+  }
+
+  .case-body :global(h4) {
+    font: 700 16px / var(--heading-leading) var(--font-display);
+    margin: var(--space-4) 0 var(--space-1);
+    color: var(--text-muted);
+  }
+
+  .case-body :global(p) {
+    margin: 0 0 var(--space-3);
+  }
+
+  .case-body :global(ul) {
+    margin: 0 0 var(--space-3);
+    padding-left: 1.3em;
+  }
+
+  .case-body :global(li) {
+    margin-bottom: var(--space-1);
+  }
+
+  .pattern {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-default);
+  }
+
+  .pattern:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .pattern-label {
+    margin: 0;
+    font: 700 14px / 1.3 var(--font-display);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--action-primary-bg);
+  }
+
+  .pattern-use {
+    margin: var(--space-1) 0 0;
+    max-width: 700px;
+    color: var(--text-muted);
+  }
+
+  .pattern-demo {
+    margin-top: var(--space-3);
+  }
+
+  .device-frame-demo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    align-items: end;
+  }
+
+  .pattern-code {
+    margin: var(--space-3) 0 0;
+    padding: var(--space-3);
+    background: var(--surface-subtle);
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 700px) {
+    .device-frame-demo {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
