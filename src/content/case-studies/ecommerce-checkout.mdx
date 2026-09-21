@@ -19,7 +19,6 @@ order: 1
 
 import DeviceFrame from '../../components/DeviceFrame.astro';
 import ImageGrid from '../../components/ImageGrid.astro';
-import ListBand from '../../components/ListBand.astro';
 import ColumnGrid from '../../components/ColumnGrid.astro';
 
 **Role:** Team Lead, Lead Product Designer
@@ -80,32 +79,32 @@ I designed multiple wireframes and UI iterations based on research feedback to e
 
 #### Deliver a best-in-class checkout experience for all Norton and LifeLock customers
 
-<ListBand
-  label="UX goals"
-  tone="subtle"
-  items={[
-    'Reduce friction and minimise customer pain points',
-    'Reduce friction on sign up / sign in',
-    'Create a seamless UX from entry to exit points',
-    'Service both Norton and LifeLock customers effectively and equally',
-    'Consider all customer needs in checkout',
-    'Feature additional products customers might find useful',
-  ]}
-/>
+<ColumnGrid cols={2}>
+<div>
+### UX goals
 
-<ListBand
-  label="Business goals"
-  tone="tint"
-  items={[
-    'Grow conversions (target 5% revenue increase)',
-    'Grow customer base',
-    'Reduce business silos',
-    'Improve integration between Norton and LifeLock products',
-    'Compliance with WCAG 2.1 AA and ADA accessibility guidelines',
-    'Accommodate multiple languages and regional requirements',
-    'Up-sell and cross-sell additional secondary products',
-  ]}
-/>
+- Reduce friction and minimise customer pain points
+- Reduce friction on sign up / sign in
+- Create a seamless UX from entry to exit points
+- Service both Norton and LifeLock customers effectively and equally
+- Consider all customer needs in checkout
+- Feature additional products customers might find useful
+
+</div>
+
+<div>
+### Business goals
+
+- Grow conversions (target 5% revenue increase)
+- Grow customer base
+- Reduce business silos
+- Improve integration between Norton and LifeLock products
+- Compliance with WCAG 2.1 AA and ADA accessibility guidelines
+- Accommodate multiple languages and regional requirements
+- Up-sell and cross-sell additional secondary products
+
+</div>
+</ColumnGrid>
 
 These challenges were important for a number of reasons. The company was under pressure to increase revenue, and the existing checkout was underperforming relative to our competitors — too many steps, too many forms, and an overly complicated login process. The checkout needed to address different product and customer needs: LifeLock and Norton have different user bases with different data requirements, such as Social Security Numbers and personal identification data for each user.
 
