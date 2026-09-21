@@ -20,6 +20,7 @@ order: 1
 import DeviceFrame from '../../components/DeviceFrame.astro';
 import ImageGrid from '../../components/ImageGrid.astro';
 import ColumnGrid from '../../components/ColumnGrid.astro';
+import NumberedSteps from '../../components/NumberedSteps.astro';
 
 **Role:** Team Lead, Lead Product Designer
 
@@ -114,9 +115,13 @@ We negotiated with senior stakeholders to make sure the project addressed both b
 
 To ensure NortonLifeLock customers have the best possible experience, we undertook a thorough analysis via:
 
-1. Reviewing our competitors' checkout processes
-2. Reviewing existing literature from leading research companies such as NN/g and the Baymard Institute
-3. Data-mining our extensive repository of existing internal reports and testing results
+<NumberedSteps
+  items={[
+    "Reviewing our competitors' checkout processes",
+    'Reviewing existing literature from leading research companies such as NN/g and the Baymard Institute',
+    'Data-mining our extensive repository of existing internal reports and testing results',
+  ]}
+/>
 
 This analysis was designed to evaluate the strengths and weaknesses of our competition, including McAfee, Kaspersky, Avast and Avira, and to identify useful and relevant information on how we could improve the NortonLifeLock checkout experience. The findings helped us make informed decisions about the design and functionality of the checkout process, ensuring it was both user-friendly and efficient, and allowing us to provide customers with a best-in-class experience while staying ahead of the competition.
 

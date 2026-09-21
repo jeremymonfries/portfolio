@@ -1,0 +1,59 @@
+---
+export interface Props {
+  items: string[];
+}
+
+const { items } = Astro.props;
+---
+
+<ol class="numbered-steps">
+  {items.map((item, i) => (
+    <li>
+      <span class="numbered-steps__num" aria-hidden="true">
+        {String(i + 1).padStart(2, '0')}
+      </span>
+      <span class="numbered-steps__text">{item}</span>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .numbered-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin: var(--space-4) 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .numbered-steps li {
+    margin: 0;
+    padding-top: var(--space-2);
+    border-top: 2px solid var(--action-primary-bg);
+  }
+
+  .numbered-steps__num {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(28px, 3.5vw, 40px);
+    line-height: 1;
+    color: var(--action-primary-bg);
+    margin-bottom: var(--space-2);
+  }
+
+  .numbered-steps__text {
+    display: block;
+    font-size: 16px;
+    line-height: var(--body-leading);
+    color: var(--text-body);
+  }
+
+  @media (max-width: 700px) {
+    .numbered-steps {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>
