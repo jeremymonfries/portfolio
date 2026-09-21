@@ -5,12 +5,22 @@
 // .case-body's 780px prose column to the full .case-body-section width
 // so the image reads at a useful size. `reverse` flips the image to the
 // right for visual variety across a sequence of rows.
+//
+// The image side defaults to a plain <Image> (src/alt props) with its
+// own expand button - fine for a normal screenshot. But some sources are
+// full-page captures meant to scroll inside a fixed-height device frame,
+// not stretch to their full natural height inline (measured one at
+// ~4400px tall rendered plain - comparison-chart's UI design intro shot).
+// For those, pass the framed content via the named `image` slot (e.g. a
+// <DeviceFrame>) instead of src/alt - it replaces the default image
+// entirely, including the expand button, since DeviceFrame already
+// provides its own.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 export interface Props {
-  src: ImageMetadata;
-  alt: string;
+  src?: ImageMetadata;
+  alt?: string;
   reverse?: boolean;
 }
 
@@ -18,20 +28,29 @@ const { src, alt, reverse = false } = Astro.props;
 ---
 
 <div class={`media-row${reverse ? ' media-row--reverse' : ''}`}>
-  <div class="media-row__image-wrap" data-lightbox-group>
-    <Image src={src} alt={alt} width={900} class="media-row__image" />
-    <button type="button" class="media-row__expand" data-lightbox-trigger aria-label="View larger">
-      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
-        <path
-          d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-      </svg>
-    </button>
+  <div class="media-row__image-wrap">
+    <slot name="image">
+      <div class="media-row__image-inner" data-lightbox-group>
+        <Image src={src!} alt={alt ?? ''} width={900} class="media-row__image" />
+        <button
+          type="button"
+          class="media-row__expand"
+          data-lightbox-trigger
+          aria-label="View larger"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+            <path
+              d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </slot>
   </div>
   <div class="media-row__content">
     <slot />
@@ -54,8 +73,12 @@ const { src, alt, reverse = false } = Astro.props;
   }
 
   .media-row__image-wrap {
-    position: relative;
     order: 1;
+    min-width: 0;
+  }
+
+  .media-row__image-inner {
+    position: relative;
   }
 
   .media-row__image {
@@ -88,7 +111,7 @@ const { src, alt, reverse = false } = Astro.props;
     transition: opacity 0.15s ease;
   }
 
-  .media-row__image-wrap:hover .media-row__expand,
+  .media-row__image-inner:hover .media-row__expand,
   .media-row__expand:focus-visible {
     opacity: 1;
   }
