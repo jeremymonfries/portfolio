@@ -9,6 +9,7 @@ order: 2
 ---
 
 import MediaRow from '../../components/MediaRow.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
 import cardsImg from '../../assets/case-studies/design-system/02.png';
 import formsImg from '../../assets/case-studies/design-system/03.png';
 import typographyImg from '../../assets/case-studies/design-system/04.png';
@@ -20,14 +21,14 @@ As my team migrated existing experience flows to use the new checkout experience
 As the original designer of our checkout, it made sense for me to do the work. I worked from our original Sketch files, then extended the new Figma-based library to provide all the assets a designer might need to deliver new flows for desktop, tablet and mobile. I used the Atomic Design methodology (Brad Frost), building out all the atoms, molecules, organisms and templates, and worked with the rest of the team to ensure the design system was robust enough to be useful without being too complex to be confusing.
 
 <MediaRow src={cardsImg} alt='Checkout "Card" templates combining UI elements into reusable checkout states'>
-### Templates ("Cards")
+<SectionHeading level="section">Templates ("Cards")</SectionHeading>
 
 The "Cards" combined different UI elements into cohesive "organisms" that covered all the different states of the checkout. I wanted designers to have access to these organisms, as they form the foundation of the checkout and cover most states that would appear — making the task of creating any flow much quicker.
 
 </MediaRow>
 
 <MediaRow src={formsImg} alt="Form field components and states in the checkout design system">
-### Form elements
+<SectionHeading level="section">Form elements</SectionHeading>
 
 I built out the form fields and various states including:
 
@@ -44,7 +45,7 @@ I built out the form fields and various states including:
 </MediaRow>
 
 <MediaRow src={typographyImg} alt="Typography scale and specimens in the checkout design system">
-### Typography
+<SectionHeading level="section">Typography</SectionHeading>
 
 The fonts were mapped out to work with:
 
@@ -56,19 +57,19 @@ The fonts were mapped out to work with:
 </MediaRow>
 
 <MediaRow src={buttonsImg} alt="Primary and secondary button states in the checkout design system">
-### Buttons
+<SectionHeading level="section">Buttons</SectionHeading>
 
 All primary and secondary buttons, as well as hover, press, disabled and focus states, were specified for desktop and mobile usage. As well as reflecting the Norton brand style, the buttons were optimised to clearly communicate user call-to-actions.
 
 </MediaRow>
 
 <MediaRow src={coloursImg} alt="Norton brand colour palette in the checkout design system">
-### Colours
+<SectionHeading level="section">Colours</SectionHeading>
 
 The colour palette mirrored the Norton brand palette and was only included in the design system so any designer using it could find all the assets they needed in one place.
 
 </MediaRow>
 
-## Some learnings
+<SectionHeading level="chapter">Some learnings</SectionHeading>
 
 Design systems are integral to any company wanting to rapidly integrate, design and implement large quantities of user flows. As Norton has many flow variations, it proved useful to create the design system. It was really important to me that I create something that was actually useful and not just a box-ticking exercise. Feedback from designers was positive, and it was a practical tool that helped with rapid iteration of flows.
