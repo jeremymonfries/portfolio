@@ -18,7 +18,21 @@ const { src, alt, reverse = false } = Astro.props;
 ---
 
 <div class={`media-row${reverse ? ' media-row--reverse' : ''}`}>
-  <Image src={src} alt={alt} width={900} class="media-row__image" />
+  <div class="media-row__image-wrap" data-lightbox-group>
+    <Image src={src} alt={alt} width={900} class="media-row__image" />
+    <button type="button" class="media-row__expand" data-lightbox-trigger aria-label="View larger">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+        <path
+          d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </button>
+  </div>
   <div class="media-row__content">
     <slot />
   </div>
@@ -39,8 +53,13 @@ const { src, alt, reverse = false } = Astro.props;
     margin-inline: calc((100% - min(var(--page-max), 100vw) + 2 * var(--gutter)) / 2);
   }
 
-  .media-row__image {
+  .media-row__image-wrap {
+    position: relative;
     order: 1;
+  }
+
+  .media-row__image {
+    display: block;
     width: 100%;
     height: auto;
     margin: 0;
@@ -48,12 +67,47 @@ const { src, alt, reverse = false } = Astro.props;
     border-radius: 8px;
   }
 
+  /* Same treatment as DeviceFrame/FullBleedImage's expand button -
+     always at least partly visible (not hover-only, undiscoverable on
+     touch), brightening on hover/focus. */
+  .media-row__expand {
+    position: absolute;
+    bottom: var(--space-3);
+    right: var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+  }
+
+  .media-row__image-wrap:hover .media-row__expand,
+  .media-row__expand:focus-visible {
+    opacity: 1;
+  }
+
+  .media-row__expand:hover {
+    background: rgba(0, 0, 0, 0.75);
+  }
+
+  .media-row__expand:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
   .media-row__content {
     order: 2;
     min-width: 0;
   }
 
-  .media-row--reverse .media-row__image {
+  .media-row--reverse .media-row__image-wrap {
     order: 2;
   }
 
@@ -75,8 +129,8 @@ const { src, alt, reverse = false } = Astro.props;
       gap: var(--space-3);
     }
 
-    .media-row__image,
-    .media-row--reverse .media-row__image {
+    .media-row__image-wrap,
+    .media-row--reverse .media-row__image-wrap {
       order: 1;
     }
 
