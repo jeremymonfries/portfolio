@@ -27,6 +27,16 @@ const { items } = Astro.props;
     list-style: none;
   }
 
+  /* `.case-body :global(ol)` (padding-left: 1.3em, for plain markdown
+     lists) otherwise wins the cascade here - it resolves to one more
+     specificity point (.case-body[data-astro-cid] ol) than this
+     component's own scoped `.numbered-steps[data-astro-cid]`. Naming the
+     known ancestor explicitly (same fix DeviceFrame uses against the
+     same global reset, for img) reliably beats it without !important. */
+  :global(.case-body) .numbered-steps {
+    padding: 0;
+  }
+
   .numbered-steps li {
     margin: 0;
     padding-top: var(--space-2);
