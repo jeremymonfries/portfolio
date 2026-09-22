@@ -1,19 +1,63 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/brand/jvi-logo.png';
+
+// Same items/hrefs as Nav's own default - one destination list, two
+// entry points (the fixed toggle up top, this footer down the bottom).
+const items = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: 'mailto:contact@jeremymonfries.com' },
+];
 ---
 
 <footer class="footer">
+  <nav class="footer-nav" aria-label="Footer">
+    {items.map((item, i) => (
+      <>
+        {i > 0 && (
+          <span class="footer-nav-sep" aria-hidden="true">
+            |
+          </span>
+        )}
+        <a href={item.href}>{item.label}</a>
+      </>
+    ))}
+  </nav>
   <Image src={logo} alt="JVI" class="footer-logo" width={200} />
 </footer>
 
 <style>
   .footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
     background: var(--surface-sidebar);
     padding: var(--space-4) var(--gutter);
+  }
+
+  .footer-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-display);
+    font-size: 16px;
+  }
+
+  .footer-nav a {
+    color: var(--color-white);
+    text-decoration: none;
+  }
+
+  .footer-nav a:hover,
+  .footer-nav a:focus-visible {
+    color: var(--accent);
+  }
+
+  .footer-nav-sep {
+    color: var(--color-neutral-200);
   }
 
   .footer-logo {
