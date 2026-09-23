@@ -185,8 +185,14 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
   }
 
   .skills li:not(:last-child)::after {
-    content: '|';
-    margin: 0 6px;
+    /* A space either side of the "|" (rather than CSS margin) so there's
+       an actual breakable character between list items - margin alone
+       isn't a valid line-break opportunity, so when a line ran out of
+       room right at a separator the next word glued itself to the end
+       of the previous line and overflowed the column instead of
+       wrapping (e.g. "Customer" in "Prototyping | Customer Insights"
+       spilling into the card grid beside it). */
+    content: ' | ';
   }
 
   .grid {
