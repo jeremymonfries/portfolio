@@ -214,6 +214,11 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--space-5);
+    /* Left inset so the cards don't sit flush against .home-bg's split
+       point - without this there was no visible pattern between the
+       white sidebar and the first card, even though the pattern shows
+       everywhere else around/between the cards. */
+    padding-left: var(--space-6);
   }
 
   .card {
@@ -303,6 +308,14 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
 
     .profile {
       position: static;
+    }
+
+    /* The left inset exists to reveal pattern between the sidebar and
+       the cards - once they stack there's no pattern to reveal (see
+       .home-bg above), so it'd just eat into the single mobile column
+       asymmetrically for no reason. */
+    .grid {
+      padding-left: 0;
     }
   }
 </style>
