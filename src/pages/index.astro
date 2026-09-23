@@ -47,57 +47,89 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
   title="Jeremy Monfries — Lead Product/UX/UI Designer"
   description="I'm a designer with over 25 years experience working internationally in a variety of multinational businesses."
 >
-  <div class="home">
-    <aside class="profile">
-      <Image
-        src={profilePhoto}
-        alt="Jeremy Monfries"
-        class="profile-photo"
-        width={240}
-        height={240}
-      />
-      <h1>Jeremy Monfries</h1>
-      <p class="role">Lead Product/UX/UI</p>
-      <p class="bio">
-        I'm a designer with over 25 years experience working internationally in a variety of
-        multinational businesses. I'm passionate about creating human-centred, highly-usable digital
-        experiences.
-      </p>
-      <ul class="skills">
-        {skills.map((skill) => (
-          <li>{skill}</li>
-        ))}
-      </ul>
-    </aside>
+  <div class="home-bg">
+    <div class="home">
+      <aside class="profile">
+        <Image
+          src={profilePhoto}
+          alt="Jeremy Monfries"
+          class="profile-photo"
+          width={240}
+          height={240}
+        />
+        <h1>Jeremy Monfries</h1>
+        <p class="role">Lead Product/UX/UI</p>
+        <p class="bio">
+          I'm a designer with over 25 years experience working internationally in a variety of
+          multinational businesses. I'm passionate about creating human-centred, highly-usable
+          digital experiences.
+        </p>
+        <ul class="skills">
+          {skills.map((skill) => (
+            <li>{skill}</li>
+          ))}
+        </ul>
+      </aside>
 
-    <section class="grid" aria-label="Case studies">
-      {caseStudies.map((entry) => (
-        <a class="card" href={`/projects/${entry.id}/`}>
-          <Image
-            src={entry.data.heroImage.src}
-            alt={entry.data.heroImage.alt}
-            class="card-image"
-            width={640}
-            height={420}
-          />
-          <div class="card-body">
-            <h2>{entry.data.title}</h2>
-            <p>{entry.data.summary}</p>
-            {entry.data.skills.length > 0 && (
-              <ul class="card-skills">
-                {entry.data.skills.map((skill) => (
-                  <li class="chip">{skill}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </a>
-      ))}
-    </section>
+      <section class="grid" aria-label="Case studies">
+        {caseStudies.map((entry) => (
+          <a class="card" href={`/projects/${entry.id}/`}>
+            <Image
+              src={entry.data.heroImage.src}
+              alt={entry.data.heroImage.alt}
+              class="card-image"
+              width={640}
+              height={420}
+            />
+            <div class="card-body">
+              <h2>{entry.data.title}</h2>
+              <p>{entry.data.summary}</p>
+              {entry.data.skills.length > 0 && (
+                <ul class="card-skills">
+                  {entry.data.skills.map((skill) => (
+                    <li class="chip">{skill}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </a>
+        ))}
+      </section>
+    </div>
   </div>
 </BaseLayout>
 
 <style>
+  /* Full-viewport-width wrapper so the dot canvas below can reach the
+     true right/top/bottom edges of the page rather than stopping at
+     .home's own max-width (min(page-max,100vw)) - .home itself stays
+     the centred, gutter-padded, max-width content column it always
+     was; this just wraps it for the background layer's benefit. */
+  .home-bg {
+    /* Where the sidebar column ends and the case-study column begins,
+       measured from the true left edge of the viewport: half of
+       .home's own auto-centring margin, plus its left gutter padding,
+       plus the sidebar's own track width and the grid gap beside it.
+       Same breakout math the rest of the site uses for full-bleed
+       elements (see ImageGrid/MediaRow/etc's margin-inline calc),
+       just solved for a single edge instead of both. */
+    --home-split: calc(
+      (100vw - min(var(--page-max), 100vw)) / 2 + var(--gutter) + 280px + var(--space-6)
+    );
+    background-image:
+      linear-gradient(
+        to right,
+        var(--surface-page) 0,
+        var(--surface-page) var(--home-split),
+        transparent var(--home-split)
+      ),
+      radial-gradient(rgba(40, 42, 43, 0.1) 1.5px, transparent 0);
+    background-size:
+      100% 100%,
+      22px 22px;
+    background-repeat: no-repeat, repeat;
+  }
+
   .home {
     padding: var(--space-7) var(--gutter);
     max-width: var(--page-max);
@@ -161,17 +193,6 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--space-5);
-    /* Subtle dot-grid canvas behind the cards - padding+negative margin
-       cancel out so the grid's own outer edges stay exactly where they
-       were, but the dots show through in the gaps between cards and in
-       the breathing room around them, helping the solid-white bordered
-       cards read as floating on top of it rather than just sitting on
-       the page background. */
-    background-image: radial-gradient(rgba(40, 42, 43, 0.1) 1.5px, transparent 0);
-    background-size: 22px 22px;
-    border-radius: 16px;
-    padding: var(--space-4);
-    margin: calc(var(--space-4) * -1);
   }
 
   .card {
@@ -247,6 +268,14 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
   }
 
   @media (max-width: 800px) {
+    /* The split point above assumes the sidebar sits beside the grid;
+       once they stack (below), there's no vertical seam to compute
+       without measuring rendered content height, so just drop the
+       dot layer rather than let it land somewhere arbitrary. */
+    .home-bg {
+      background-image: none;
+    }
+
     .home {
       grid-template-columns: 1fr;
     }
