@@ -117,12 +117,14 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
       (100vw - min(var(--page-max), 100vw)) / 2 + var(--gutter) + 280px + var(--space-6)
     );
     /* Isometric "tumbling blocks" tile (public/patterns/isometric-cubes.svg)
-       - a mathematically exact, seamless hex-grid tiling (pointy-top
-       hexagons split into 3 rhombi via spokes to alternating vertices),
-       generated rather than hand-traced so the repeat is exact. Colour
-       is baked into the SVG itself (rgba ink at low opacity) since an
-       external background-image can't inherit currentColor from this
-       page. */
+       - generated (not hand-traced) from exact hex-grid math: pointy-top
+       hexagons split into 3 rhombi via spokes to alternating vertices,
+       with a periodic (still seamless) hash deciding which outline
+       edges/spokes to omit so cells fuse into longer unsubdivided
+       "plank" regions rather than a uniform honeycomb - matching the
+       reference photo's woven/maze character. Colour (cream fill,
+       white lines) is baked into the SVG itself, since an external
+       background-image can't inherit currentColor from this page. */
     background-image:
       linear-gradient(
         to right,
@@ -133,7 +135,7 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
       url('/patterns/isometric-cubes.svg');
     background-size:
       100% 100%,
-      43.301px 75px;
+      216.506px 225px;
     background-repeat: no-repeat, repeat;
   }
 
