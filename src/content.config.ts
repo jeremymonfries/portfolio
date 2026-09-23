@@ -49,6 +49,10 @@ const caseStudies = defineCollection({
           }),
         )
         .default([]),
+      // 3-4 short skill tags shown as chips on the homepage grid card -
+      // gives a scannable "what kind of work is this" signal before the
+      // reader clicks in. Free text, not drawn from a fixed taxonomy.
+      skills: z.array(z.string()).default([]),
       order: z.number().default(0),
       // Set `draft: true` to keep working on a case study without showing
       // it - excluded from both the homepage grid (src/pages/index.astro)

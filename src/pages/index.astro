@@ -80,8 +80,17 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
             width={640}
             height={420}
           />
-          <h2>{entry.data.title}</h2>
-          <p>{entry.data.summary}</p>
+          <div class="card-body">
+            <h2>{entry.data.title}</h2>
+            <p>{entry.data.summary}</p>
+            {entry.data.skills.length > 0 && (
+              <ul class="card-skills">
+                {entry.data.skills.map((skill) => (
+                  <li class="chip">{skill}</li>
+                ))}
+              </ul>
+            )}
+          </div>
         </a>
       ))}
     </section>
@@ -155,9 +164,23 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
   }
 
   .card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     text-decoration: none;
     color: inherit;
+    background: var(--surface-page);
+    border: 1px solid var(--border-default);
+    border-radius: 12px;
+    overflow: hidden;
+    transition:
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .card:hover,
+  .card:focus-visible {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
   }
 
   .card-image {
@@ -165,8 +188,15 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
     height: auto;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: var(--space-2);
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: var(--space-3);
   }
 
   .card h2 {
@@ -183,6 +213,26 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
   .card:hover h2,
   .card:focus-visible h2 {
     color: var(--action-primary-bg);
+  }
+
+  .card-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    list-style: none;
+    margin: 0;
+    padding-top: var(--space-2);
+    margin-top: auto;
+  }
+
+  .chip {
+    font: 700 12px / 1 var(--font-display);
+    letter-spacing: 0.01em;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--surface-tint);
+    color: var(--action-primary-bg);
+    white-space: nowrap;
   }
 
   @media (max-width: 800px) {
