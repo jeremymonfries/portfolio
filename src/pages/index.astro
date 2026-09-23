@@ -106,6 +106,16 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
      the centred, gutter-padded, max-width content column it always
      was; this just wraps it for the background layer's benefit. */
   .home-bg {
+    /* Wider than the sitewide --page-max (1180px, tuned for prose
+       readability on case-study/about pages) - the card grid isn't a
+       reading column, it's a visual gallery, and at wide viewports
+       capping it to --page-max left the cards narrow with a large
+       unused patterned strip on the right. Kept as its own constant
+       (rather than just raising --page-max) so this doesn't affect
+       any other page's content width. Set here (not on .home) so both
+       this rule's --home-split and .home's own max-width - a
+       descendant, so it inherits this custom property - can use it. */
+    --home-max: 1600px;
     /* Where the sidebar column ends and the case-study column begins,
        measured from the true left edge of the viewport: half of
        .home's own auto-centring margin, plus its left gutter padding,
@@ -114,7 +124,7 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
        elements (see ImageGrid/MediaRow/etc's margin-inline calc),
        just solved for a single edge instead of both. */
     --home-split: calc(
-      (100vw - min(var(--page-max), 100vw)) / 2 + var(--gutter) + 280px + var(--space-6)
+      (100vw - min(var(--home-max), 100vw)) / 2 + var(--gutter) + 280px + var(--space-6)
     );
     /* Isometric "tumbling blocks" tile (public/patterns/isometric-cubes.svg)
        - generated (not hand-traced) from exact hex-grid math: pointy-top
@@ -147,7 +157,7 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
 
   .home {
     padding: var(--space-7) var(--gutter);
-    max-width: var(--page-max);
+    max-width: var(--home-max);
     margin: 0 auto;
     display: grid;
     grid-template-columns: 280px 1fr;
@@ -172,7 +182,14 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
   }
 
   .profile h1 {
-    font: 700 var(--heading-h2) / var(--heading-leading) var(--font-display);
+    /* Deliberately a fixed size, not --heading-h2 or any vw-based
+       clamp - the sidebar column is a fixed 280px on desktop (see
+       .home's grid-template-columns) regardless of viewport width, so
+       a font that keeps growing with the viewport eventually needs
+       more room than that fixed column has and wraps "Jeremy
+       Monfries" onto two lines. 32px comfortably fits it at any
+       viewport, on the single full-width mobile column too. */
+    font: 700 32px / var(--heading-leading) var(--font-display);
     margin: 0 0 var(--space-1);
   }
 
