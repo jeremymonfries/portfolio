@@ -161,6 +161,17 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--space-5);
+    /* Subtle dot-grid canvas behind the cards - padding+negative margin
+       cancel out so the grid's own outer edges stay exactly where they
+       were, but the dots show through in the gaps between cards and in
+       the breathing room around them, helping the solid-white bordered
+       cards read as floating on top of it rather than just sitting on
+       the page background. */
+    background-image: radial-gradient(rgba(40, 42, 43, 0.1) 1.5px, transparent 0);
+    background-size: 22px 22px;
+    border-radius: 16px;
+    padding: var(--space-4);
+    margin: calc(var(--space-4) * -1);
   }
 
   .card {
@@ -221,8 +232,8 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
     gap: var(--space-1);
     list-style: none;
     margin: 0;
-    padding-top: var(--space-2);
     margin-top: auto;
+    padding: var(--space-2) 0 0;
   }
 
   .chip {
