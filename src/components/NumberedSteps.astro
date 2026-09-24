@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  items: string[];
+  items: (string | { title: string; body: string })[];
 }
 
 const { items } = Astro.props;
@@ -12,7 +12,14 @@ const { items } = Astro.props;
       <span class="numbered-steps__num" aria-hidden="true">
         {String(i + 1).padStart(2, '0')}
       </span>
-      <span class="numbered-steps__text">{item}</span>
+      {typeof item === 'string' ? (
+        <span class="numbered-steps__text">{item}</span>
+      ) : (
+        <>
+          <span class="numbered-steps__title">{item.title}</span>
+          <span class="numbered-steps__text">{item.body}</span>
+        </>
+      )}
     </li>
   ))}
 </ol>
@@ -50,6 +57,13 @@ const { items } = Astro.props;
     font-size: clamp(28px, 3.5vw, 40px);
     line-height: 1;
     color: var(--action-primary-bg);
+    margin-bottom: var(--space-2);
+  }
+
+  .numbered-steps__title {
+    display: block;
+    font: 700 16px / var(--heading-leading) var(--font-display);
+    color: var(--text-muted);
     margin-bottom: var(--space-2);
   }
 

@@ -13,6 +13,7 @@ draft: true
 import SectionHeading from '../../components/SectionHeading.astro';
 import ColumnGrid from '../../components/ColumnGrid.astro';
 import FullBleedImage from '../../components/FullBleedImage.astro';
+import NumberedSteps from '../../components/NumberedSteps.astro';
 import journeyMapImg from '../../assets/case-studies/find-your-business/01.png';
 
 <SectionHeading level="section">My role</SectionHeading>
@@ -56,27 +57,22 @@ The journey starts when a customer begins business onboarding and reaches "Find 
 
 To ground the redesign in real behaviour, I started with a discovery audit and an end-to-end experience map of the live FYB flow across both surfaces, documenting every happy path, unhappy path, branch and dead end. That map became the shared artefact for product, engineering, research and compliance to review, so we could debate decisions using observed flow behaviour rather than assumptions. I then partnered with research to validate key friction points through an unmoderated remote study with eight participants, using click-through prototypes across the happy path, error states, and the no-ABN-and-trust entry route. The study combined task completion, time on task, ratings, and think-aloud responses, which helped explain why high satisfaction scores still hid sharp drop-off risks in edge cases.
 
-**Finding 1**
-
-<SectionHeading level="tagline">ABN recall rarely happens in the real world</SectionHeading>
-
-Most participants treated ABR lookup as the first step, not a fallback, so typed-ABN-only flows created avoidable friction.
-
-**Finding 2**
-
-<SectionHeading level="tagline">
-  Error messages created uncertainty instead of decisions
-</SectionHeading>
-
-"Inactive ABN" triggered multiple conflicting interpretations and left users without a confident next action.
-
-**Finding 3**
-
-<SectionHeading level="tagline">
-  The no-ABN and trust entry route carried the highest effort
-</SectionHeading>
-
-This path showed the highest time on task and click counts, revealing a navigation problem, not a motivation problem.
+<NumberedSteps
+  items={[
+    {
+      title: 'ABN recall rarely happens in the real world',
+      body: 'Most participants treated ABR lookup as the first step, not a fallback, so typed-ABN-only flows created avoidable friction.',
+    },
+    {
+      title: 'Error messages created uncertainty instead of decisions',
+      body: '"Inactive ABN" triggered multiple conflicting interpretations and left users without a confident next action.',
+    },
+    {
+      title: 'The no-ABN and trust entry route carried the highest effort',
+      body: 'This path showed the highest time on task and click counts, revealing a navigation problem, not a motivation problem.',
+    },
+  ]}
+/>
 
 <ColumnGrid cols={2}>
 <div>

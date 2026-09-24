@@ -75,7 +75,7 @@ const patterns = [
   {
     id: 'numbered-steps',
     name: 'NumberedSteps',
-    use: 'A short (2-4 item) numbered list that deserves more visual weight than a plain markdown 1/2/3 - a methodology or process list you want to stand out from surrounding prose.',
+    use: 'A short (2-4 item) numbered list that deserves more visual weight than a plain markdown 1/2/3 - a methodology or process list you want to stand out from surrounding prose. Each item is either a plain string, or a {title, body} object when each step needs its own headline plus supporting detail (e.g. named research findings).',
   },
   {
     id: 'list-band',
@@ -344,17 +344,29 @@ Description text.
         <div class="pattern-demo">
           <NumberedSteps
             items={[
-              'Review the existing approach',
-              'Identify what to change',
-              'Validate with testing',
+              {
+                title: 'Review the existing approach',
+                body: 'Audit what exists today and where it falls short.',
+              },
+              {
+                title: 'Identify what to change',
+                body: 'Turn the gaps into a small set of concrete design moves.',
+              },
+              {
+                title: 'Validate with testing',
+                body: 'Check the change actually solves the problem before shipping it.',
+              },
             ]}
           />
         </div>
         <pre class="pattern-code"><code>{`<NumberedSteps items={[
-  'Review the existing approach',
-  'Identify what to change',
-  'Validate with testing',
-]} />`}</code></pre>
+  { title: 'Review the existing approach', body: '...' },
+  { title: 'Identify what to change', body: '...' },
+  { title: 'Validate with testing', body: '...' },
+]} />
+
+// or, for a plain unlabelled list:
+<NumberedSteps items={['Step one', 'Step two', 'Step three']} />`}</code></pre>
       </div>
 
       <div class="pattern" id="list-band">
