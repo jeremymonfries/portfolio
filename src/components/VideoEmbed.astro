@@ -18,6 +18,8 @@ const { src, title } = Astro.props;
     loading="lazy"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen
+    sandbox="allow-scripts allow-same-origin allow-popups allow-presentation"
+    referrerpolicy="strict-origin-when-cross-origin"
   ></iframe>
 </div>
 

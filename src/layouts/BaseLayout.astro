@@ -10,9 +10,17 @@ import Lightbox from '../components/Lightbox.astro';
 export interface Props {
   title: string;
   description?: string;
+  // For pages that exist but aren't meant to show up in search results
+  // (e.g. the internal /patterns/ component reference) - keeps them
+  // reachable by direct URL without inviting crawlers to index them.
+  noindex?: boolean;
 }
 
-const { title, description = 'Jeremy Monfries — UX & product designer portfolio.' } = Astro.props;
+const {
+  title,
+  description = 'Jeremy Monfries — UX & product designer portfolio.',
+  noindex = false,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -21,6 +29,7 @@ const { title, description = 'Jeremy Monfries — UX & product designer portfoli
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>

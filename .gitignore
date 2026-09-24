@@ -2,6 +2,10 @@
 dist/
 # generated types
 .astro/
+# local state from `wrangler dev` (used to test public/_headers - see
+# HANDOFF.md/rebuild-scope.md - wrangler isn't otherwise part of this
+# project's normal dev workflow)
+.wrangler/
 
 # dependencies
 node_modules/

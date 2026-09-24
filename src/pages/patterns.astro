@@ -106,6 +106,7 @@ const pageLevelPatterns = [
 <BaseLayout
   title="Pattern library — Jeremy Monfries"
   description="Internal reference: every content-presentation component available to case-study pages, with live examples."
+  noindex
 >
   <article class="intro">
     <h1>Pattern library</h1>
@@ -329,9 +330,12 @@ Description text.
         <p class="pattern-label">VideoEmbed</p>
         <p class="pattern-use">{patterns[7].use}</p>
         <div class="pattern-demo">
-          <VideoEmbed src="https://www.youtube.com/embed/-UurBLB3qBA?rel=0" title="Example video" />
+          <VideoEmbed
+            src="https://www.youtube-nocookie.com/embed/-UurBLB3qBA?rel=0"
+            title="Example video"
+          />
         </div>
-        <pre class="pattern-code"><code>{`<VideoEmbed src="https://www.youtube.com/embed/VIDEO_ID?rel=0" title="..." />`}</code></pre>
+        <pre class="pattern-code"><code>{`<VideoEmbed src="https://www.youtube-nocookie.com/embed/VIDEO_ID?rel=0" title="..." />`}</code></pre>
       </div>
 
       <div class="pattern" id="numbered-steps">
