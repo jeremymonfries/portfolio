@@ -74,13 +74,15 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
       <section class="grid" aria-label="Case studies">
         {caseStudies.map((entry) => (
           <a class="card" href={`/projects/${entry.id}/`}>
-            <Image
-              src={entry.data.heroImage.src}
-              alt={entry.data.heroImage.alt}
-              class="card-image"
-              width={640}
-              height={420}
-            />
+            {entry.data.heroImage && (
+              <Image
+                src={entry.data.heroImage.src}
+                alt={entry.data.heroImage.alt}
+                class="card-image"
+                width={640}
+                height={420}
+              />
+            )}
             <div class="card-body">
               <h2>{entry.data.title}</h2>
               <p>{entry.data.summary}</p>

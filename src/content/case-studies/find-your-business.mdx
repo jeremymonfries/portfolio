@@ -2,9 +2,6 @@
 title: 'Find Your Business | Customer and banker redesign'
 summary: 'A redesign of a major Australian bank''s "Find your business" identification step across both customer self-serve and banker-assisted onboarding.'
 tldr: 'The bank needed to modernise its "Find your business" step across both customer self-serve and banker-assisted onboarding. I led the experience end to end, from discovery and journey mapping through prototyping, usability testing and the final recommendation, working across product, engineering, research and compliance to bring both experiences into a more consistent design-system direction.'
-heroImage:
-  src: '../../assets/case-studies/find-your-business.png'
-  alt: 'Find Your Business project cover'
 skills: ['UX research', 'Prototyping', 'Usability testing', 'Compliance']
 order: 6
 draft: true
@@ -12,9 +9,7 @@ draft: true
 
 import SectionHeading from '../../components/SectionHeading.astro';
 import ColumnGrid from '../../components/ColumnGrid.astro';
-import FullBleedImage from '../../components/FullBleedImage.astro';
 import NumberedSteps from '../../components/NumberedSteps.astro';
-import journeyMapImg from '../../assets/case-studies/find-your-business/01.png';
 
 <SectionHeading level="section">My role</SectionHeading>
 
@@ -44,14 +39,7 @@ FYB technically worked, but it no longer matched the bank's new design system in
 
 I redesigned FYB across both surfaces on the new design system, treating identification as verification, not data entry. I promoted ABR lookup to equal weight with typed ABN entry, rewrote error and no-match states to include plain-English definitions plus a clear next action, and rebuilt the no-ABN path as a guided route through business structure. I aligned customer and banker patterns by default, then kept deliberate differences only where the banker job genuinely needed extra controls or context. Compliance partnered throughout so requirements shaped the design early, instead of arriving as a final gate.
 
-<SectionHeading level="section">User journey</SectionHeading>
-
 The journey starts when a customer begins business onboarding and reaches "Find your business," where they try to identify their entity using ABN or ACN, or by choosing a no-ABN path. Many customers first leave the flow to look up their ABN using ABR search, then return to verify they selected the correct business from results. If the system finds no match or flags an issue (inactive or deregistered), the customer needs a clear explanation of what that status means and what to do next, otherwise they hesitate or abandon. In the banker-assisted journey, the banker performs the same identification job but needs additional context and controls for edge cases and on-behalf-of completion, so alignment matters for consistency — but the differences must stay intentional. The redesign focused on making each decision point feel like a confidence check with visible evidence (matched details, definitions, next steps) rather than a guessing game.
-
-<FullBleedImage
-  src={journeyMapImg}
-  alt="Customer and banker journey map for the Find Your Business redesign"
-/>
 
 <SectionHeading level="section">Interviews</SectionHeading>
 

@@ -37,7 +37,11 @@ const caseStudies = defineCollection({
       // Fuller 2-3 sentence overview shown in the TL;DR band under the hero
       // (Tldr.astro) - reproduces the original site's .case-tldr component.
       tldr: z.string(),
-      heroImage: imageWithAlt(image),
+      // Optional: most case studies have a real hero image, but one
+      // (find-your-business) has none, and a generic placeholder is worse
+      // than no image at all - both [slug].astro and index.astro skip the
+      // <Image> entirely when this is unset.
+      heroImage: imageWithAlt(image).optional(),
       // DS-07/UX-04/UX-12: the original site misused <h1> for decorative stat
       // numbers. Stats are structured data here, rendered via StatBlock.astro
       // as <p>, not a heading - the defect can't recur through this schema.

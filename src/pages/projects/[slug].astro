@@ -25,13 +25,15 @@ const { Content } = await render(entry);
   <article class="hero-section">
     <h1 class="title">{entry.data.title}</h1>
     <p class="summary">{entry.data.summary}</p>
-    <Image
-      src={entry.data.heroImage.src}
-      alt={entry.data.heroImage.alt}
-      width={1180}
-      height={700}
-      class="hero-image"
-    />
+    {entry.data.heroImage && (
+      <Image
+        src={entry.data.heroImage.src}
+        alt={entry.data.heroImage.alt}
+        width={1180}
+        height={700}
+        class="hero-image"
+      />
+    )}
   </article>
 
   <Tldr text={entry.data.tldr} />
