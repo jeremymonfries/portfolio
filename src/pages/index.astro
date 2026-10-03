@@ -267,6 +267,50 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
     transform: translateY(-2px);
   }
 
+  /* On-load entrance: each tile slides up from below into place with a
+     strong ease-out, staggered 70ms per tile (capped, so tiles further
+     down the page don't wait long). Uses the individual `translate`
+     property, not `transform`, so it composes with the hover lift above
+     instead of fighting it; `backwards` fill holds the start state during
+     the stagger delay and leaves normal styles in charge afterwards. */
+  .card {
+    animation: card-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  .card:nth-child(2) {
+    --i: 1;
+  }
+
+  .card:nth-child(3) {
+    --i: 2;
+  }
+
+  .card:nth-child(4) {
+    --i: 3;
+  }
+
+  .card:nth-child(5) {
+    --i: 4;
+  }
+
+  .card:nth-child(n + 6) {
+    --i: 5;
+  }
+
+  @keyframes card-rise {
+    from {
+      translate: 0 56px;
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card {
+      animation: none;
+    }
+  }
+
   .card-image {
     width: 100%;
     height: auto;
