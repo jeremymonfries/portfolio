@@ -81,9 +81,12 @@ const { Content } = await render(entry);
   /* The frame clips the blur's soft edge spill and the zoom (plus the 1px
      edge halo Chrome can show at high blur), so the reveal stays inside the
      rounded hero shape. */
+  /* `clip`, not `hidden`: hidden makes the frame a scroll container, which
+     would capture the scroll-driven view() timelines below instead of the
+     page. */
   .hero-frame {
     border-radius: 24px;
-    overflow: hidden;
+    overflow: clip;
   }
 
   .hero-image {
@@ -106,9 +109,63 @@ const { Content } = await render(entry);
     }
   }
 
+  /* Scroll-driven defocus as the hero leaves the viewport (modelled on
+     CodeFronts' "Backdrop Filter Blur Cross Fade Parallax"). The blur lives
+     on a veil over the image, not on the image itself, so only a
+     backdrop-filter value is animated. The image also drifts slower than
+     the page (individual `translate` composes with the load animation's
+     `transform`; the constant `scale` hides the gap the drift would open).
+     Browsers without scroll-driven animations just keep the load reveal. */
+  @supports (animation-timeline: view()) {
+    .hero-frame {
+      position: relative;
+    }
+
+    .hero-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      backdrop-filter: blur(0);
+      background: rgb(255 255 255 / 0);
+      animation: hero-veil linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 90%;
+    }
+
+    .hero-image {
+      scale: 1.08;
+      animation:
+        hero-focus 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.05s both,
+        hero-drift linear both;
+      animation-timeline: auto, view();
+      animation-range:
+        normal,
+        exit 0% exit 100%;
+    }
+  }
+
+  @keyframes hero-veil {
+    to {
+      backdrop-filter: blur(18px);
+      background: rgb(255 255 255 / 0.35);
+    }
+  }
+
+  @keyframes hero-drift {
+    to {
+      translate: 0 3%;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .hero-image {
       animation: none;
+      scale: 1;
+    }
+
+    .hero-frame::after {
+      display: none;
     }
   }
 
