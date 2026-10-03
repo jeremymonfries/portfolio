@@ -66,13 +66,15 @@ const expertise = [
 
 <BaseLayout
   title="About — Jeremy Monfries"
-  description="Jeremy Monfries — Lead Product/UX/UI designer with over 25 years experience."
+  description="Jeremy Monfries — Lead Product Designer, AI-Augmented, with over 25 years experience."
 >
   <section class="about">
     <Image src={profilePhoto} alt="Jeremy Monfries" class="about-photo" width={320} height={320} />
     <div class="about-copy">
       <h1>About</h1>
-      <p class="role">Lead Product/UX/UI</p>
+      <p class="role">
+        Lead Product Designer, <span class="nowrap">AI-Augmented</span>
+      </p>
       <p class="copy">
         I'm a designer with over 25 years experience working internationally in a variety of
         multinational businesses. I'm passionate about creating human-centred, highly-usable digital
@@ -154,6 +156,10 @@ const expertise = [
     font-size: 18px;
     color: var(--text-muted);
     margin: 0 0 var(--space-4);
+  }
+
+  .nowrap {
+    white-space: nowrap;
   }
 
   .copy {

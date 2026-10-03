@@ -44,7 +44,7 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
 ---
 
 <BaseLayout
-  title="Jeremy Monfries — Lead Product/UX/UI Designer"
+  title="Jeremy Monfries — Lead Product Designer, AI-Augmented"
   description="I'm a designer with over 25 years experience working internationally in a variety of multinational businesses."
 >
   <div class="home-bg">
@@ -58,7 +58,9 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
           height={240}
         />
         <h1>Jeremy Monfries</h1>
-        <p class="role">Lead Product/UX/UI</p>
+        <p class="role">
+          Lead Product Designer, <span class="nowrap">AI-Augmented</span>
+        </p>
         <p class="bio">
           I'm a designer with over 25 years experience working internationally in a variety of
           multinational businesses. I'm passionate about creating human-centred, highly-usable
@@ -199,6 +201,10 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
     font-size: 18px;
     color: var(--text-muted);
     margin: 0 0 var(--space-3);
+  }
+
+  .nowrap {
+    white-space: nowrap;
   }
 
   .bio {
