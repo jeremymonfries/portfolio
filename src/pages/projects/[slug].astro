@@ -22,11 +22,11 @@ const { Content } = await render(entry);
 ---
 
 <BaseLayout title={`${entry.data.title} — Jeremy Monfries`} description={entry.data.summary}>
-  <article class="hero-section">
-    <h1 class="title">{entry.data.title}</h1>
-    <p class="summary">{entry.data.summary}</p>
-    {entry.data.heroImage && (
-      <div class="hero-stage">
+  <div class:list={['hero-stage', { 'has-hero': Boolean(entry.data.heroImage) }]}>
+    <article class="hero-section">
+      <h1 class="title">{entry.data.title}</h1>
+      <p class="summary">{entry.data.summary}</p>
+      {entry.data.heroImage && (
         <div class="hero-frame">
           <Image
             src={entry.data.heroImage.src}
@@ -38,9 +38,9 @@ const { Content } = await render(entry);
             class="hero-image"
           />
         </div>
-      </div>
-    )}
-  </article>
+      )}
+    </article>
+  </div>
 
   <div class:list={['rise', { 'has-hero': Boolean(entry.data.heroImage) }]}>
     <Tldr text={entry.data.tldr} />
@@ -114,27 +114,17 @@ const { Content } = await render(entry);
   }
 
   /* Pinned hero with the page rising over it (modelled on CodeFronts'
-     "Backdrop Filter Blur Cross Fade Parallax"). The stage reserves a
-     runway of --hero-runway below the image; the frame sticks inside it
-     while .rise (TL;DR, stats, body) is pulled up over that runway on a
-     higher layer. Sticky works everywhere; the blur and drift below need
-     scroll-driven animations and are skipped where unsupported. */
-  .hero-section,
+     "Backdrop Filter Blur Cross Fade Parallax"). The whole hero section
+     (heading, summary, image) is position: sticky inside .hero-stage, which
+     ends with a --hero-runway spacer; .rise (TL;DR, stats, body) is pulled
+     up over that runway on a higher layer, so it slides over a hero that
+     hasn't moved. Sticky works everywhere; the blur and drift need
+     scroll-driven animations and are skipped where unsupported. Skipped
+     entirely for reduced motion and for very short viewports, where a
+     pinned hero would be taller than the screen. */
+  .hero-stage,
   .rise {
     --hero-runway: clamp(240px, 45vh, 420px);
-  }
-
-  /* A real in-flow spacer, not padding: a sticky element is only free to
-     move within its parent's content box, and padding isn't part of it. */
-  .hero-stage::after {
-    content: '';
-    display: block;
-    height: var(--hero-runway);
-  }
-
-  .hero-frame {
-    position: sticky;
-    top: var(--space-3);
   }
 
   .rise {
@@ -142,48 +132,73 @@ const { Content } = await render(entry);
     z-index: 1;
   }
 
-  .rise.has-hero {
-    margin-top: calc(-1 * var(--hero-runway));
-  }
-
-  /* The veil carries the blur (not the image), so only a backdrop-filter
-     value animates; the image drifts slower than the page via the
-     individual `translate` property, which composes with the load
-     reveal's `transform`. The constant `scale` hides the gap the drift
-     would open. Both run over exactly the runway distance. */
-  @supports (animation-timeline: view()) {
-    .hero-stage {
-      view-timeline: --hero block;
-    }
-
-    .hero-frame::after {
+  @media (prefers-reduced-motion: no-preference) and (min-height: 600px) {
+    /* A real in-flow spacer, not padding: a sticky element is only free to
+       move within its parent's content box, and padding isn't part of it. */
+    .hero-stage.has-hero::after {
       content: '';
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      backdrop-filter: blur(0);
-      background: rgb(255 255 255 / 0);
-      animation: hero-veil linear both;
-      animation-timeline: --hero;
-      animation-range: exit 0px exit var(--hero-runway);
+      display: block;
+      height: var(--hero-runway);
     }
 
-    .hero-image {
-      scale: 1.08;
-      animation:
-        hero-focus 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.05s both,
-        hero-drift linear both;
-      animation-timeline: auto, --hero;
-      animation-range:
-        normal,
-        exit 0px exit var(--hero-runway);
+    .hero-stage.has-hero .hero-section {
+      position: sticky;
+      top: 0;
+    }
+
+    .rise.has-hero {
+      margin-top: calc(-1 * var(--hero-runway));
+    }
+
+    /* A pinned hero taller than the screen would have its lower part
+       permanently out of view (nothing scrolls it into view any more), so
+       the image is capped to whatever the heading and summary leave free
+       (they take up to ~380px, plus a 24px bottom gap) and centre-cropped. */
+    .hero-stage.has-hero .hero-image {
+      max-height: max(240px, calc(100svh - 404px));
+      object-fit: cover;
+    }
+
+    /* The veil carries the blur (not the content), so only a
+       backdrop-filter value animates; the image drifts slower than the page
+       via the individual `translate` property, which composes with the load
+       reveal's `transform`. The constant `scale` hides the gap the drift
+       would open. Driven by root scroll position in pixels rather than a
+       view() timeline: the hero starts at the very top of the page, so
+       scroll distance maps 1:1 onto the pin phase, whereas view()'s "exit"
+       range starts at the wrong edge once the stage is taller than the
+       screen. The blur waits until the TL;DR band is about to reach the
+       hero (15% into the runway), then ramps to the end of it. */
+    @supports (animation-timeline: view()) {
+      .hero-stage.has-hero .hero-section::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        backdrop-filter: blur(0);
+        background: rgb(255 255 255 / 0);
+        animation: hero-veil linear both;
+        animation-timeline: scroll(root);
+        animation-range: calc(var(--hero-runway) * 0.15) var(--hero-runway);
+      }
+
+      .hero-image {
+        scale: 1.08;
+        animation:
+          hero-focus 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.05s both,
+          hero-drift linear both;
+        animation-timeline: auto, scroll(root);
+        animation-range:
+          normal,
+          calc(var(--hero-runway) * 0.15) var(--hero-runway);
+      }
     }
   }
 
   @keyframes hero-veil {
     to {
       backdrop-filter: blur(18px);
-      background: rgb(255 255 255 / 0.35);
+      background: rgb(255 255 255 / 0.6);
     }
   }
 
@@ -196,23 +211,6 @@ const { Content } = await render(entry);
   @media (prefers-reduced-motion: reduce) {
     .hero-image {
       animation: none;
-      scale: 1;
-    }
-
-    .hero-frame {
-      position: static;
-    }
-
-    .hero-frame::after {
-      display: none;
-    }
-
-    .hero-stage::after {
-      display: none;
-    }
-
-    .rise.has-hero {
-      margin-top: 0;
     }
   }
 
