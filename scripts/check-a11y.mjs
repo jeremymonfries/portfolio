@@ -91,6 +91,24 @@ async function main() {
       const routePath = routePathFor(htmlFile);
       await page.goto(`http://localhost:${PORT}${routePath}`, { waitUntil: 'networkidle' });
 
+      // Let on-load entrance animations (hero blur-in, homepage tiles rising)
+      // finish first: axe computes contrast from the live computed colours,
+      // and text caught mid-fade is semi-transparent, which reads as a
+      // false contrast failure. Only time-based, finite animations are
+      // awaited - the hero's scroll-driven ones never "finish" on their own.
+      await page.evaluate(() =>
+        Promise.all(
+          document
+            .getAnimations()
+            .filter(
+              (a) =>
+                a.timeline instanceof DocumentTimeline &&
+                a.effect.getComputedTiming().endTime !== Infinity,
+            )
+            .map((a) => a.finished),
+        ),
+      );
+
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
         .analyze();
