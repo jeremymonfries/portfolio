@@ -7,14 +7,20 @@ just what's there. `rebuild-scope.md` and `audit-report.md` (one level up, in
 what's actually been done since, and should be kept up to date as work
 continues.
 
+> **Latest session:** see `HANDOFF-2026-10-design-polish.md` for the homepage
+> and case-study redesign, the pinned-hero treatment, going live on the custom
+> domain, the traps hit along the way, and open items. Where the two files
+> disagree, the newer one wins.
+
 ## What this project is
 
 A ground-up rebuild of Jeremy Monfries' design portfolio (originally a static,
 page-builder-generated site) as a static Astro site, addressing every finding
 in `audit-report.md` (accessibility, duplicate content/images, page weight,
 heading misuse, etc.) while allowing deliberate design updates — this is not
-a strict like-for-like clone. Deploy target is Cloudflare Pages (not yet
-cut over). Content is git-based (markdown/MDX files), no CMS.
+a strict like-for-like clone. Deployed on Cloudflare Workers (static assets)
+and live at https://jeremymonfries.com. Content is git-based (markdown/MDX
+files), no CMS.
 
 **Stack:** Astro 7 (static output), `@astrojs/mdx`, self-hosted Mona Sans
 (`@fontsource-variable/mona-sans`), plain CSS with a custom-property token
@@ -34,9 +40,12 @@ system (no Tailwind/framework). No JS framework — the one interactive piece
   snapshot turned out to be **stale/incomplete** relative to the actual
   live site (see "Known content gaps" below). Treat it as a starting
   point, not ground truth.
-- **Live site** (more authoritative for content, but a different visual
-  design — dark sidebar, magenta `#e139ff` accent, circular photo — that
-  we deliberately did _not_ adopt): https://jeremymonfries.com
+- **Old live site** (historical: it was the content reference while
+  migrating, with a different visual design — dark sidebar, magenta
+  `#e139ff` accent, circular photo). **https://jeremymonfries.com now serves
+  this rebuild**, so that comparison is no longer possible there. The circular
+  photo has since been adopted (with a soft shadow); the dark sidebar and
+  magenta accent have not.
 - **Planning docs:** `../rebuild-scope.md`, `../audit-report.md`,
   `../audit-findings.json` (one level up from this repo).
 - **GitHub repo:** `git@github.com-jmfolio:jeremymonfries/portfolio.git`
@@ -48,8 +57,9 @@ system (no Tailwind/framework). No JS framework — the one interactive piece
   the current Cloudflare dashboard's "Connect to Git" flow for a new
   project deploys as a Worker with `npx wrangler deploy`, reading
   `wrangler.jsonc`'s `assets.directory` for the build output). Live at
-  `https://portfolio.flotsam-film-3c.workers.dev`; custom domain
-  (`jeremymonfries.com`) not yet attached. Build settings on Cloudflare:
+  `https://portfolio.flotsam-film-3c.workers.dev` and, via a zone-level Workers
+  Route (`jeremymonfries.com/*`), at `https://jeremymonfries.com`. Every push
+  to `main` builds and deploys automatically. Build settings on Cloudflare:
   build command `npm run build`, deploy command `npx wrangler deploy`,
   env var `NODE_VERSION=22` (package.json pins `>=22.12.0`, no
   `.nvmrc`/`.node-version` file exists to auto-detect it otherwise).
@@ -291,9 +301,8 @@ torque-drift were single-device-type already so lower-risk):
 - Deleting the ~89 duplicate image files from the _original_ site's
   asset folder (not this repo) — was blocked on content migration
   completing; migration is now done, this hasn't been revisited.
-- Custom domain (`jeremymonfries.com`) not yet attached to the
-  Cloudflare Worker — deployment itself is live (see "Where it lives"
-  above), this is the one remaining step per `rebuild-scope.md`.
+- `www.jeremymonfries.com` and email on the domain — see "Open items" in
+  `HANDOFF-2026-10-design-polish.md` (the custom domain itself is attached).
 - Git commit identity resolves to `Jeremy Monfries <accelerate_pro@macbookpro.lan>`
   (auto-detected) — flagged early on as optional to fix, never addressed.
 - The tablet/laptop image-group split within `homepage-redesign`'s
