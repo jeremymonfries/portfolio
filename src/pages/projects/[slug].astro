@@ -26,37 +26,41 @@ const { Content } = await render(entry);
     <h1 class="title">{entry.data.title}</h1>
     <p class="summary">{entry.data.summary}</p>
     {entry.data.heroImage && (
-      <div class="hero-frame">
-        <Image
-          src={entry.data.heroImage.src}
-          alt={entry.data.heroImage.alt}
-          width={1180}
-          height={700}
-          loading="eager"
-          fetchpriority="high"
-          class="hero-image"
-        />
+      <div class="hero-stage">
+        <div class="hero-frame">
+          <Image
+            src={entry.data.heroImage.src}
+            alt={entry.data.heroImage.alt}
+            width={1180}
+            height={700}
+            loading="eager"
+            fetchpriority="high"
+            class="hero-image"
+          />
+        </div>
       </div>
     )}
   </article>
 
-  <Tldr text={entry.data.tldr} />
+  <div class:list={['rise', { 'has-hero': Boolean(entry.data.heroImage) }]}>
+    <Tldr text={entry.data.tldr} />
 
-  {entry.data.stats.length > 0 && (
-    <section class="stats-band" aria-label="Key results">
-      <div class="stats-grid">
-        {entry.data.stats.map((stat) => (
-          <StatBlock value={stat.value} label={stat.label} />
-        ))}
+    {entry.data.stats.length > 0 && (
+      <section class="stats-band" aria-label="Key results">
+        <div class="stats-grid">
+          {entry.data.stats.map((stat) => (
+            <StatBlock value={stat.value} label={stat.label} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <article class="case-body-section">
+      <div class="case-body">
+        <Content />
       </div>
-    </section>
-  )}
-
-  <article class="case-body-section">
-    <div class="case-body">
-      <Content />
-    </div>
-  </article>
+    </article>
+  </div>
 </BaseLayout>
 
 <style>
@@ -109,16 +113,47 @@ const { Content } = await render(entry);
     }
   }
 
-  /* Scroll-driven defocus as the hero leaves the viewport (modelled on
-     CodeFronts' "Backdrop Filter Blur Cross Fade Parallax"). The blur lives
-     on a veil over the image, not on the image itself, so only a
-     backdrop-filter value is animated. The image also drifts slower than
-     the page (individual `translate` composes with the load animation's
-     `transform`; the constant `scale` hides the gap the drift would open).
-     Browsers without scroll-driven animations just keep the load reveal. */
+  /* Pinned hero with the page rising over it (modelled on CodeFronts'
+     "Backdrop Filter Blur Cross Fade Parallax"). The stage reserves a
+     runway of --hero-runway below the image; the frame sticks inside it
+     while .rise (TL;DR, stats, body) is pulled up over that runway on a
+     higher layer. Sticky works everywhere; the blur and drift below need
+     scroll-driven animations and are skipped where unsupported. */
+  .hero-section,
+  .rise {
+    --hero-runway: clamp(240px, 45vh, 420px);
+  }
+
+  /* A real in-flow spacer, not padding: a sticky element is only free to
+     move within its parent's content box, and padding isn't part of it. */
+  .hero-stage::after {
+    content: '';
+    display: block;
+    height: var(--hero-runway);
+  }
+
+  .hero-frame {
+    position: sticky;
+    top: var(--space-3);
+  }
+
+  .rise {
+    position: relative;
+    z-index: 1;
+  }
+
+  .rise.has-hero {
+    margin-top: calc(-1 * var(--hero-runway));
+  }
+
+  /* The veil carries the blur (not the image), so only a backdrop-filter
+     value animates; the image drifts slower than the page via the
+     individual `translate` property, which composes with the load
+     reveal's `transform`. The constant `scale` hides the gap the drift
+     would open. Both run over exactly the runway distance. */
   @supports (animation-timeline: view()) {
-    .hero-frame {
-      position: relative;
+    .hero-stage {
+      view-timeline: --hero block;
     }
 
     .hero-frame::after {
@@ -129,8 +164,8 @@ const { Content } = await render(entry);
       backdrop-filter: blur(0);
       background: rgb(255 255 255 / 0);
       animation: hero-veil linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 90%;
+      animation-timeline: --hero;
+      animation-range: exit 0px exit var(--hero-runway);
     }
 
     .hero-image {
@@ -138,10 +173,10 @@ const { Content } = await render(entry);
       animation:
         hero-focus 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.05s both,
         hero-drift linear both;
-      animation-timeline: auto, view();
+      animation-timeline: auto, --hero;
       animation-range:
         normal,
-        exit 0% exit 100%;
+        exit 0px exit var(--hero-runway);
     }
   }
 
@@ -164,8 +199,20 @@ const { Content } = await render(entry);
       scale: 1;
     }
 
+    .hero-frame {
+      position: static;
+    }
+
     .hero-frame::after {
       display: none;
+    }
+
+    .hero-stage::after {
+      display: none;
+    }
+
+    .rise.has-hero {
+      margin-top: 0;
     }
   }
 
@@ -210,6 +257,7 @@ const { Content } = await render(entry);
   }
 
   .case-body-section {
+    background: var(--surface-page);
     padding: var(--space-6) var(--gutter) var(--space-7);
     max-width: var(--page-max);
     margin: 0 auto;
