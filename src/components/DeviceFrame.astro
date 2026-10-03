@@ -52,6 +52,9 @@ export interface Props {
 const { variant = 'laptop', label, fit = false } = Astro.props;
 const isPhoto = variant === 'mobile' || variant === 'mobile-landscape' || variant === 'laptop';
 const hasButton = variant === 'tablet';
+// Phone screens are small, already legible at their rendered size, and the
+// enlarged view added nothing - so only laptop and tablet frames offer it.
+const canEnlarge = variant !== 'mobile' && variant !== 'mobile-landscape';
 const frameClass = `device-frame device-frame--${variant}${fit ? ' device-frame--fit' : ''}`;
 // Nothing to scroll in `fit` mode, so the screen doesn't need to be a
 // focusable/labeled region - the img's own alt text already describes it.
@@ -80,23 +83,25 @@ const screenAttrs = fit
         loading="lazy"
         decoding="async"
       />
-      <button
-        type="button"
-        class="device-frame__expand"
-        data-lightbox-trigger
-        aria-label="View larger"
-      >
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
-          <path
-            d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></path>
-        </svg>
-      </button>
+      {canEnlarge && (
+        <button
+          type="button"
+          class="device-frame__expand"
+          data-lightbox-trigger
+          aria-label="View larger"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+            <path
+              d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+        </button>
+      )}
     </div>
   </div>
 ) : (
@@ -321,20 +326,10 @@ const screenAttrs = fit
     border-radius: 28px;
   }
 
-  .device-frame--mobile .device-frame__expand {
-    bottom: calc(2.232% + 6px);
-    right: calc(5.227% + 6px);
-  }
-
   .device-frame--mobile-landscape .device-frame__screen {
     position: absolute;
     inset: calc(5.204% - var(--device-bleed)) calc(2.222% - var(--device-bleed));
     border-radius: 22px;
-  }
-
-  .device-frame--mobile-landscape .device-frame__expand {
-    bottom: calc(5.204% + 6px);
-    right: calc(2.222% + 6px);
   }
 
   .device-frame--laptop .device-frame__screen {
