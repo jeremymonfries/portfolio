@@ -14,10 +14,12 @@
 // row/column for transparent-region bounds) rather than guessed, since
 // the cutout isn't a round number and the source files have no metadata
 // for it:
-//   iphone-portrait.png:  screen inset  top/bottom 2.3%, left/right 5.3%
-//   iphone-landscape.png: screen inset  top/bottom 5.3%, left/right 2.3%
+//   iphone-portrait.png:  cutout inset  top/bottom 2.232%, left/right 5.227%
+//   iphone-landscape.png: cutout inset  top/bottom 5.204%, left/right 2.222%
 //   (landscape is the portrait art rotated 90°, so the insets transpose.)
-//   laptop.png: screen inset top 6%, right 12.1%, bottom 19.8%, left 12.1%
+//   laptop.png: cutout inset top 6.236%, right 12.143%, bottom 19.822%, left 12.143%
+//   (the screen box is then enlarged by --device-bleed - see the photo-framed
+//   variants' CSS below)
 //   (bottom inset is much bigger than top - that's the keyboard deck/base
 //   below the actual screen, baked into the same image.)
 //
@@ -297,37 +299,54 @@ const screenAttrs = fit
     aspect-ratio: 700 / 449;
   }
 
+  /* Each screen inset below is the frame art's measured transparent
+     cutout (alpha-channel scan outward from the screen centre: portrait
+     5.227% / 2.232%, landscape 2.222% / 5.204%, laptop 12.143% / 6.236% /
+     19.822%) minus --device-bleed. Matching the cutout exactly isn't safe:
+     the old rounded-up percentages (2.3% / 5.3%) left the screen a
+     fraction of a pixel short of the cutout on every side, and at
+     fractional rendered sizes the page's white background showed through
+     as a hairline just inside the bezel. Letting the screen run
+     --device-bleed under the opaque bezel art makes the overlap
+     unconditional. */
+  .device-frame--mobile,
+  .device-frame--mobile-landscape,
+  .device-frame--laptop {
+    --device-bleed: 2px;
+  }
+
   .device-frame--mobile .device-frame__screen {
     position: absolute;
-    inset: 2.3% 5.3%;
+    inset: calc(2.232% - var(--device-bleed)) calc(5.227% - var(--device-bleed));
     border-radius: 28px;
   }
 
   .device-frame--mobile .device-frame__expand {
-    bottom: calc(2.3% + 6px);
-    right: calc(5.3% + 6px);
+    bottom: calc(2.232% + 6px);
+    right: calc(5.227% + 6px);
   }
 
   .device-frame--mobile-landscape .device-frame__screen {
     position: absolute;
-    inset: 5.3% 2.3%;
+    inset: calc(5.204% - var(--device-bleed)) calc(2.222% - var(--device-bleed));
     border-radius: 22px;
   }
 
   .device-frame--mobile-landscape .device-frame__expand {
-    bottom: calc(5.3% + 6px);
-    right: calc(2.3% + 6px);
+    bottom: calc(5.204% + 6px);
+    right: calc(2.222% + 6px);
   }
 
   .device-frame--laptop .device-frame__screen {
     position: absolute;
-    inset: 6% 12.1% 19.8% 12.1%;
+    inset: calc(6.236% - var(--device-bleed)) calc(12.143% - var(--device-bleed))
+      calc(19.822% - var(--device-bleed));
     border-radius: 2px;
   }
 
   .device-frame--laptop .device-frame__expand {
-    bottom: calc(19.8% + 6px);
-    right: calc(12.1% + 6px);
+    bottom: calc(19.822% + 6px);
+    right: calc(12.143% + 6px);
   }
 
   /* Same ImageGrid aspect-ratio/object-fit leak as the screenshot img
