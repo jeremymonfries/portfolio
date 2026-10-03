@@ -27,14 +27,12 @@ const { Content } = await render(entry);
       <h1 class="title">{entry.data.title}</h1>
       <p class="summary">{entry.data.summary}</p>
       {entry.data.heroImage && (
-        <div
-          class:list={['hero-frame', { 'hero-frame--contain': entry.data.heroFit === 'contain' }]}
-        >
-          {entry.data.heroFit === 'contain' ? (
+        <div class:list={['hero-frame', { 'hero-frame--top': entry.data.heroFit === 'top' }]}>
+          {entry.data.heroFit === 'top' ? (
             <Image
               src={entry.data.heroImage.src}
               alt={entry.data.heroImage.alt}
-              width={1000}
+              width={1180}
               loading="eager"
               fetchpriority="high"
               class="hero-image"
@@ -113,17 +111,14 @@ const { Content } = await render(entry);
     animation: hero-focus 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.05s both;
   }
 
-  /* `contain`: the whole image, centred on a neutral stage inside the same
-     rounded frame. Capped in height so a square source can't make the hero
-     taller than a screen; the pinned layout's own cap (below) tightens it
-     further on shorter windows. */
-  .hero-frame--contain {
-    background: var(--surface-subtle);
-  }
-
-  .hero-frame--contain .hero-image {
+  /* `top`: full frame width, anchored to the image's top edge, bottom
+     cropped. The source is requested uncropped (a square), then capped in
+     height so it can't make the hero taller than a screen; the pinned
+     layout's own cap (below) tightens that further on shorter windows. */
+  .hero-frame--top .hero-image {
     max-height: min(70vh, 640px);
-    object-fit: contain;
+    object-fit: cover;
+    object-position: top;
   }
 
   @keyframes hero-focus {
@@ -180,9 +175,9 @@ const { Content } = await render(entry);
       object-fit: cover;
     }
 
-    /* A `contain` hero keeps its whole image: same height cap, no crop. */
-    .hero-stage.has-hero .hero-frame--contain .hero-image {
-      object-fit: contain;
+    /* A `top` hero keeps its top edge, not the centre, under the same cap. */
+    .hero-stage.has-hero .hero-frame--top .hero-image {
+      object-position: top;
     }
 
     /* The veil carries the blur (not the content), so only a
@@ -220,9 +215,9 @@ const { Content } = await render(entry);
       }
 
       /* The zoom and drift both work by cropping the image's edges, which
-         is exactly what `contain` exists to avoid - keep just the blur-in
-         and the veil. */
-      .hero-frame--contain .hero-image {
+         would break its full-width fit - keep just the blur-in and the
+         veil. */
+      .hero-frame--top .hero-image {
         scale: 1;
         animation: hero-focus 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.05s both;
         animation-timeline: auto;
