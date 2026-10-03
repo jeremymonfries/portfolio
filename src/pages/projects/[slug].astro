@@ -26,13 +26,17 @@ const { Content } = await render(entry);
     <h1 class="title">{entry.data.title}</h1>
     <p class="summary">{entry.data.summary}</p>
     {entry.data.heroImage && (
-      <Image
-        src={entry.data.heroImage.src}
-        alt={entry.data.heroImage.alt}
-        width={1180}
-        height={700}
-        class="hero-image"
-      />
+      <div class="hero-frame">
+        <Image
+          src={entry.data.heroImage.src}
+          alt={entry.data.heroImage.alt}
+          width={1180}
+          height={700}
+          loading="eager"
+          fetchpriority="high"
+          class="hero-image"
+        />
+      </div>
     )}
   </article>
 
@@ -74,10 +78,36 @@ const { Content } = await render(entry);
     margin: 0 0 var(--space-5);
   }
 
+  /* The frame clips the blur's soft edge spill (and the 1px edge halo
+     Chrome can show at high blur), so the reveal stays inside the
+     rounded hero shape. */
+  .hero-frame {
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
   .hero-image {
+    display: block;
     width: 100%;
     height: auto;
-    border-radius: 24px;
+    animation: hero-focus 1.1s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+  }
+
+  @keyframes hero-focus {
+    from {
+      filter: blur(20px);
+      opacity: 0;
+    }
+    to {
+      filter: blur(0);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-image {
+      animation: none;
+    }
   }
 
   /* DS-07/UX-04/UX-12: the original site's stat numbers lived in a plain
@@ -110,7 +140,7 @@ const { Content } = await render(entry);
   }
 
   @media (max-width: 700px) {
-    .hero-image {
+    .hero-frame {
       border-radius: 12px;
     }
 
