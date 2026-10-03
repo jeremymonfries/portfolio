@@ -115,15 +115,18 @@ const { Content } = await render(entry);
 
   /* Pinned hero with the page rising over it (modelled on CodeFronts'
      "Backdrop Filter Blur Cross Fade Parallax"). The whole hero section
-     (heading, summary, image) is position: sticky inside .hero-stage, which
-     ends with a --hero-runway spacer; .rise (TL;DR, stats, body) is pulled
-     up over that runway on a higher layer, so it slides over a hero that
-     hasn't moved. Sticky works everywhere; the blur and drift need
+     (heading, summary, image) is position: sticky at the top of <main> and
+     never scrolls away: .rise (TL;DR, stats, body) sits on a higher layer
+     with opaque backgrounds, so the page simply slides over a hero that
+     doesn't move, for the whole length of the page. (.hero-stage is
+     display: contents so the sticky hero's containing block is <main>
+     itself.) Sticky works everywhere; the blur and drift need
      scroll-driven animations and are skipped where unsupported. Skipped
      entirely for reduced motion and for very short viewports, where a
      pinned hero would be taller than the screen. */
-  .hero-stage,
-  .rise {
+  .hero-stage {
+    /* Distance over which the hero defocuses, measured from the top of the
+       page; the hero is fully covered shortly after this. */
     --hero-runway: clamp(240px, 45vh, 420px);
   }
 
@@ -133,21 +136,13 @@ const { Content } = await render(entry);
   }
 
   @media (prefers-reduced-motion: no-preference) and (min-height: 600px) {
-    /* A real in-flow spacer, not padding: a sticky element is only free to
-       move within its parent's content box, and padding isn't part of it. */
-    .hero-stage.has-hero::after {
-      content: '';
-      display: block;
-      height: var(--hero-runway);
+    .hero-stage.has-hero {
+      display: contents;
     }
 
     .hero-stage.has-hero .hero-section {
       position: sticky;
       top: 0;
-    }
-
-    .rise.has-hero {
-      margin-top: calc(-1 * var(--hero-runway));
     }
 
     /* A pinned hero taller than the screen would have its lower part
