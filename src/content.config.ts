@@ -42,6 +42,11 @@ const caseStudies = defineCollection({
       // than no image at all - both [slug].astro and index.astro skip the
       // <Image> entirely when this is unset.
       heroImage: imageWithAlt(image).optional(),
+      // How the hero image sits in its wide frame. `cover` (default) crops
+      // it to fill - right for photos. `contain` shows the whole image on a
+      // neutral stage - right for a tall/square screenshot that would
+      // otherwise lose its top and bottom (e.g. a full homepage capture).
+      heroFit: z.enum(['cover', 'contain']).default('cover'),
       // DS-07/UX-04/UX-12: the original site misused <h1> for decorative stat
       // numbers. Stats are structured data here, rendered via StatBlock.astro
       // as <p>, not a heading - the defect can't recur through this schema.
