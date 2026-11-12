@@ -346,24 +346,27 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
     color: var(--action-primary-bg);
   }
 
+  /* Skills as one muted line of plain text with "|" separators - not
+     pill shapes, which read as clickable filters inside a card that is
+     already a single link. Same treatment as the sidebar's skills list. */
   .card-skills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-1);
     list-style: none;
     margin: 0;
     margin-top: auto;
     padding: var(--space-2) 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-muted);
   }
 
   .chip {
-    font: 700 12px / 1 var(--font-display);
-    letter-spacing: 0.01em;
-    padding: 6px 10px;
-    border-radius: 999px;
-    background: var(--surface-tint);
-    color: var(--action-primary-bg);
-    white-space: nowrap;
+    display: inline;
+  }
+
+  .chip:not(:last-child)::after {
+    /* Spaces either side of the "|" (not CSS margin) so the line can
+       break between skills - see the sidebar's .skills rule above. */
+    content: ' | ';
   }
 
   @media (max-width: 800px) {
