@@ -11,7 +11,7 @@ const { text } = Astro.props;
 
 <section class="tldr" aria-label="Summary">
   <div class="tldr-inner">
-    <p class="tldr-label">TL;DR</p>
+    <h2 class="tldr-label">TL;DR</h2>
     <p class="tldr-text">{text}</p>
   </div>
 </section>
@@ -34,6 +34,8 @@ const { text } = Astro.props;
     align-items: start;
   }
 
+  /* An h2 (not a <p>) so every case study's outline runs h1 -> h2 -> h3:
+     the ColumnGrid/section headings below are h3s. Styling is unchanged. */
   .tldr-label {
     margin: 0;
     font: 700 14px / 1.3 var(--font-display);
@@ -47,7 +49,7 @@ const { text } = Astro.props;
     margin: 0;
     font-size: 18px;
     line-height: var(--body-leading);
-    max-width: 700px;
+    max-width: var(--measure);
   }
 
   @media (max-width: 700px) {

@@ -45,7 +45,7 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
 
 <BaseLayout
   title="Jeremy Monfries — Lead Product Designer, AI-Augmented"
-  description="I'm a designer with over 25 years experience working internationally in a variety of multinational businesses."
+  description="I’m a designer with over 25 years experience working internationally in a variety of multinational businesses."
 >
   <div class="home-bg">
     <div class="home">
@@ -62,8 +62,8 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
           Lead Product Designer, <span class="nowrap">AI-Augmented</span>
         </p>
         <p class="bio">
-          I'm a designer with over 25 years experience working internationally in a variety of
-          multinational businesses. I'm passionate about creating human-centred, highly-usable
+          I’m a designer with over 25 years experience working internationally in a variety of
+          multinational businesses. I’m passionate about creating human-centred, highly-usable
           digital experiences.
         </p>
         <ul class="skills">
@@ -76,10 +76,13 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
       <section class="grid" aria-label="Case studies">
         {caseStudies.map((entry) => (
           <a class="card" href={`/projects/${entry.id}/`}>
+            {/* Decorative here: the card's h2 already names the link, so a
+                described image would make screen readers say it twice. The
+                case-study hero still uses heroImage.alt. */}
             {entry.data.heroImage && (
               <Image
                 src={entry.data.heroImage.src}
-                alt={entry.data.heroImage.alt}
+                alt=""
                 class="card-image"
                 width={640}
                 height={420}
@@ -333,7 +336,7 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
   }
 
   .card p {
-    font-size: 15px;
+    font-size: 16px;
     color: var(--text-muted);
     margin: 0;
   }

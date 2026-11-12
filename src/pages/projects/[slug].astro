@@ -83,6 +83,7 @@ const { Content } = await render(entry);
 
   .title {
     font: 200 var(--heading-h1) / var(--heading-leading) var(--font-display);
+    letter-spacing: var(--display-tracking);
     margin: 0 0 var(--space-3);
   }
 
@@ -301,7 +302,7 @@ const { Content } = await render(entry);
            when its reference box is itself centered on the page. */
     max-width: 780px;
     margin-inline: auto;
-    font-size: 16px;
+    font-size: 18px;
     line-height: var(--body-leading);
   }
 
@@ -334,6 +335,18 @@ const { Content } = await render(entry);
 
   .case-body :global(li) {
     margin-bottom: var(--space-1);
+  }
+
+  /* Running text keeps a ~70-character line (780px at 18px was ~95).
+     Only direct prose children narrow - images, components and image-only
+     paragraphs (markdown images render inside a <p>) keep the full 780px.
+     Left-aligned (not centred) so prose shares its left edge with the
+     ColumnGrid/NumberedSteps blocks and headings around it. */
+  .case-body > :global(p:not(:has(img))),
+  .case-body > :global(ul),
+  .case-body > :global(ol),
+  .case-body > :global(h4) {
+    max-width: var(--measure);
   }
 
   .case-body :global(img) {

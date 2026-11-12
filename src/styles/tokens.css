@@ -63,7 +63,17 @@
   --heading-h3: clamp(24px, 2.4vw, 32px);
   --heading-h4: 20px;
   --heading-leading: 1.12;
-  --body-leading: 1.85;
+
+  /* 1.85 read as loose, disconnected lines; 1.6 suits Mona Sans's tall
+     x-height at 16-18px. */
+  --body-leading: 1.6;
+
+  /* Reading measure: ~70 characters of Mona Sans at 18px (1ch in Mona Sans
+     is a wide digit, so this is set in rem, not ch). */
+  --measure: 38rem;
+
+  /* Large display headings tighten slightly so letters don't drift apart. */
+  --display-tracking: -0.01em;
 
   /* ---------- Component tier: only where a component diverges from semantic default ---------- */
   --cta-bg: var(--action-primary-bg);
