@@ -41,6 +41,13 @@ const skills = [
 const caseStudies = (await getCollection('case-studies', ({ data }) => !data.draft)).sort(
   (a, b) => a.data.order - b.data.order,
 );
+
+// Strategy skills lead each card's list so that work surfaces first; every
+// other skill keeps its frontmatter order after them.
+const strategyFirst = (skills: string[]) => [
+  ...skills.filter((s) => /strategy/i.test(s)),
+  ...skills.filter((s) => !/strategy/i.test(s)),
+];
 ---
 
 <BaseLayout
@@ -93,7 +100,7 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
               <p>{entry.data.summary}</p>
               {entry.data.skills.length > 0 && (
                 <ul class="card-skills">
-                  {entry.data.skills.map((skill) => (
+                  {strategyFirst(entry.data.skills).map((skill) => (
                     <li class="chip">{skill}</li>
                   ))}
                 </ul>
@@ -346,17 +353,19 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
     color: var(--action-primary-bg);
   }
 
-  /* Skills as one muted line of plain text with "|" separators - not
-     pill shapes, which read as clickable filters inside a card that is
-     already a single link. Same treatment as the sidebar's skills list. */
+  /* Skills as one line of plain text with grey "|" separators - not pill
+     shapes, which read as clickable filters inside a card that is already a
+     single link. Coral (--text-accent) at medium weight sets it apart from
+     the grey summary and the blue used everywhere else. */
   .card-skills {
     list-style: none;
     margin: 0;
     margin-top: auto;
     padding: var(--space-2) 0 0;
     font-size: 14px;
+    font-weight: 500;
     line-height: 1.5;
-    color: var(--text-muted);
+    color: var(--text-accent);
   }
 
   .chip {
@@ -367,6 +376,7 @@ const caseStudies = (await getCollection('case-studies', ({ data }) => !data.dra
     /* Spaces either side of the "|" (not CSS margin) so the line can
        break between skills - see the sidebar's .skills rule above. */
     content: ' | ';
+    color: var(--text-muted);
   }
 
   @media (max-width: 800px) {

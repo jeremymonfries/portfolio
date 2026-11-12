@@ -101,6 +101,44 @@ const pageLevelPatterns = [
     use: "One number+label pair inside the dark stats band under the Tldr. Comes from a case study's frontmatter stats: array (0-4 entries) - the whole band is skipped automatically when a case study has no stats to show.",
   },
 ];
+
+// Colour ramps from tokens.css, shown as swatches. Contrast is against
+// white; "text" marks steps that pass 4.5:1 for body text. Coral is the
+// complementary accent to the brand blue.
+const ramps = [
+  {
+    name: 'blue',
+    label: 'Blue (brand)',
+    steps: [
+      ['50', '#f3fcff', '1.0'],
+      ['100', '#e6f6fc', '1.1'],
+      ['200', '#b5e7fe', '1.3'],
+      ['300', '#80d3fd', '1.7'],
+      ['400', '#4abef6', '2.1'],
+      ['500', '#08aceb', '2.6'],
+      ['600', '#0e89c4', '3.9'],
+      ['700', '#0369a1', '5.9'],
+      ['800', '#0b517f', '8.4'],
+      ['900', '#0b3a5f', '11.8'],
+    ],
+  },
+  {
+    name: 'coral',
+    label: 'Coral (accent)',
+    steps: [
+      ['50', '#fff9f8', '1.0'],
+      ['100', '#ffefec', '1.1'],
+      ['200', '#ffd2cc', '1.4'],
+      ['300', '#ffb0a5', '1.7'],
+      ['400', '#fc8d7f', '2.3'],
+      ['500', '#ef7568', '2.8'],
+      ['600', '#c45b50', '4.2'],
+      ['700', '#9e4239', '6.4'],
+      ['800', '#7c322b', '8.9'],
+      ['900', '#5c231d', '12.3'],
+    ],
+  },
+] as const;
 ---
 
 <BaseLayout
@@ -130,6 +168,42 @@ const pageLevelPatterns = [
         </li>
       ))}
     </ul>
+  </article>
+
+  <article class="palette" aria-labelledby="palette-heading">
+    <h2 id="palette-heading">Colour ramps</h2>
+    <p>
+      Ten strengths per colour (tokens.css <code>--color-*-50</code> to <code>-900</code>). The same
+      step has the same contrast in every colour: 700-900 are safe for text on white, 600 for large
+      text and UI edges, lighter steps are fills and accents. Coral is the complementary accent to
+      the brand blue.
+    </p>
+    {ramps.map((ramp) => (
+      <section class="ramp-group" aria-label={ramp.label}>
+        <h3>{ramp.label}</h3>
+        <ul class="ramp">
+          {ramp.steps.map(([step, hex, ratio]) => (
+            <li>
+              <span class="ramp-swatch" style={`background: var(--color-${ramp.name}-${step})`} />
+              <span class="ramp-step">{step}</span>
+              <span class="ramp-meta">
+                {hex} · {ratio}:1{Number(ratio) >= 4.5 ? ' · text' : ''}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p class="ramp-sample">
+          <span style={`color: var(--color-${ramp.name}-700)`}>700 text sample</span>
+          <span style={`color: var(--color-${ramp.name}-900)`}>900 text sample</span>
+          <span
+            class="ramp-chip"
+            style={`background: var(--color-${ramp.name}-100); color: var(--color-${ramp.name}-800)`}
+          >
+            100 fill + 800 text
+          </span>
+        </p>
+      </section>
+    ))}
   </article>
 
   <article class="page-level">
@@ -392,6 +466,79 @@ Description text.
 </BaseLayout>
 
 <style>
+  .palette {
+    padding: 0 var(--gutter) var(--space-6);
+    max-width: var(--page-max);
+    margin: 0 auto;
+  }
+
+  .palette h2 {
+    font: 700 var(--heading-h4) / var(--heading-leading) var(--font-display);
+    margin: 0 0 var(--space-1);
+  }
+
+  .palette p {
+    max-width: var(--measure);
+    color: var(--text-muted);
+    margin: 0 0 var(--space-3);
+  }
+
+  .ramp-group {
+    margin-bottom: var(--space-4);
+  }
+
+  .ramp-group h3 {
+    font: 700 16px / var(--heading-leading) var(--font-display);
+    margin: 0 0 var(--space-2);
+  }
+
+  .ramp-sample {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    align-items: center;
+    margin: var(--space-2) 0 0;
+    font-weight: 500;
+  }
+
+  .ramp-chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  .ramp {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ramp li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .ramp-swatch {
+    height: 64px;
+    border-radius: 8px;
+    border: 1px solid var(--border-default);
+    margin-bottom: var(--space-1);
+  }
+
+  .ramp-step {
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .ramp-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
   .intro {
     padding: var(--space-7) var(--gutter) var(--space-5);
     max-width: var(--page-max);
