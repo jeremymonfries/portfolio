@@ -1,11 +1,11 @@
 ---
 title: 'Mobile gaming – Torque Drift'
-summary: 'Cutting-edge car drifting game featuring online racing'
-tldr: 'Torque Drift was a new high-octane mobile drifting game built around online head-to-head racing. As business partner and Head of UX, I shaped the game’s interface, navigation and overall player experience while also contributing to game concept, mechanics, partnerships, funding, marketing and business strategy. The goal was a visually dynamic experience that remained easy to understand and enjoyable to use.'
+summary: 'A mobile drifting game built around online head-to-head racing'
+tldr: 'Torque Drift was a mobile drifting game built around online head-to-head racing. As Head of UX and a business partner, I designed the game’s structure, navigation and interface, from the information architecture through wireframes to the final UI, and worked on the concept, partnerships and business strategy. The challenge was fitting a lot of depth (a garage, a store and three ways to race) into a phone held sideways, while keeping it easy to get to the track.'
 heroImage:
   src: '../../assets/case-studies/torque-drift.jpeg'
   alt: 'Torque Drift logo in bright green over a dark photo of a drifting race car'
-skills: ['UX design', 'Wireframing', 'Prototyping', 'UI design', 'Business strategy']
+skills: ['Game UX', 'Information architecture', 'Wireframing', 'UI design', 'Business strategy']
 order: 4
 ---
 
@@ -18,31 +18,41 @@ import wireframesImg from '../../assets/case-studies/torque-drift/02.jpg';
 
 <SectionHeading level="section">The project</SectionHeading>
 
-An exciting opportunity presented itself when a business acquaintance reached out with a proposition — to join a new game project he'd been working on. He'd successfully launched a previous game, Torque Burnout, and wanted to make a new game with a new business partner. The new project was a high-octane car drifting game that would feature fierce online head-to-head drift racing, and he needed a business partner and specialist who could help with game conceptualisation, game design, game mechanics and user experience. The game would include a virtual store where players could purchase car upgrades and modifications from real-world companies, requiring relationships and contracts to be built, and some tracks would be replicas of real-world tracks, needing agreements with the respective parties. This was a chance to create something truly revolutionary, and I was excited to be part of it.
+An exciting opportunity presented itself when a business acquaintance reached out with a proposition — to join a new game project he’d been working on. He’d already launched a successful game, Torque Burnout, and wanted to make the next one with a new business partner: a car drifting game built around online head-to-head racing. He needed someone who could help with the game concept, game design, mechanics and user experience, and who could help run the business.
 
-We planned a variety of monetisation methods, including in-game purchases, subscriptions and advertising, to generate revenue we could invest back into development and promotion. We also sought out partnerships and acquisitions that brought new audiences and revenue streams — fortunately we had existing contacts in F1 motorsport and drag racing which we were able to leverage successfully, along with a good existing relationship with the App Store that helped the game get featured and gave us access to useful insights on analytics, user feedback, marketing and the review and approval process.
+The game had some ambitious parts. Players could buy car upgrades and modifications from real-world brands in a virtual store, which meant building relationships and contracts with those companies. Some tracks were replicas of real-world tracks, and they needed agreements too. I was excited to be part of it, and I joined Boom Boss Games to make it happen.
 
-My time on the project gave me valuable experience in leadership and strategy, relationship building, contract negotiation, product development, monetisation and continuous improvement.
+<SectionHeading level="section">What we were aiming for</SectionHeading>
 
-<SectionHeading level="section">The Torque Drift vision</SectionHeading>
-
-Our vision was to create a car drifting mobile game that immerses players in a high-octane, adrenaline-pumping racing experience, featuring realistic car physics, compelling smoke effects, authentic tracks and customisable vehicles. Through a combination of cutting-edge game design, immersive user experience and unparalleled realism, we aimed to revolutionise the mobile gaming industry and establish ourselves as the premier destination for car drifting enthusiasts.
+We wanted the driving to feel real: realistic car physics, convincing tyre smoke, authentic tracks and cars players could customise. But the menus around the driving had to stay simple. A player who just wanted to race shouldn’t have to dig through a garage to get there, and a player who loved tuning should find all of it in one place.
 
 <SectionHeading level="section">My role</SectionHeading>
 
-As the business partner, my expertise in leadership and business strategy was critical in shaping the direction of the company, and my ability to build relationships and draft contracts with industry partners and clients helped secure new business and expand our reach. My understanding of game design, mechanics and user experience allowed me to contribute to the conceptualisation and development of Torque Drift, and I brought a valuable perspective by identifying new opportunities, partnerships and revenue streams to help the company stay competitive in the mobile gaming industry.
+I had two roles. As Head of UX, I owned the design process end to end, from user research through information architecture, wireframes and prototypes to the final UI, and I worked closely with the developers to make sure the designs were built as intended and tested for usability.
 
-As Head of UX, I played a central role in ensuring Torque Drift was not only fun and engaging but also easy to use and intuitive for players. I owned the design process end to end, from user research through wireframes, prototypes and final designs, and worked closely with the development team to ensure designs were implemented correctly and tested for usability — work that was key in establishing Torque Drift as a leader in the drift-racing mobile gaming niche.
+Research started with the competition. I played and reviewed other racing and drifting games to see how they handled menus, upgrades and controls, and where they lost people. Once we had builds, I watched people play them and ran playtests, which showed us where players got stuck, what they skipped and which controls felt awkward in their hands.
+
+As a business partner, I worked on the game concept and mechanics, and on the business side: partnerships, contracts with industry partners, funding, marketing and new revenue streams.
 
 <SectionHeading level="section">Information architecture</SectionHeading>
 
-<FullBleedImage src={infoArchitectureImg} alt="Torque Drift information architecture diagram" />
+Racing game menus can get deep quickly, so I started by mapping the whole structure before designing any screens. The main menu splits into three areas: **Drive**, where players race; the **Pit**, where they choose a team and tune their car; and the **Store**.
+
+Drive has three modes: Practice on individual tracks, a Career that moves through regions of the world, and Battles against local or online opponents. Whichever way in, every mode ends at the same race and summary screens, so players only have one race screen to learn and we only had one to build and polish. In the Pit, players can change the car, engine, transmission, body, wheels and suspension, right down to camber, ride height and springs. The Store is organised around teams, each with a garage, body shop, wheel shop and car dealer.
+
+<FullBleedImage src={infoArchitectureImg} alt="Torque Drift information architecture: the main menu splits into Drive (Practice, Career, Battles), Pit and Store, with every Drive mode leading to Race and Summary" />
 
 <SectionHeading level="section">Wireframes</SectionHeading>
 
-<FullBleedImage src={wireframesImg} alt="Torque Drift wireframes" />
+I mocked up the main flows on top of in-game renders rather than grey boxes, so we could judge each layout against the real cars and tracks it would sit over. Career starts on a world map, where players pick a region, then a track, then their car. In the Store, players move from a team’s page into parts such as engines, and an **Equipped** state shows what’s already fitted, so nobody buys the same part twice.
 
-<SectionHeading level="section">UI/UX design</SectionHeading>
+<FullBleedImage src={wireframesImg} alt="Torque Drift wireframes showing the Pit, Store, Practice and Career flows mocked up over in-game renders" />
+
+<SectionHeading level="section">UI design</SectionHeading>
+
+The final UI had to work in landscape, with a thumb on each side of the screen. Steering sits on the left and the pedal controls on the right, leaving the middle of the screen clear for the car. Gauges run across the top, and the left edge keeps a running tally of drift points, close calls and object hits, with a score multiplier alongside.
+
+In the garage, team liveries from real sponsors such as Falken, Cusco and Red Bull sit in a carousel along the bottom of the screen, and a single **Tune** button sits on the car itself, keeping the most common action one tap away.
 
 <ImageGrid cols={1}>
 <DeviceFrame variant="mobile-landscape" fit>
@@ -86,8 +96,14 @@ As Head of UX, I played a central role in ensuring Torque Drift was not only fun
 </DeviceFrame>
 </ImageGrid>
 
-<SectionHeading level="chapter">Learnings</SectionHeading>
+<SectionHeading level="section">The business side</SectionHeading>
 
-Working as a business partner at League of Monkeys taught me several valuable lessons. One of the most important was the value of clear communication and alignment on goals and priorities — having open and honest conversations about expectations, plans and challenges at regular intervals, and making sure everyone is on the same page. I also learned the importance of a shared understanding of company structure and operations, including financial management and resource allocation, to avoid conflicts and misunderstandings, along with the value of flexibility and adaptability in a constantly evolving industry, a diverse team with different skills and perspectives, and a strong company culture.
+We planned several ways to make money, including in-game purchases, subscriptions and advertising, so we could reinvest in development and promotion. We also looked for partnerships that would bring in new audiences. We partnered with a contact of mine who works in racing and is very well connected, and they helped us land deals with real brands like Falken, Cusco and Red Bull. We also had existing contacts in F1 motorsport and drag racing that we were able to use, and a good relationship with the App Store, which helped the game get featured and gave us useful insight into analytics, user feedback, marketing and the review process.
 
-Unfortunately the partnership didn't work out, because we couldn't agree on how the company should be structured and operated. These disagreements became more pronounced as we began to put our plans into action, and despite our best efforts to find a compromise, the partnership eventually ended. It was a difficult and frustrating experience, but one that taught me the importance of having a clear and aligned understanding of a company's structure and operations from the very beginning of any business partnership.
+Torque Drift launched on the App Store and is still being updated today, with real pro drift teams, branded parts and online tandem battles. On the Australian App Store it holds a 4.6 rating from over 8,000 ratings.
+
+<SectionHeading level="chapter">Final thoughts</SectionHeading>
+
+The biggest lesson from Torque Drift wasn’t about the game. We were good at talking about what we wanted to build, but we never properly agreed on how the company would be structured and run: who owned what, how money would be managed and how resources would be allocated.
+
+Unfortunately the partnership didn’t work out, because we couldn’t agree on those things. The disagreements became more pronounced as we started putting our plans into action, and despite our best efforts to find a compromise, the partnership eventually ended. It was a difficult and frustrating experience, but it taught me to get that clarity from the very beginning of any business partnership, before the exciting part starts.
