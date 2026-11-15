@@ -26,33 +26,37 @@ The game had some ambitious parts. Players could buy car upgrades and modificati
 
 We wanted the driving to feel real: realistic car physics, convincing tyre smoke, authentic tracks and cars players could customise. But the menus around the driving had to stay simple. A player who just wanted to race shouldn’t have to dig through a garage to get there, and a player who loved tuning should find all of it in one place.
 
+My biggest concern was getting that balance right. Drift fans want as much detail as possible, but too much on a small screen would put off everyone else, and a game that’s hard to get into loses players quickly.
+
 <SectionHeading level="section">My role</SectionHeading>
 
 I had two roles. As Head of UX, I owned the design process end to end, from user research through information architecture, wireframes and prototypes to the final UI, and I worked closely with the developers to make sure the designs were built as intended and tested for usability.
 
-Research started with the competition. I played and reviewed other racing and drifting games to see how they handled menus, upgrades and controls, and where they lost people. Once we had builds, I watched people play them and ran playtests, which showed us where players got stuck, what they skipped and which controls felt awkward in their hands.
+Research started with the competition. I played and reviewed other racing and drifting games to see how they handled menus, upgrades and controls, and where they lost people. Once we had builds, I watched people play them and ran playtests, and what we learnt fed straight back into the next round of designs.
 
 As a business partner, I worked on the game concept and mechanics, and on the business side: partnerships, contracts with industry partners, funding, marketing and new revenue streams.
 
 <SectionHeading level="section">Information architecture</SectionHeading>
 
-Racing game menus can get deep quickly, so I started by mapping the whole structure before designing any screens. The main menu splits into three areas: **Drive**, where players race; the **Pit**, where they choose a team and tune their car; and the **Store**.
+Racing games can end up with a lot of menus, and the more features we added, the deeper they got. There’s limited space on a phone held sideways, so I needed to organise everything before designing any screens. I mapped out the whole game and split the main menu into three areas: **Drive**, where players race; the **Pit**, where they choose a team and tune their car; and the **Store**.
 
-Drive has three modes: Practice on individual tracks, a Career that moves through regions of the world, and Battles against local or online opponents. Whichever way in, every mode ends at the same race and summary screens, so players only have one race screen to learn and we only had one to build and polish. In the Pit, players can change the car, engine, transmission, body, wheels and suspension, right down to camber, ride height and springs. The Store is organised around teams, each with a garage, body shop, wheel shop and car dealer.
+Drive has three modes: Practice on individual tracks, a Career that moves through regions of the world, and Battles against local or online opponents. Whichever mode players choose, they end up on the same race and summary screens. That meant players only had one race screen to learn, and we only had one to build and polish.
+
+The Pit is where the depth is. Players can change the car, engine, transmission, body, wheels and suspension, right down to camber, ride height and springs. Drift fans love this level of detail but casual players don’t need it, so I kept it all in one place where it wouldn’t get in anyone’s way. The Store is organised around teams, each with a garage, body shop, wheel shop and car dealer.
 
 <FullBleedImage src={infoArchitectureImg} alt="Torque Drift information architecture: the main menu splits into Drive (Practice, Career, Battles), Pit and Store, with every Drive mode leading to Race and Summary" />
 
 <SectionHeading level="section">Wireframes</SectionHeading>
 
-I mocked up the main flows on top of in-game renders rather than grey boxes, so we could judge each layout against the real cars and tracks it would sit over. Career starts on a world map, where players pick a region, then a track, then their car. In the Store, players move from a team’s page into parts such as engines, and an **Equipped** state shows what’s already fitted, so nobody buys the same part twice.
+I mocked up the main flows on top of in-game renders rather than grey boxes. A drift game is all about the car, so I wanted to see how each layout would sit over the real cars and tracks, not just on a blank screen. Career starts on a world map, where players pick a region, then a track, then their car. In the Store, players move from a team’s page into parts such as engines. I added an **Equipped** state to show what’s already fitted to the car, so players don’t accidentally buy the same part twice.
 
 <FullBleedImage src={wireframesImg} alt="Torque Drift wireframes showing the Pit, Store, Practice and Career flows mocked up over in-game renders" />
 
 <SectionHeading level="section">UI design</SectionHeading>
 
-The final UI had to work in landscape, with a thumb on each side of the screen. Steering sits on the left and the pedal controls on the right, leaving the middle of the screen clear for the car. Gauges run across the top, and the left edge keeps a running tally of drift points, close calls and object hits, with a score multiplier alongside.
+The final UI had to work in landscape, with a thumb on each side of the screen. Steering sits on the left and the pedals on the right, so players’ hands don’t cover the car. Gauges run across the top, and the left edge keeps a running tally of drift points, close calls and object hits, with a score multiplier alongside. Players need to know how they’re scoring while they drift, but they can’t take their eyes off the track for long, so the numbers had to be readable at a glance.
 
-In the garage, team liveries from real sponsors such as Falken, Cusco and Red Bull sit in a carousel along the bottom of the screen, and a single **Tune** button sits on the car itself, keeping the most common action one tap away.
+In the garage, team liveries from real sponsors such as Falken, Cusco and Red Bull sit in a carousel along the bottom of the screen, and there’s a single **Tune** button on the car itself. Tuning is what players do most in the garage, so I wanted it to be one tap away.
 
 <ImageGrid cols={1}>
 <DeviceFrame variant="mobile-landscape" fit>
@@ -106,4 +110,4 @@ Torque Drift launched on the App Store and is still being updated today, with re
 
 The biggest lesson from Torque Drift wasn’t about the game. We were good at talking about what we wanted to build, but we never properly agreed on how the company would be structured and run: who owned what, how money would be managed and how resources would be allocated.
 
-Unfortunately the partnership didn’t work out, because we couldn’t agree on those things. The disagreements became more pronounced as we started putting our plans into action, and despite our best efforts to find a compromise, the partnership eventually ended. It was a difficult and frustrating experience, but it taught me to get that clarity from the very beginning of any business partnership, before the exciting part starts.
+Unfortunately the partnership didn’t work out, because we couldn’t agree on those things. The disagreements became more pronounced as we started putting our plans into action, and despite our best efforts to find a compromise, the partnership eventually ended. It was a difficult and frustrating experience, but it taught me how important it is to get that clarity at the very beginning of any business partnership.
