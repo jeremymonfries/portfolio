@@ -17,7 +17,8 @@
     "check:a11y": "node scripts/check-a11y.mjs",
     "check:budget": "node scripts/check-budget.mjs",
     "check:headings": "node scripts/check-headings.mjs",
-    "check": "npm run lint && npm run lint:css && npm run format:check && npm run check:headings"
+    "check:voice": "node scripts/check-voice.mjs",
+    "check": "npm run lint && npm run lint:css && npm run format:check && npm run check:headings && npm run check:voice"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.1",
